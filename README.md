@@ -11,9 +11,12 @@ wget -O /tmp/drive-gl-inet.sh https://ghproxy.com/https://raw.githubusercontent.
 
 # Acknowledgments
 
-1、Github Proxy: 
+1、Github Proxy <br>
 https://ghproxy.com<br>
-2、Third-party software source
+2、Third-party software source<br>
 https://op.dllkids.xyz/packages/aarch64_cortex-a53<br>
-3、iStore app store
+3、iStore app store<br>
 https://github.com/linkease/istore<br>
+https://github.com/AUK9527/Are-u-ok<br>
+https://github.com/megastep/makeself
+
