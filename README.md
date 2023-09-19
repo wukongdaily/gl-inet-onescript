@@ -9,6 +9,16 @@ wget -O /tmp/drive-gl-inet.sh https://ghproxy.com/https://raw.githubusercontent.
 
 ```
 
+# Features
+* 目前仅适配了GL-iNet MT2500和MT-3000
+* 修改MT3000智能温控风扇开始工作的温度为48度。
+* 可一键实现iStoreOS首页风格和iStore商店的安装
+* 懒人包实现了上述功能和必备三大插件。
+* 其他GL机型和功能待开发,后续会根据观众反馈较多的机型做适配。
+* 此脚本仅面向我的观众,我也不是大佬,这是方便观众使用而制作的免费小工具
+* 遇到问题可提issue,可截图或者附日志。
+
+
 # Acknowledgments
 
 1、Github Proxy <br>
