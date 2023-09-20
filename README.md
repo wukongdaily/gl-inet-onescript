@@ -14,6 +14,7 @@ wget -O /tmp/drive-gl-inet.sh https://ghproxy.com/https://raw.githubusercontent.
 * 修改MT3000智能温控风扇开始工作的温度为48度。
 * 可一键实现iStoreOS首页风格和iStore商店的安装
 * 设置好自定义域名劫持(主机名映射)，防止Android原生TV首次连接不上Wifi的情况。
+* 解决Emotn Store访问报错的问题
 * 懒人包实现了上述功能和必备三大插件。
 * 其他GL机型和功能待开发,后续会根据观众反馈较多的机型做适配。
 * 此脚本仅面向我的观众,我也不是大佬,这是方便观众使用而制作的免费小工具
