@@ -3,7 +3,7 @@
 # 建议安装bash 满足更多的函数调用
 check_bash_installed() {
   if [ -x "/bin/bash" ]; then
-    echo "downloading gl-inet.sh ......"
+    echo "downloading prepare.sh ......"
   else
     opkg update
     opkg install bash
