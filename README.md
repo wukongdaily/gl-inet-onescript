@@ -1,5 +1,13 @@
 # gl-inet-onescript
  This script is specifically designed for GL-iNet routers to quickly install essential system software. Even if the user resets the system, there is no need to worry because this script can complete complex and tedious tasks with a single click.
+
+***
+[![GitHub](https://img.shields.io/github/license/wukongdaily/gl-inet-onescript.svg?label=LICENSE&logo=github&logoColor=%20)](https://github.com/wukongdaily/gl-inet-onescript/blob/master/LICENSE)
+![GitHub Stars](https://img.shields.io/github/stars/wukongdaily/gl-inet-onescript.svg?style=flat&logo=appveyor&label=Stars&logo=github)
+![GitHub Forks](https://img.shields.io/github/forks/wukongdaily/gl-inet-onescript.svg?style=flat&logo=appveyor&label=Forks&logo=github)
+
+***
+
 # How To Use
 <img alt="Static Badge" src="https://img.shields.io/badge/MT3000-E70D0D?style=for-the-badge&label=MT2500A&labelColor=8A2BE2">
 
