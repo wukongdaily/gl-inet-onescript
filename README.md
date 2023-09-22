@@ -16,6 +16,13 @@ wget -O /tmp/drive-gl-inet.sh https://ghproxy.com/https://raw.githubusercontent.
 
 ```
 
+# install bash env
+```
+wget -O /tmp/prepare.sh https://ghproxy.com/https://raw.githubusercontent.com/wukongdaily/gl-inet-onescript/master/prepare.sh && chmod +x /tmp/prepare.sh && /tmp/prepare.sh
+
+
+```
+
 # Features
 * At present, it is only compatible with GL-iNet MT2500 and MT-3000.
 * Change the starting temperature for the MT3000 smart temperature-controlled fan to 48 degrees.
