@@ -32,7 +32,8 @@ wget -O /tmp/prepare.sh https://ghproxy.com/https://raw.githubusercontent.com/wu
 * Other GL models and functions are under development; adaptations will be made based on audience feedback in the future.
 * This script is only for my audience, and I'm not an expert. It's a free tool made for the convenience of viewers.
 * If you encounter problems, you can raise an issue, provide screenshots, or attach logs.
-
+#
+![](https://github.com/wukongdaily/gl-inet-onescript/blob/master/res/screenshot.jpg)
 
 # Acknowledgments
 
