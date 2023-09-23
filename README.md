@@ -18,7 +18,7 @@ wget -O /tmp/drive-gl-inet.sh https://ghproxy.com/https://raw.githubusercontent.
 
 # install bash env
 ```
-wget -O /tmp/prepare.sh https://ghproxy.com/https://raw.githubusercontent.com/wukongdaily/gl-inet-onescript/master/prepare.sh && chmod +x /tmp/prepare.sh && /tmp/prepare.sh
+wget -O /tmp/prepare.sh https://ghproxy.com/https://raw.githubusercontent.com/wukongdaily/gl-inet-onescript/master/prepare.sh && chmod +x /tmp/prepare.sh && sh /tmp/prepare.sh
 
 
 ```
