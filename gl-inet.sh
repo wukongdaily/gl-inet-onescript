@@ -56,9 +56,12 @@ install_istore() {
 #设置风扇工作温度
 setup_cpu_fans() {
 	#设定温度阀值,cpu高于48度,则风扇开始工作
-	new_temperature=48
-	#兼容机型:MT-3000|AXT1800
-	sed -i "s/75\|76/$new_temperature/g" /etc/config/glfan
+	uci set glfan.@globals[0].temperature=48
+	uci set glfan.@globals[0].warn_temperature=48
+	uci set glfan.@globals[0].integration=4
+	uci set glfan.@globals[0].differential=20
+	uci commit glfan
+	/etc/init.d/gl_fan restart
 }
 
 # 判断系统是否为iStoreOS
@@ -219,7 +222,34 @@ do_reboot() {
 #提示用户要重启
 show_reboot_tips() {
 	reboot_code='do_reboot'
-	show_whiptail_dialog "重启提醒" "           $(get_router_hostname)\n           一键风格化运行完成.\n           为了让风扇温度参数生效,\n           您是否要重启路由器?" "$reboot_code"
+	show_whiptail_dialog "重启提醒" "           $(get_router_hostname)\n           一键风格化运行完成.\n           为了更好的清理临时缓存,\n           您是否要重启路由器?" "$reboot_code"
+}
+
+#自定义风扇开始工作的温度
+set_glfan_temp() {
+
+	is_integer() {
+		if [[ $1 =~ ^[0-9]+$ ]]; then
+			return 0 # 是整数
+		else
+			return 1 # 不是整数
+		fi
+	}
+	echo "兼容带风扇机型的GL-iNet路由器"
+	echo "请输入风扇开始工作的温度(建议40-70之间的整数):"
+	read temp
+
+	if is_integer "$temp"; then
+		uci set glfan.@globals[0].temperature="$temp"
+		uci set glfan.@globals[0].warn_temperature="$temp"
+		uci set glfan.@globals[0].integration=4
+		uci set glfan.@globals[0].differential=20
+		uci commit glfan
+		/etc/init.d/gl_fan restart
+		echo "设置成功！稍等片刻,请查看风扇转动情况"
+	else
+		echo "错误: 请输入整数."
+	fi
 }
 
 while true; do
@@ -241,6 +271,8 @@ while true; do
 	echo
 	echo " 4. 删除自定义软件源"
 	echo
+	echo " 5. 设置风扇开始工作的温度"
+	echo
 	echo " Q. 退出本程序"
 	echo
 	read -p "请选择一个选项: " choice
@@ -252,6 +284,7 @@ while true; do
 		setup_base_init
 		#安装Argon主题和iStore商店风格
 		install_istore
+		show_reboot_tips
 		;;
 	2)
 		echo "MT3000一键iStore风格化"
@@ -268,6 +301,9 @@ while true; do
 		;;
 	4)
 		remove_custom_feed
+		;;
+	5)
+		set_glfan_temp
 		;;
 	q | Q)
 		echo "退出"
