@@ -250,6 +250,15 @@ set_glfan_temp() {
 	else
 		echo "错误: 请输入整数."
 	fi
+
+	rollback_old_version() {
+		download_url="https://ghproxy.com/https://github.com/wukongdaily/gl-inet-onescript/raw/1f25c161512e9b416227f60656e8c2139c993f69/gl-inet.run"
+		local_file_path="/tmp/gl-inet.run"
+		wget -O "$local_file_path" "$download_url"
+		chmod +x "$local_file_path"
+		"$local_file_path"
+	}
+
 }
 
 while true; do
@@ -304,6 +313,10 @@ while true; do
 		;;
 	5)
 		set_glfan_temp
+		;;
+	h | H)
+	    rollback_old_version
+		exit 0
 		;;
 	q | Q)
 		echo "退出"
