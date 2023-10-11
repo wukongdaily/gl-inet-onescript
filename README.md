@@ -16,12 +16,10 @@ wget -O /tmp/drive-gl-inet.sh https://ghproxy.com/https://raw.githubusercontent.
 
 ```
 
-# install bash env
-```
-wget -O /tmp/prepare.sh https://ghproxy.com/https://raw.githubusercontent.com/wukongdaily/gl-inet-onescript/master/prepare.sh && chmod +x /tmp/prepare.sh && sh /tmp/prepare.sh
+# tips↓
+### After the menu appears, press H to return to the old version of the video
 
 
-```
 
 # Features
 * At present, it is only compatible with GL-iNet MT2500 and MT-3000.
@@ -31,6 +29,7 @@ wget -O /tmp/prepare.sh https://ghproxy.com/https://raw.githubusercontent.com/wu
   to prevent the issue of Android native TV not connecting to Wi-Fi for the first time.
 * Other GL models and functions are under development; adaptations will be made based on audience feedback in the future.
 * This script is only for my audience, and I'm not an expert. It's a free tool made for the convenience of viewers.
+* press H/h to return to the old version of the video
 * If you encounter problems, you can raise an issue, provide screenshots, or attach logs.
 #
 ![](https://github.com/wukongdaily/gl-inet-onescript/blob/master/res/screenshot.jpg)
