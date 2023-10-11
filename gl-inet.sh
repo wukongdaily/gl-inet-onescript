@@ -32,7 +32,7 @@ install_istore() {
 	wget https://istore.linkease.com/repo/all/store/taskd_1.0.3-1_all.ipk
 	wget https://istore.linkease.com/repo/all/store/luci-lib-xterm_4.18.0_all.ipk
 	wget https://istore.linkease.com/repo/all/store/luci-lib-taskd_1.0.18_all.ipk
-	wget https://istore.linkease.com/repo/all/store/luci-app-store_0.1.14-1_all.ipk
+	wget https://istore.linkease.com/repo/all/store/luci-app-store_0.1.14-2_all.ipk
 	opkg install taskd_1.0.3-1_all.ipk
 	opkg install luci-lib-xterm_4.18.0_all.ipk
 	opkg install luci-lib-taskd_1.0.18_all.ipk
