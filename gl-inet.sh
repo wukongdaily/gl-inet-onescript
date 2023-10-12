@@ -36,7 +36,7 @@ install_istore() {
 	opkg install taskd_1.0.3-1_all.ipk
 	opkg install luci-lib-xterm_4.18.0_all.ipk
 	opkg install luci-lib-taskd_1.0.18_all.ipk
-	opkg install luci-app-store_0.1.14-1_all.ipk
+	opkg install luci-app-store_0.1.14-2_all.ipk
 	#安装首页风格和网络向导
 	opkg install luci-app-quickstart
 	##安装完毕之后 还原软件源
