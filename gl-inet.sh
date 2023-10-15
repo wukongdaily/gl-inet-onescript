@@ -17,7 +17,7 @@ setup_base_init() {
 	uci commit firewall
 }
 
-## 安装应用商店
+## 安装应用商店和主题
 install_istore() {
 	##设置Argon 紫色主题 并且 设置第三方软件源
 	setup_software_source 1
@@ -25,32 +25,50 @@ install_istore() {
 	uci set luci.main.mediaurlbase='/luci-static/argon'
 	uci set luci.main.lang='zh_cn'
 	uci commit
-	#这里采用离线包ipk的方式，主要是因为体积小速度快。
-	#引用软件源的方式反而需要opkg update
-	#而iStore的版本无需担心，因为在安装装机必备时会升级iStore版本,并且用户也可以手动升级
-	cd /tmp
-	wget https://istore.linkease.com/repo/all/store/taskd_1.0.3-1_all.ipk
-	wget https://istore.linkease.com/repo/all/store/luci-lib-xterm_4.18.0_all.ipk
-	wget https://istore.linkease.com/repo/all/store/luci-lib-taskd_1.0.18_all.ipk
-	wget https://istore.linkease.com/repo/all/store/luci-app-store_0.1.14-2_all.ipk
-	opkg install taskd_1.0.3-1_all.ipk
-	opkg install luci-lib-xterm_4.18.0_all.ipk
-	opkg install luci-lib-taskd_1.0.18_all.ipk
-	opkg install luci-app-store_0.1.14-2_all.ipk
-	#安装首页风格和网络向导
-	opkg install luci-app-quickstart
-	##安装完毕之后 还原软件源
+    ##安装完毕之后 还原软件源
 	setup_software_source 0
+	
+	do_istore
 	#升级iStore商店到最新版
 	is-opkg do_self_upgrade
+	#安装首页风格
+	is-opkg install luci-app-quickstart
 	is-opkg install 'app-meta-ddnsto'
-	#采用iStore方式安装首页需要的文件管理功能
+	#安装首页需要的文件管理功能
 	is-opkg install 'app-meta-linkease'
 	# 若已安装iStore商店则在概览中追加iStore字样
 	if ! grep -q " like iStoreOS" /tmp/sysinfo/model; then
 		sed -i '1s/$/ like iStoreOS/' /tmp/sysinfo/model
 	fi
 
+}
+# 安装iStore 参考 https://github.com/linkease/istore
+do_istore() {
+	echo "do_istore method==================>"
+	ISTORE_REPO=https://istore.linkease.com/repo/all/store
+	FCURL="curl --fail --show-error"
+
+	curl -V >/dev/null 2>&1 || {
+		echo "prereq: install curl"
+		opkg info curl | grep -Fqm1 curl || opkg update
+		opkg install curl
+	}
+
+	IPK=$($FCURL "$ISTORE_REPO/Packages.gz" | zcat | grep -m1 '^Filename: luci-app-store.*\.ipk$' | sed -n -e 's/^Filename: \(.\+\)$/\1/p')
+
+	[ -n "$IPK" ] || exit 1
+
+	$FCURL "$ISTORE_REPO/$IPK" | tar -xzO ./data.tar.gz | tar -xzO ./bin/is-opkg >/tmp/is-opkg
+
+	[ -s "/tmp/is-opkg" ] || exit 1
+
+	chmod 755 /tmp/is-opkg
+	/tmp/is-opkg update
+	# /tmp/is-opkg install taskd
+	/tmp/is-opkg opkg install --force-reinstall luci-lib-taskd luci-lib-xterm
+	/tmp/is-opkg opkg install --force-reinstall luci-app-store || exit $?
+	[ -s "/etc/init.d/tasks" ] || /tmp/is-opkg opkg install --force-reinstall taskd
+	[ -s "/usr/lib/lua/luci/cbi.lua" ] || /tmp/is-opkg opkg install luci-compat >/dev/null 2>&1
 }
 
 #设置风扇工作温度
