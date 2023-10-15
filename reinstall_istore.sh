@@ -1,5 +1,6 @@
 #!/bin/sh
 ## 安装iStore 参考 https://github.com/linkease/istore
+opkg update
 ISTORE_REPO=https://istore.linkease.com/repo/all/store
 FCURL="curl --fail --show-error"
 
