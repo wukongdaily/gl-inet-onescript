@@ -25,9 +25,9 @@ install_istore() {
 	uci set luci.main.mediaurlbase='/luci-static/argon'
 	uci set luci.main.lang='zh_cn'
 	uci commit
-    ##安装完毕之后 还原软件源
+	##安装完毕之后 还原软件源
 	setup_software_source 0
-	
+
 	do_istore
 	#升级iStore商店到最新版
 	is-opkg do_self_upgrade
@@ -40,7 +40,6 @@ install_istore() {
 	if ! grep -q " like iStoreOS" /tmp/sysinfo/model; then
 		sed -i '1s/$/ like iStoreOS/' /tmp/sysinfo/model
 	fi
-
 }
 # 安装iStore 参考 https://github.com/linkease/istore
 do_istore() {
