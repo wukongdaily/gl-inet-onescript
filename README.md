@@ -7,7 +7,10 @@
 # gl-inet-onescript
  This script is specifically designed for GL-iNet routers to quickly install essential system software. Even if the user resets the system, there is no need to worry because this script can complete complex and tedious tasks with a single click.
 
-# How To Use（has Menu）
+# Tips：How to Use SSH
+https://github.com/wukongdaily/HowToUseSSH
+
+# one script（has Menu）
 <img alt="Static Badge" src="https://img.shields.io/badge/MT3000-E70D0D?style=for-the-badge&label=MT2500A&labelColor=8A2BE2">
 
 ```
@@ -31,7 +34,7 @@ wget -O /tmp/reinstall_istore.sh https://ghproxy.com/https://raw.githubuserconte
 
 ```
 
-# tips↓
+# Important Note:↓
 ### After the menu appears, press H to return to the old version of the video
 
 
