@@ -277,6 +277,27 @@ rollback_old_version() {
 	"$local_file_path"
 }
 
+recovery_opkg_settings() {
+	echo "# add your custom package feeds here" >/etc/opkg/customfeeds.conf
+	router_name=$(get_router_name)
+	case "$router_name" in
+	*3000*)
+		echo "Router name contains '3000'."
+		mt3000_opkg="https://raw.githubusercontent.com/wukongdaily/gl-inet-onescript/master/mt-3000/distfeeds.conf"
+		wget -O /etc/opkg/distfeeds.conf ${proxy_github}${mt3000_opkg}
+		;;
+	*2500*)
+		echo "Router name contains '2500'."
+		mt2500a_opkg="https://raw.githubusercontent.com/wukongdaily/gl-inet-onescript/master/mt-2500a/distfeeds.conf"
+		wget -O /etc/opkg/distfeeds.conf ${proxy_github}${mt2500a_opkg}
+		;;
+	*)
+		echo "Router name does not contain '3000' or '2500'."
+		;;
+	esac
+	echo "Tips: 重启路由器后才能完全生效"
+}
+
 while true; do
 	clear
 	echo "***********************************************************************"
@@ -297,6 +318,8 @@ while true; do
 	echo " 4. 删除自定义软件源"
 	echo
 	echo " 5. 设置风扇开始工作的温度"
+	echo
+	echo " 6. 恢复原厂OPKG配置(软件包)"
 	echo
 	echo " Q. 退出本程序"
 	echo
@@ -329,6 +352,9 @@ while true; do
 		;;
 	5)
 		set_glfan_temp
+		;;
+	6)
+		recovery_opkg_settings
 		;;
 	h | H)
 		rollback_old_version
