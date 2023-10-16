@@ -16,9 +16,18 @@ wget -O /tmp/drive-gl-inet.sh https://ghproxy.com/https://raw.githubusercontent.
 
 ```
 
-# onekey install iStore
+***
+
+# onekey for iStore
 ```
 wget -O /tmp/reinstall_istore.sh https://ghproxy.com/https://raw.githubusercontent.com/wukongdaily/gl-inet-onescript/master/reinstall_istore.sh && chmod +x /tmp/reinstall_istore.sh && /tmp/reinstall_istore.sh
+
+```
+
+# onekey for File Manager
+```
+wget -O /tmp/reinstall_istore.sh https://ghproxy.com/https://raw.githubusercontent.com/wukongdaily/gl-inet-onescript/master/reinstall_istore.sh && chmod +x /tmp/reinstall_istore.sh && /tmp/reinstall_istore.sh
+/tmp/is-opkg install app-meta-linkease
 
 ```
 
