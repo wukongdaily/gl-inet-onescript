@@ -297,6 +297,8 @@ recovery_opkg_settings() {
 		echo "Router name does not contain '3000' or '2500'."
 		;;
 	esac
+	echo "再次更新首页luci-app-quickstart"
+	is-opkg install luci-app-quickstart
 	echo "Tips: 重启路由器后才能完全生效"
 }
 
