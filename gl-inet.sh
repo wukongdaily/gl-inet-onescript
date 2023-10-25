@@ -308,6 +308,14 @@ do_luci_app_adguardhome(){
 	echo "请访问 http://192.168.8.1:3000  初始化设置adguardhome "
 }
 
+do_luci_app_wireguard(){
+	setup_software_source 0
+	opkg install luci-app-wireguard
+	opkg install luci-i18n-wireguard-zh-cn
+	echo "请访问 http://192.168.8.1/cgi-bin/luci/admin/status/wireguard 查看状态 "
+	echo "也可以去接口中 查看是否增加了新的wireguard 协议的选项 "
+}
+
 while true; do
 	clear
 	echo "***********************************************************************"
@@ -332,6 +340,8 @@ while true; do
 	echo " 6. 恢复原厂OPKG配置(软件包)"
 	echo
 	echo " 7. 安装去广告adguardhome(10MB)"
+	echo 
+	echo " 8. 安装luci-app-wireguard"
 	echo 
 	echo " Q. 退出本程序"
 	echo
@@ -371,6 +381,10 @@ while true; do
 	7)
 		do_luci_app_adguardhome
 		;;
+	8)
+		do_luci_app_wireguard
+		;;
+	
 	h | H)
 		rollback_old_version
 		exit 0
