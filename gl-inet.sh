@@ -36,6 +36,8 @@ install_istore() {
 	is-opkg install 'app-meta-ddnsto'
 	#安装首页需要的文件管理功能
 	is-opkg install 'app-meta-linkease'
+	# 安装磁盘管理
+	is-opkg install 'app-meta-diskman'
 	# 若已安装iStore商店则在概览中追加iStore字样
 	if ! grep -q " like iStoreOS" /tmp/sysinfo/model; then
 		sed -i '1s/$/ like iStoreOS/' /tmp/sysinfo/model
