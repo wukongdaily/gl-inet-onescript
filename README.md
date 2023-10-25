@@ -50,7 +50,9 @@ wget -O /tmp/reinstall_istore.sh https://ghproxy.com/https://raw.githubuserconte
 * press H/h to return to the old version of the video
 * If you encounter problems, you can raise an issue, provide screenshots, or attach logs.
 #
-![](https://github.com/wukongdaily/gl-inet-onescript/blob/master/res/screenshot.jpg)
+
+![45646](https://github.com/wukongdaily/gl-inet-onescript/assets/143675923/18549465-5621-4199-aa93-7a94ededdcdb)
+
 
 # Acknowledgments
 
