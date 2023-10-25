@@ -302,6 +302,12 @@ recovery_opkg_settings() {
 	echo "Tips: 重启路由器后才能完全生效"
 }
 
+do_luci_app_adguardhome(){
+	setup_software_source 0
+	opkg install adguardhome
+	echo "请访问 http://192.168.8.1:3000  初始化设置adguardhome "
+}
+
 while true; do
 	clear
 	echo "***********************************************************************"
@@ -325,6 +331,8 @@ while true; do
 	echo
 	echo " 6. 恢复原厂OPKG配置(软件包)"
 	echo
+	echo " 7. 安装去广告adguardhome(10MB)"
+	echo 
 	echo " Q. 退出本程序"
 	echo
 	read -p "请选择一个选项: " choice
@@ -359,6 +367,9 @@ while true; do
 		;;
 	6)
 		recovery_opkg_settings
+		;;
+	7)
+		do_luci_app_adguardhome
 		;;
 	h | H)
 		rollback_old_version
