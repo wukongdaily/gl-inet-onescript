@@ -315,6 +315,11 @@ do_luci_app_wireguard(){
 	echo "请访问 http://192.168.8.1/cgi-bin/luci/admin/status/wireguard 查看状态 "
 	echo "也可以去接口中 查看是否增加了新的wireguard 协议的选项 "
 }
+update_luci_app_quickstart(){
+	setup_software_source 1
+	opkg install luci-app-quickstart
+	setup_software_source 0
+}
 
 while true; do
 	clear
@@ -328,20 +333,17 @@ while true; do
 	echo "**********************************************************************"
 	echo
 	echo " 1. MT2500A一键iStore风格化"
-	echo
 	echo " 2. MT3000一键iStore风格化"
 	echo
 	echo " 3. 设置自定义软件源"
-	echo
 	echo " 4. 删除自定义软件源"
 	echo
 	echo " 5. 设置风扇开始工作的温度"
-	echo
 	echo " 6. 恢复原厂OPKG配置(软件包)"
 	echo
 	echo " 7. 安装去广告adguardhome(10MB)"
-	echo 
 	echo " 8. 安装luci-app-wireguard"
+	echo " 9. 更新luci-app-quickstart"
 	echo 
 	echo " Q. 退出本程序"
 	echo
@@ -383,6 +385,9 @@ while true; do
 		;;
 	8)
 		do_luci_app_wireguard
+		;;
+	9)
+		update_luci_app_quickstart
 		;;
 	
 	h | H)
