@@ -319,6 +319,7 @@ update_luci_app_quickstart(){
 	setup_software_source 1
 	opkg install luci-app-quickstart
 	setup_software_source 0
+	echo "首页样式已经更新,请强制刷新网页,检查是否为中文字体"
 }
 
 while true; do
