@@ -27,6 +27,9 @@ wget -O /tmp/reinstall_istore.sh https://ghproxy.com/https://raw.githubuserconte
 
 ```
 
+# Install iStore offline by using a USB flash drive 
+https://telegra.ph/install-istore-for-mt3000-11-03 <br>
+
 # onekey for File Manager
 ```
 wget -O /tmp/reinstall_istore.sh https://ghproxy.com/https://raw.githubusercontent.com/wukongdaily/gl-inet-onescript/master/reinstall_istore.sh && chmod +x /tmp/reinstall_istore.sh && /tmp/reinstall_istore.sh
@@ -51,13 +54,13 @@ wget -O /tmp/reinstall_istore.sh https://ghproxy.com/https://raw.githubuserconte
 * If you encounter problems, you can raise an issue, provide screenshots, or attach logs.
 #
 
-![45646](https://github.com/wukongdaily/gl-inet-onescript/assets/143675923/18549465-5621-4199-aa93-7a94ededdcdb)
+
 
 
 # Acknowledgments
 
-1、Github Proxy <br>
-https://ghproxy.com<br>
+1、Install 'iStore' offline by using a USB flash drive <br>
+https://telegra.ph/install-istore-for-mt3000-11-03 <br>
 2、Third-party software source<br>
 https://op.dllkids.xyz/packages/aarch64_cortex-a53<br>
 3、iStore app store<br>
