@@ -14,7 +14,7 @@ https://github.com/wukongdaily/HowToUseSSH
 <img alt="Static Badge" src="https://img.shields.io/badge/MT3000-E70D0D?style=for-the-badge&label=MT2500A&labelColor=8A2BE2">
 
 ```
-wget -O /tmp/drive-gl-inet.sh https://ghproxy.com/https://raw.githubusercontent.com/wukongdaily/gl-inet-onescript/master/drive-gl-inet.sh && chmod +x /tmp/drive-gl-inet.sh && /tmp/drive-gl-inet.sh
+wget -O /tmp/drive-gl-inet.sh https://raw.githubusercontent.com/wukongdaily/gl-inet-onescript/master/drive-gl-inet.sh && chmod +x /tmp/drive-gl-inet.sh && /tmp/drive-gl-inet.sh
 
 
 ```
@@ -23,7 +23,7 @@ wget -O /tmp/drive-gl-inet.sh https://ghproxy.com/https://raw.githubusercontent.
 
 # onekey for iStore
 ```
-wget -O /tmp/reinstall_istore.sh https://ghproxy.com/https://raw.githubusercontent.com/wukongdaily/gl-inet-onescript/master/reinstall_istore.sh && chmod +x /tmp/reinstall_istore.sh && /tmp/reinstall_istore.sh
+wget -O /tmp/reinstall_istore.sh https://raw.githubusercontent.com/wukongdaily/gl-inet-onescript/master/reinstall_istore.sh && chmod +x /tmp/reinstall_istore.sh && /tmp/reinstall_istore.sh
 
 ```
 
@@ -32,7 +32,7 @@ https://telegra.ph/install-istore-for-mt3000-11-03 <br>
 
 # onekey for File Manager
 ```
-wget -O /tmp/reinstall_istore.sh https://ghproxy.com/https://raw.githubusercontent.com/wukongdaily/gl-inet-onescript/master/reinstall_istore.sh && chmod +x /tmp/reinstall_istore.sh && /tmp/reinstall_istore.sh
+wget -O /tmp/reinstall_istore.sh https://raw.githubusercontent.com/wukongdaily/gl-inet-onescript/master/reinstall_istore.sh && chmod +x /tmp/reinstall_istore.sh && /tmp/reinstall_istore.sh
 /tmp/is-opkg install app-meta-linkease
 
 ```
@@ -44,7 +44,7 @@ wget -O /tmp/reinstall_istore.sh https://ghproxy.com/https://raw.githubuserconte
 
 # Features
 * At present, it is only compatible with GL-iNet MT2500 and MT-3000.
-* Change the starting temperature for the MT3000 smart temperature-controlled fan to 48 degrees.
+* Change the starting temperature for the MT3000 smart temperature-controlled fan to 45 degrees.
 * One-click implementation of the iStoreOS homepage style and installation of the iStore store.
 * Set up custom domain hijacking (hostname mapping)<br>
   to prevent the issue of Android native TV not connecting to Wi-Fi for the first time.
