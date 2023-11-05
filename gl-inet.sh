@@ -1,5 +1,4 @@
 #!/bin/bash
-proxy_github="https://ghproxy.com/"
 setup_base_init() {
 
 	#添加出处信息
@@ -21,7 +20,7 @@ setup_base_init() {
 install_istore() {
 	##设置Argon 紫色主题 并且 设置第三方软件源
 	setup_software_source 1
-	opkg install luci-app-argon-config
+	opkg install luci-theme-argon
 	uci set luci.main.mediaurlbase='/luci-static/argon'
 	uci set luci.main.lang='zh_cn'
 	uci commit
@@ -272,7 +271,7 @@ set_glfan_temp() {
 }
 
 rollback_old_version() {
-	download_url="https://ghproxy.com/https://github.com/wukongdaily/gl-inet-onescript/raw/1f25c161512e9b416227f60656e8c2139c993f69/gl-inet.run"
+	download_url="https://github.com/wukongdaily/gl-inet-onescript/raw/1f25c161512e9b416227f60656e8c2139c993f69/gl-inet.run"
 	local_file_path="/tmp/gl-inet.run"
 	wget -O "$local_file_path" "$download_url"
 	chmod +x "$local_file_path"
@@ -286,36 +285,41 @@ recovery_opkg_settings() {
 	*3000*)
 		echo "Router name contains '3000'."
 		mt3000_opkg="https://raw.githubusercontent.com/wukongdaily/gl-inet-onescript/master/mt-3000/distfeeds.conf"
-		wget -O /etc/opkg/distfeeds.conf ${proxy_github}${mt3000_opkg}
+		wget -O /etc/opkg/distfeeds.conf ${mt3000_opkg}
 		;;
 	*2500*)
 		echo "Router name contains '2500'."
 		mt2500a_opkg="https://raw.githubusercontent.com/wukongdaily/gl-inet-onescript/master/mt-2500a/distfeeds.conf"
-		wget -O /etc/opkg/distfeeds.conf ${proxy_github}${mt2500a_opkg}
+		wget -O /etc/opkg/distfeeds.conf ${mt2500a_opkg}
+		;;
+	*6000*)
+		echo "Router name contains '6000'."
+		mt6000_opkg="https://raw.githubusercontent.com/wukongdaily/gl-inet-onescript/master/mt-6000/distfeeds.conf"
+		wget -O /etc/opkg/distfeeds.conf ${mt6000_opkg}
 		;;
 	*)
-		echo "Router name does not contain '3000' or '2500'."
+		echo "Router name does not contain '3000' 6000 or '2500'."
 		;;
 	esac
-	echo "再次更新首页luci-app-quickstart"
-	is-opkg install luci-app-quickstart
 	echo "Tips: 重启路由器后才能完全生效"
 }
 
-do_luci_app_adguardhome(){
+do_luci_app_adguardhome() {
 	setup_software_source 0
+	opkg remove gl-sdk4-ui-adguardhome
+	opkg remove gl-sdk4-adguardhome
 	opkg install adguardhome
 	echo "请访问 http://192.168.8.1:3000  初始化设置adguardhome "
 }
 
-do_luci_app_wireguard(){
+do_luci_app_wireguard() {
 	setup_software_source 0
 	opkg install luci-app-wireguard
 	opkg install luci-i18n-wireguard-zh-cn
 	echo "请访问 http://192.168.8.1/cgi-bin/luci/admin/status/wireguard 查看状态 "
 	echo "也可以去接口中 查看是否增加了新的wireguard 协议的选项 "
 }
-update_luci_app_quickstart(){
+update_luci_app_quickstart() {
 	setup_software_source 1
 	opkg install luci-app-quickstart
 	setup_software_source 0
@@ -324,73 +328,74 @@ update_luci_app_quickstart(){
 
 while true; do
 	clear
+	gl_name=$(get_router_name)
+	result=$gl_name"一键iStoreOS风格化"
+	result=$(echo "$result" | sed 's/ like iStoreOS//')
 	echo "***********************************************************************"
-	echo "*      一键安装工具箱(for gl-inet Router) v1.0        "
-	echo "*      Developed by @wukongdaily        "
+	echo "*      一键安装工具箱(for gl-inet Router) v1.1 by @wukongdaily        "
+	echo "**********************************************************************"
+	echo "*      当前的路由器型号: "$gl_name | sed 's/ like iStoreOS//'
+	echo
+	echo "*******支持的机型列表***************************************************"
+	echo
+	echo "*******GL-iNet MT-2500A"
+	echo "*******GL-iNet MT-3000 "
+	echo "*******GL-iNet MT-6000 "
 	echo "**********************************************************************"
 	echo
-	echo "*      当前的路由器型号: $(get_router_name)"
+	echo " 1. $result"
 	echo
-	echo "**********************************************************************"
+	echo " 2. 设置自定义软件源"
+	echo " 3. 删除自定义软件源"
 	echo
-	echo " 1. MT2500A一键iStore风格化"
-	echo " 2. MT3000一键iStore风格化"
+	echo " 4. 设置风扇开始工作的温度(仅限MT3000)"
+	echo " 5. (慎用)恢复原厂OPKG配置软件包(需要网络环境支持)"
 	echo
-	echo " 3. 设置自定义软件源"
-	echo " 4. 删除自定义软件源"
+	echo " 6. 安装去广告GL-iNet Adguardhome(10MB)"
+	echo " 7. 安装luci-app-wireguard"
+	echo " 8. 更新luci-app-quickstart"
 	echo
-	echo " 5. 设置风扇开始工作的温度"
-	echo " 6. 恢复原厂OPKG配置(软件包)"
-	echo
-	echo " 7. 安装去广告adguardhome(10MB)"
-	echo " 8. 安装luci-app-wireguard"
-	echo " 9. 更新luci-app-quickstart"
-	echo 
 	echo " Q. 退出本程序"
 	echo
 	read -p "请选择一个选项: " choice
 
 	case $choice in
+
 	1)
-		echo "MT2500A一键iStore风格化"
+		if [[ "$gl_name" == *3000* ]]; then
+			# 设置风扇工作温度
+			setup_cpu_fans
+		fi
+
 		#基础必备设置
 		setup_base_init
 		#安装Argon主题和iStore商店风格
 		install_istore
-		show_reboot_tips
-		;;
-	2)
-		echo "MT3000一键iStore风格化"
-		#设置风扇工作温度
-		setup_cpu_fans
-		#基础必备设置
-		setup_base_init
-		#安装Argon主题和iStore商店风格
-		install_istore
-		show_reboot_tips
-		;;
-	3)
-		add_custom_feed
-		;;
-	4)
-		remove_custom_feed
-		;;
-	5)
-		set_glfan_temp
-		;;
-	6)
-		recovery_opkg_settings
-		;;
-	7)
-		do_luci_app_adguardhome
-		;;
-	8)
-		do_luci_app_wireguard
-		;;
-	9)
+		#再次更新 防止出现汉化不完整
 		update_luci_app_quickstart
 		;;
-	
+	2)
+		add_custom_feed
+		;;
+	3)
+		remove_custom_feed
+		;;
+	4)
+		set_glfan_temp
+		;;
+	5)
+		recovery_opkg_settings
+		;;
+	6)
+		do_luci_app_adguardhome
+		;;
+	7)
+		do_luci_app_wireguard
+		;;
+	8)
+		update_luci_app_quickstart
+		;;
+
 	h | H)
 		rollback_old_version
 		exit 0
