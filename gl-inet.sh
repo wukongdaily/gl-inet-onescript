@@ -123,7 +123,7 @@ setup_software_source() {
 		remove_check_signature_option
 		# 先删除再添加以免重复
 		echo "# add your custom package feeds here" >/etc/opkg/customfeeds.conf
-		echo "src/gz dllkids https://op.dllkids.xyz/packages/aarch64_cortex-a53" >>/etc/opkg/customfeeds.conf
+		echo "src/gz dllkids https://dl.openwrt.ai/23.05/aarch64_cortex-a53/kiddin9" >>/etc/opkg/customfeeds.conf
 		# 设置第三方源后要更新
 		opkg update
 	else
