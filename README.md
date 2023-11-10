@@ -63,7 +63,7 @@ wget -O /tmp/reinstall_istore.sh https://raw.githubusercontent.com/wukongdaily/g
 1、Install 'iStore' offline by using a USB flash drive <br>
 https://telegra.ph/install-istore-for-mt3000-11-03 <br>
 2、Third-party software source<br>
-https://op.dllkids.xyz/packages/aarch64_cortex-a53<br>
+https://dl.openwrt.ai/packages-23.05<br>
 3、iStore app store<br>
 https://github.com/linkease/istore<br>
 
