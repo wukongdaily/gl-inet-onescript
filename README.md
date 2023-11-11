@@ -14,8 +14,7 @@ https://github.com/wukongdaily/HowToUseSSH
 <img alt="Static Badge" src="https://img.shields.io/badge/MT3000-E70D0D?style=for-the-badge&label=MT2500A&labelColor=8A2BE2">
 
 ```
-wget -O /tmp/reinstall_istore.sh https://raw.githubusercontent.com/wukongdaily/gl-inet-onescript/master/reinstall_istore.sh && chmod +x /tmp/reinstall_istore.sh && /tmp/reinstall_istore.sh
-wget -O /tmp/drive-gl-inet.sh https://raw.githubusercontent.com/wukongdaily/gl-inet-onescript/master/drive-gl-inet.sh && chmod +x /tmp/drive-gl-inet.sh && /tmp/drive-gl-inet.sh
+wget -O /tmp/gl-inet.sh https://raw.githubusercontent.com/wukongdaily/gl-inet-onescript/master/gl-inet.sh && chmod +x /tmp/gl-inet.sh && /tmp/gl-inet.sh
 
 
 ```
