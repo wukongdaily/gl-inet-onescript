@@ -1,4 +1,5 @@
-#!/bin/bash
+#!/bin/sh
+third_party_source="https://op.dllkids.xyz/packages/aarch64_cortex-a53"
 setup_base_init() {
 
 	#添加出处信息
@@ -17,19 +18,9 @@ setup_base_init() {
 }
 
 ## 安装应用商店和主题
-install_istore() {
-	##设置Argon 紫色主题 并且 设置第三方软件源
-	setup_software_source 1
-	opkg install luci-theme-argon
-	uci set luci.main.mediaurlbase='/luci-static/argon'
-	uci set luci.main.lang='zh_cn'
-	uci commit
-	##安装完毕之后 还原软件源
-	setup_software_source 0
-
-	do_istore
-	#升级iStore商店到最新版
-	is-opkg do_self_upgrade
+install_istore_os_style() {
+	##设置Argon 紫色主题
+	do_install_argon_skin
 	#安装首页风格
 	is-opkg install luci-app-quickstart
 	is-opkg install 'app-meta-ddnsto'
@@ -123,7 +114,7 @@ setup_software_source() {
 		remove_check_signature_option
 		# 先删除再添加以免重复
 		echo "# add your custom package feeds here" >/etc/opkg/customfeeds.conf
-		echo "src/gz dllkids https://dl.openwrt.ai/23.05/aarch64_cortex-a53/kiddin9" >>/etc/opkg/customfeeds.conf
+		echo "src/gz third_party_source $third_party_source" >>/etc/opkg/customfeeds.conf
 		# 设置第三方源后要更新
 		opkg update
 	else
@@ -179,7 +170,7 @@ add_custom_feed() {
 	echo "请输入自定义软件源的地址(通常是https开头 aarch64_cortex-a53 结尾):"
 	read feed_url
 	if [ -n "$feed_url" ]; then
-		echo "src/gz dllkids $feed_url" >>/etc/opkg/customfeeds.conf
+		echo "src/gz custom_feed $feed_url" >>/etc/opkg/customfeeds.conf
 		opkg update
 		if [ $? -eq 0 ]; then
 			echo "已添加并更新列表."
@@ -326,6 +317,42 @@ update_luci_app_quickstart() {
 	echo "首页样式已经更新,请强制刷新网页,检查是否为中文字体"
 }
 
+do_install_depends_ipk() {
+	wget -O "/tmp/luci-lua-runtime_all.ipk" "https://raw.githubusercontent.com/wukongdaily/gl-inet-onescript/master/theme/luci-lua-runtime_all.ipk"
+	wget -O "/tmp/libopenssl3.ipk" "https://raw.githubusercontent.com/wukongdaily/gl-inet-onescript/master/theme/libopenssl3.ipk"
+	opkg install "/tmp/luci-lua-runtime_all.ipk"
+	opkg install "/tmp/libopenssl3.ipk"
+}
+#单独安装argon主题
+do_install_argon_skin() {
+	echo "正在尝试安装argon主题......."
+	#下载和安装argon的依赖
+	do_install_depends_ipk
+	setup_software_source 1
+	opkg install luci-app-argon-config
+	# 检查上一个命令的返回值
+	if [ $? -eq 0 ]; then
+		echo "argon主题 安装成功"
+		# 设置主题和语言
+		uci set luci.main.mediaurlbase='/luci-static/argon'
+		uci set luci.main.lang='zh_cn'
+		uci commit
+		echo "重新登录web页面后, 查看新主题 "
+	else
+		echo "argon主题 安装失败! 建议再执行一次!再给我一个机会!事不过三!"
+	fi
+	setup_software_source 0
+}
+
+#单独安装文件管理器
+do_install_filemanager() {
+	echo "为避免bug,安装文件管理器之前,需要先iStore商店"
+	do_istore
+	echo "接下来 尝试安装文件管理器......."
+	is-opkg install 'app-meta-linkease'
+	echo "重新登录web页面,然后您可以访问:  http://192.168.8.1/cgi-bin/luci/admin/services/linkease/file/?path=/root"
+}
+
 while true; do
 	clear
 	gl_name=$(get_router_name)
@@ -351,9 +378,11 @@ while true; do
 	echo " 4. 设置风扇开始工作的温度(仅限MT3000)"
 	echo " 5. (慎用)恢复原厂OPKG配置软件包(需要网络环境支持)"
 	echo
-	echo " 6. 安装去广告GL-iNet Adguardhome(10MB)"
+	echo " 6. 安装GL原厂Adguardhome(10MB)"
 	echo " 7. 安装luci-app-wireguard"
 	echo " 8. 更新luci-app-quickstart"
+	echo " 9. 安装Argon紫色主题"
+	echo "10. 安装文件管理器"
 	echo
 	echo " Q. 退出本程序"
 	echo
@@ -366,11 +395,12 @@ while true; do
 			# 设置风扇工作温度
 			setup_cpu_fans
 		fi
-
+		#先安装istore商店
+		do_istore
 		#基础必备设置
 		setup_base_init
-		#安装Argon主题和iStore商店风格
-		install_istore
+		#安装iStore风格
+		install_istore_os_style
 		#再次更新 防止出现汉化不完整
 		update_luci_app_quickstart
 		;;
@@ -395,7 +425,12 @@ while true; do
 	8)
 		update_luci_app_quickstart
 		;;
-
+	9)
+		do_install_argon_skin
+		;;
+	10)
+		do_install_filemanager
+		;;
 	h | H)
 		rollback_old_version
 		exit 0
