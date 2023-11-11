@@ -63,6 +63,7 @@ wget -O /tmp/reinstall_istore.sh https://raw.githubusercontent.com/wukongdaily/g
 https://telegra.ph/install-istore-for-mt3000-11-03 <br>
 2、Third-party software source<br>
 https://dl.openwrt.ai/packages-23.05<br>
+https://op.dllkids.xyz/packages<br>
 3、iStore app store<br>
 https://github.com/linkease/istore<br>
 
