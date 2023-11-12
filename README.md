@@ -5,8 +5,8 @@
 
 ***
 # gl-inet-onescript
- This script is specifically designed for GL-iNet routers to quickly install essential system software. Even if the user resets the system, there is no need to worry because this script can complete complex and tedious tasks with a single click.
-
+ This script is specifically designed for GL-iNet routers to quickly install essential system software. Even if the user resets the system, there is no need to worry because this script can complete complex and tedious tasks with a single click.<br>
+ [切换到中文使用指南](https://github.com/wukongdaily/gl-inet-onescript/wiki/%E4%B8%AD%E6%96%87%E4%BD%BF%E7%94%A8%E6%8C%87%E5%8D%97)
 # Tips：How to Use SSH
 https://github.com/wukongdaily/HowToUseSSH
 
