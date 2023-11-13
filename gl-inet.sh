@@ -262,6 +262,8 @@ set_glfan_temp() {
 }
 
 rollback_old_version() {
+	setup_software_source 0
+	opkg install bash
 	download_url="https://github.com/wukongdaily/gl-inet-onescript/raw/1f25c161512e9b416227f60656e8c2139c993f69/gl-inet.run"
 	local_file_path="/tmp/gl-inet.run"
 	wget -O "$local_file_path" "$download_url"
