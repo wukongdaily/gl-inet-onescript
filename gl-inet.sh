@@ -420,8 +420,16 @@ while true; do
 		remove_custom_feed
 		;;
 	4)
-		set_glfan_temp
-		;;
+		case "$gl_name" in
+        *3000*)
+            set_glfan_temp
+            ;;
+        *)
+            echo "*      当前的路由器型号: "$gl_name | sed 's/ like iStoreOS//'
+            echo "并非MT3000 它没有风扇 无需设置"
+            ;;
+        esac
+        ;;
 	5)
 		recovery_opkg_settings
 		;;
