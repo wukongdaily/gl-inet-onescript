@@ -309,14 +309,14 @@ do_luci_app_adguardhome() {
 	opkg remove gl-sdk4-ui-adguardhome
 	opkg remove gl-sdk4-adguardhome
 	opkg install adguardhome
-	echo "请访问 http://192.168.8.1:3000  初始化设置adguardhome "
+	echo "请访问 http://"$(uci get network.lan.ipaddr)":3000  初始化设置adguardhome "
 }
 
 do_luci_app_wireguard() {
 	setup_software_source 0
 	opkg install luci-app-wireguard
 	opkg install luci-i18n-wireguard-zh-cn
-	echo "请访问 http://192.168.8.1/cgi-bin/luci/admin/status/wireguard 查看状态 "
+	echo "请访问 http://"$(uci get network.lan.ipaddr)"/cgi-bin/luci/admin/status/wireguard  查看状态 "
 	echo "也可以去接口中 查看是否增加了新的wireguard 协议的选项 "
 }
 update_luci_app_quickstart() {
