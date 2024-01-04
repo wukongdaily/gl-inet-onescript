@@ -327,8 +327,8 @@ update_luci_app_quickstart() {
 }
 
 do_install_depends_ipk() {
-	wget -O "/tmp/luci-lua-runtime_all.ipk" "https://raw.githubusercontent.com/wukongdaily/gl-inet-onescript/master/theme/luci-lua-runtime_all.ipk"
-	wget -O "/tmp/libopenssl3.ipk" "https://raw.githubusercontent.com/wukongdaily/gl-inet-onescript/master/theme/libopenssl3.ipk"
+	wget -O "/tmp/luci-lua-runtime_all.ipk" "https://cdn.jsdelivr.net/gh/wukongdaily/gl-inet-onescript/theme/luci-lua-runtime_all.ipk"
+	wget -O "/tmp/libopenssl3.ipk" "https://cdn.jsdelivr.net/gh/wukongdaily/gl-inet-onescript/theme/libopenssl3.ipk"
 	opkg install "/tmp/luci-lua-runtime_all.ipk"
 	opkg install "/tmp/libopenssl3.ipk"
 }
