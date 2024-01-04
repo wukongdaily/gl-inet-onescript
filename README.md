@@ -14,7 +14,7 @@ https://github.com/wukongdaily/HowToUseSSH
 <img alt="Static Badge" src="https://img.shields.io/badge/MT3000-E70D0D?style=for-the-badge&label=MT2500A&labelColor=8A2BE2">
 
 ```
-wget -O /tmp/gl-inet.sh https://cdn.jsdelivr.net/gh/wukongdaily/gl-inet-onescript/gl-inet.sh && chmod +x /tmp/gl-inet.sh && /tmp/gl-inet.sh
+wget -O /tmp/gl-inet.sh https://cdn.jsdelivr.net/gh/wukongdaily/gl-inet-onescript@25a0a4513dbb14ddb3e573754ba3201e291ef4bc/gl-inet.sh && chmod +x /tmp/gl-inet.sh && /tmp/gl-inet.sh
 
 
 ```
