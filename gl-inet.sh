@@ -340,6 +340,8 @@ do_install_argon_skin() {
 	do_install_depends_ipk
 	# bug fix 由于2.3.1 最新版的luci-argon-theme 登录按钮没有中文匹配,而2.3版本字体不对。
 	# 所以这里安装上一个版本2.2.9,考虑到主题皮肤并不需要长期更新，因此固定版本没问题
+	opkg update
+	opkg install luci-lib-ipkg
 	wget -O "/tmp/luci-theme-argon.ipk" "https://raw.githubusercontent.com/wukongdaily/gl-inet-onescript/master/theme/luci-theme-argon-master_2.2.9.4_all.ipk"
 	wget -O "/tmp/luci-app-argon-config.ipk" "https://raw.githubusercontent.com/wukongdaily/gl-inet-onescript/master/theme/luci-app-argon-config_0.9_all.ipk"
 	wget -O "/tmp/luci-i18n-argon-config-zh-cn.ipk" "https://raw.githubusercontent.com/wukongdaily/gl-inet-onescript/master/theme/luci-i18n-argon-config-zh-cn.ipk"
