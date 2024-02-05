@@ -327,8 +327,9 @@ update_luci_app_quickstart() {
 }
 
 do_install_depends_ipk() {
-	wget -O "/tmp/luci-lua-runtime_all.ipk" "https://cdn.jsdelivr.net/gh/wukongdaily/gl-inet-onescript/theme/luci-lua-runtime_all.ipk"
-	wget -O "/tmp/libopenssl3.ipk" "https://cdn.jsdelivr.net/gh/wukongdaily/gl-inet-onescript/theme/libopenssl3.ipk"
+	
+	wget -O "/tmp/luci-lua-runtime_all.ipk" "https://raw.githubusercontent.com/wukongdaily/gl-inet-onescript/master/theme/luci-lua-runtime_all.ipk"
+	wget -O "/tmp/libopenssl3.ipk" "https://raw.githubusercontent.com/wukongdaily/gl-inet-onescript/master/theme/luci-lua-runtime_all.ipk"
 	opkg install "/tmp/luci-lua-runtime_all.ipk"
 	opkg install "/tmp/libopenssl3.ipk"
 }
@@ -337,8 +338,13 @@ do_install_argon_skin() {
 	echo "正在尝试安装argon主题......."
 	#下载和安装argon的依赖
 	do_install_depends_ipk
-	setup_software_source 1
-	opkg install luci-app-argon-config
+	# bug fix 由于2.3.1 最新版的luci-argon-theme 登录按钮没有中文匹配,而2.3版本字体不对。
+	# 所以这里安装上一个版本2.2.9,考虑到主题皮肤并不需要长期更新，因此固定版本没问题
+	wget -O "/tmp/luci-theme-argon.ipk" "https://raw.githubusercontent.com/wukongdaily/gl-inet-onescript/master/theme/luci-theme-argon-master_2.2.9.4_all.ipk"
+	wget -O "/tmp/luci-app-argon-config.ipk" "https://raw.githubusercontent.com/wukongdaily/gl-inet-onescript/master/theme/luci-app-argon-config_0.9_all.ipk"
+	wget -O "/tmp/luci-i18n-argon-config-zh-cn.ipk" "https://raw.githubusercontent.com/wukongdaily/gl-inet-onescript/master/theme/luci-i18n-argon-config-zh-cn.ipk"
+	cd /tmp/
+	opkg install luci-theme-argon.ipk luci-app-argon-config.ipk luci-i18n-argon-config-zh-cn.ipk
 	# 检查上一个命令的返回值
 	if [ $? -eq 0 ]; then
 		echo "argon主题 安装成功"
@@ -350,7 +356,6 @@ do_install_argon_skin() {
 	else
 		echo "argon主题 安装失败! 建议再执行一次!再给我一个机会!事不过三!"
 	fi
-	setup_software_source 0
 }
 
 #单独安装文件管理器
