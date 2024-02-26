@@ -13,8 +13,16 @@ https://github.com/wukongdaily/HowToUseSSH
 # one script（has Menu）
 <img alt="Static Badge" src="https://img.shields.io/badge/MT3000-E70D0D?style=for-the-badge&label=MT2500A&labelColor=8A2BE2">
 
+
 ```
 wget -O /tmp/gl-inet.sh https://raw.githubusercontent.com/wukongdaily/gl-inet-onescript/master/gl-inet.sh && chmod +x /tmp/gl-inet.sh && /tmp/gl-inet.sh
+
+
+```
+
+# 国内
+```
+wget -O /tmp/gl-inet.sh https://gitee.com/wukongdaily/gl_onescript/raw/master/gl-inet.sh && chmod +x /tmp/gl-inet.sh && /tmp/gl-inet.sh
 
 
 ```
@@ -23,7 +31,7 @@ wget -O /tmp/gl-inet.sh https://raw.githubusercontent.com/wukongdaily/gl-inet-on
 
 # onekey for iStore
 ```
-wget -O /tmp/reinstall_istore.sh https://cdn.jsdelivr.net/gh/wukongdaily/gl-inet-onescript/reinstall_istore.sh && chmod +x /tmp/reinstall_istore.sh && /tmp/reinstall_istore.sh
+wget -O /tmp/reinstall_istore.sh https://gitee.com/wukongdaily/gl_onescript/raw/master/reinstall_istore.sh && chmod +x /tmp/reinstall_istore.sh && /tmp/reinstall_istore.sh
 
 ```
 
@@ -32,7 +40,7 @@ https://telegra.ph/install-istore-for-mt3000-11-03 <br>
 
 # onekey for File Manager
 ```
-wget -O /tmp/reinstall_istore.sh https://cdn.jsdelivr.net/gh/wukongdaily/gl-inet-onescript/reinstall_istore.sh && chmod +x /tmp/reinstall_istore.sh && /tmp/reinstall_istore.sh
+wget -O /tmp/reinstall_istore.sh https://gitee.com/wukongdaily/gl_onescript/raw/master/reinstall_istore.sh && chmod +x /tmp/reinstall_istore.sh && /tmp/reinstall_istore.sh
 /tmp/is-opkg install app-meta-linkease
 
 ```
