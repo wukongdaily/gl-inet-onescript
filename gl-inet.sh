@@ -16,14 +16,18 @@ setup_base_init() {
 	## 设置防火墙wan 打开,方便主路由访问
 	uci set firewall.@zone[1].input='ACCEPT'
 	uci commit firewall
+	# 解决首页“已联网”的UI问题
+	recovery_opkg_settings
 }
 
 ## 安装应用商店和主题
 install_istore_os_style() {
 	##设置Argon 紫色主题
 	do_install_argon_skin
-	#安装首页风格
+	#安装首页风格,增加首页终端图标
+	opkg install ttyd
 	is-opkg install luci-app-quickstart
+	is-opkg install luci-i18n-quickstart-zh-cn
 	is-opkg install 'app-meta-ddnsto'
 	#安装首页需要的文件管理功能
 	is-opkg install 'app-meta-linkease'
@@ -302,7 +306,6 @@ recovery_opkg_settings() {
 		echo "Router name does not contain '3000' 6000 or '2500'."
 		;;
 	esac
-	echo "Tips: 重启路由器后才能完全生效"
 }
 
 do_luci_app_adguardhome() {
