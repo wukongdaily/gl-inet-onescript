@@ -24,10 +24,8 @@ setup_base_init() {
 install_istore_os_style() {
 	##设置Argon 紫色主题
 	do_install_argon_skin
-	#安装首页风格,增加首页终端图标
+	#增加首页终端图标
 	opkg install ttyd
-	is-opkg install luci-app-quickstart
-	is-opkg install luci-i18n-quickstart-zh-cn
 	is-opkg install 'app-meta-ddnsto'
 	#安装首页需要的文件管理功能
 	is-opkg install 'app-meta-linkease'
