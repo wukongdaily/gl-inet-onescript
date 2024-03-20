@@ -1,5 +1,16 @@
 #!/bin/sh
-#third_party_source="https://op.dllkids.xyz/packages/aarch64_cortex-a53"
+red(){
+    echo -e "\033[31m\033[01m$1\033[0m"
+}
+green(){
+    echo -e "\033[32m\033[01m$1\033[0m"
+}
+yellow(){
+    echo -e "\033[33m\033[01m$1\033[0m"
+}
+blue(){
+    echo -e "\033[34m\033[01m$1\033[0m"
+}
 third_party_source="https://istore.linkease.com/repo/all/nas_luci"
 setup_base_init() {
 
@@ -263,23 +274,6 @@ set_glfan_temp() {
 		echo "错误: 请输入整数."
 	fi
 }
-check_bash_installed() {
-  if [ -x "/bin/bash" ]; then
-    echo "rollback_old_version ......"
-  else
-    setup_software_source 0
-    opkg install bash
-  fi
-}
-
-rollback_old_version() {
-	check_bash_installed
-	download_url="https://github.com/wukongdaily/gl-inet-onescript/raw/1f25c161512e9b416227f60656e8c2139c993f69/gl-inet.run"
-	local_file_path="/tmp/gl-inet.run"
-	wget -O "$local_file_path" "$download_url"
-	chmod +x "$local_file_path"
-	"$local_file_path"
-}
 
 recovery_opkg_settings() {
 	echo "# add your custom package feeds here" >/etc/opkg/customfeeds.conf
@@ -322,15 +316,18 @@ do_luci_app_wireguard() {
 	echo "也可以去接口中 查看是否增加了新的wireguard 协议的选项 "
 }
 update_luci_app_quickstart() {
-	setup_software_source 1
-	opkg install luci-app-quickstart
-	opkg install luci-i18n-quickstart-zh-cn
-	setup_software_source 0
-	echo "首页样式已经更新,请强制刷新网页,检查是否为中文字体"
+	if [ -f "/bin/is-opkg" ]; then
+		# 如果 /bin/is-opkg 存在，则执行 is-opkg update
+		is-opkg update
+		is-opkg install luci-i18n-quickstart-zh-cn
+		yellow "恭喜您!现在你的路由器已经变成iStoreOS风格啦!"
+	else
+		red "请先执行第一项 一键iStoreOS风格化"
+	fi
 }
 
 do_install_depends_ipk() {
-	
+
 	wget -O "/tmp/luci-lua-runtime_all.ipk" "https://raw.githubusercontent.com/wukongdaily/gl-inet-onescript/master/theme/luci-lua-runtime_all.ipk"
 	wget -O "/tmp/libopenssl3.ipk" "https://raw.githubusercontent.com/wukongdaily/gl-inet-onescript/master/theme/libopenssl3.ipk"
 	opkg install "/tmp/luci-lua-runtime_all.ipk"
@@ -389,7 +386,7 @@ while true; do
 	echo "*******GL-iNet MT-6000 "
 	echo "**********************************************************************"
 	echo
-	echo " 1. $result"
+	blue " 1. $result"
 	echo
 	echo " 2. 设置自定义软件源"
 	echo " 3. 删除自定义软件源"
@@ -416,12 +413,12 @@ while true; do
 		fi
 		#先安装istore商店
 		do_istore
-		#基础必备设置
-		setup_base_init
 		#安装iStore风格
 		install_istore_os_style
-		#再次更新 防止出现汉化不完整
+		#安装iStore首页风格
 		update_luci_app_quickstart
+		#基础必备设置
+		setup_base_init
 		;;
 	2)
 		add_custom_feed
@@ -431,15 +428,15 @@ while true; do
 		;;
 	4)
 		case "$gl_name" in
-        *3000*)
-            set_glfan_temp
-            ;;
-        *)
-            echo "*      当前的路由器型号: "$gl_name | sed 's/ like iStoreOS//'
-            echo "并非MT3000 它没有风扇 无需设置"
-            ;;
-        esac
-        ;;
+		*3000*)
+			set_glfan_temp
+			;;
+		*)
+			echo "*      当前的路由器型号: "$gl_name | sed 's/ like iStoreOS//'
+			echo "并非MT3000 它没有风扇 无需设置"
+			;;
+		esac
+		;;
 	5)
 		recovery_opkg_settings
 		;;
@@ -457,10 +454,6 @@ while true; do
 		;;
 	10)
 		do_install_filemanager
-		;;
-	h | H)
-		rollback_old_version
-		exit 0
 		;;
 	q | Q)
 		echo "退出"
