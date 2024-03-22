@@ -1,15 +1,15 @@
 #!/bin/sh
-red(){
-    echo -e "\033[31m\033[01m$1\033[0m"
+red() {
+	echo -e "\033[31m\033[01m$1\033[0m"
 }
-green(){
-    echo -e "\033[32m\033[01m$1\033[0m"
+green() {
+	echo -e "\033[32m\033[01m$1\033[0m"
 }
-yellow(){
-    echo -e "\033[33m\033[01m$1\033[0m"
+yellow() {
+	echo -e "\033[33m\033[01m$1\033[0m"
 }
-blue(){
-    echo -e "\033[34m\033[01m$1\033[0m"
+blue() {
+	echo -e "\033[34m\033[01m$1\033[0m"
 }
 third_party_source="https://istore.linkease.com/repo/all/nas_luci"
 setup_base_init() {
@@ -27,7 +27,7 @@ setup_base_init() {
 	## 设置防火墙wan 打开,方便主路由访问
 	uci set firewall.@zone[1].input='ACCEPT'
 	uci commit firewall
-	
+
 }
 
 ## 安装应用商店和主题
@@ -298,34 +298,29 @@ recovery_opkg_settings() {
 }
 
 update_opkg_config() {
-    kernel_version=$(uname -r)
+	kernel_version=$(uname -r)
 	echo "MT-6000 kernel version: $kernel_version"
-    case $kernel_version in
-    5.4*)
-        mt6000_opkg="https://raw.githubusercontent.com/wukongdaily/gl-inet-onescript/master/mt-6000/distfeeds-5.4.conf"
-        ;;
-    5.15*)
-        mt6000_opkg="https://raw.githubusercontent.com/wukongdaily/gl-inet-onescript/master/mt-6000/distfeeds.conf"
-        ;;
-    *)
-        echo "Unsupported kernel version: $kernel_version"
-        return 1
-        ;;
-    esac
-    wget -O /etc/opkg/distfeeds.conf ${mt6000_opkg}
-    if [ $? -eq 0 ]; then
-        echo "Opkg configuration updated successfully."
-    else
-        echo "Failed to update opkg configuration."
-        return 1
-    fi
-	# 更换5.4.238 内核之后 缺少的依赖
-	mkdir -p /tmp/mt6000
-	wget -O /tmp/mt6000/script-utils.ipk "https://raw.githubusercontent.com/wukongdaily/gl-inet-onescript/master/mt-6000/script-utils.ipk"
-	wget -O /tmp/mt6000/mdadm.ipk "https://raw.githubusercontent.com/wukongdaily/gl-inet-onescript/master/mt-6000/mdadm.ipk"
-	wget -O /tmp/mt6000/lsblk.ipk "https://raw.githubusercontent.com/wukongdaily/gl-inet-onescript/master/mt-6000/lsblk.ipk"
-	opkg update
-	opkg install /tmp/mt6000/*.ipk
+	case $kernel_version in
+	5.4*)
+		mt6000_opkg="https://raw.githubusercontent.com/wukongdaily/gl-inet-onescript/master/mt-6000/distfeeds-5.4.conf"
+		wget -O /etc/opkg/distfeeds.conf ${mt6000_opkg}
+		# 更换5.4.238 内核之后 缺少的依赖
+		mkdir -p /tmp/mt6000
+		wget -O /tmp/mt6000/script-utils.ipk "https://raw.githubusercontent.com/wukongdaily/gl-inet-onescript/master/mt-6000/script-utils.ipk"
+		wget -O /tmp/mt6000/mdadm.ipk "https://raw.githubusercontent.com/wukongdaily/gl-inet-onescript/master/mt-6000/mdadm.ipk"
+		wget -O /tmp/mt6000/lsblk.ipk "https://raw.githubusercontent.com/wukongdaily/gl-inet-onescript/master/mt-6000/lsblk.ipk"
+		opkg update
+		opkg install /tmp/mt6000/*.ipk
+		;;
+	5.15*)
+		mt6000_opkg="https://raw.githubusercontent.com/wukongdaily/gl-inet-onescript/master/mt-6000/distfeeds.conf"
+		wget -O /etc/opkg/distfeeds.conf ${mt6000_opkg}
+		;;
+	*)
+		echo "Unsupported kernel version: $kernel_version"
+		return 1
+		;;
+	esac
 }
 
 do_luci_app_adguardhome() {
