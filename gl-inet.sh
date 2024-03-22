@@ -290,14 +290,36 @@ recovery_opkg_settings() {
 		wget -O /etc/opkg/distfeeds.conf ${mt2500a_opkg}
 		;;
 	*6000*)
-		echo "正在适配 这货居然内核降级了！"
-		#mt6000_opkg="https://raw.githubusercontent.com/wukongdaily/gl-inet-onescript/master/mt-6000/distfeeds.conf"
-		#wget -O /etc/opkg/distfeeds.conf ${mt6000_opkg}
+		update_opkg_config
 		;;
 	*)
 		echo "Router name does not contain '3000' 6000 or '2500'."
 		;;
 	esac
+}
+
+update_opkg_config() {
+    kernel_version=$(uname -r)
+	echo "MT-6000 kernel version: $kernel_version"
+    case $kernel_version in
+    5.4*)
+        mt6000_opkg="https://raw.githubusercontent.com/wukongdaily/gl-inet-onescript/master/mt-6000/distfeeds-5.4.conf"
+        ;;
+    5.15*)
+        mt6000_opkg="https://raw.githubusercontent.com/wukongdaily/gl-inet-onescript/master/mt-6000/distfeeds.conf"
+        ;;
+    *)
+        echo "Unsupported kernel version: $kernel_version"
+        return 1
+        ;;
+    esac
+    wget -O /etc/opkg/distfeeds.conf ${mt6000_opkg}
+    if [ $? -eq 0 ]; then
+        echo "Opkg configuration updated successfully."
+    else
+        echo "Failed to update opkg configuration."
+        return 1
+    fi
 }
 
 do_luci_app_adguardhome() {
