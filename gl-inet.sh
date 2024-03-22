@@ -342,7 +342,7 @@ update_luci_app_quickstart() {
 	if [ -f "/bin/is-opkg" ]; then
 		# 如果 /bin/is-opkg 存在，则执行 is-opkg update
 		is-opkg update
-		is-opkg install luci-i18n-quickstart-zh-cn
+		is-opkg install luci-i18n-quickstart-zh-cn --force-depends >/dev/null 2>&1
 		yellow "恭喜您!现在你的路由器已经变成iStoreOS风格啦!"
 	else
 		red "请先执行第一项 一键iStoreOS风格化"
