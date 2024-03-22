@@ -27,8 +27,7 @@ setup_base_init() {
 	## 设置防火墙wan 打开,方便主路由访问
 	uci set firewall.@zone[1].input='ACCEPT'
 	uci commit firewall
-	# 解决首页“已联网”的UI问题
-	recovery_opkg_settings
+	
 }
 
 ## 安装应用商店和主题
@@ -320,6 +319,13 @@ update_opkg_config() {
         echo "Failed to update opkg configuration."
         return 1
     fi
+	# 更换5.4.238 内核之后 缺少的依赖
+	mkdir -p /tmp/mt6000
+	wget -O /tmp/mt6000/script-utils.ipk "https://raw.githubusercontent.com/wukongdaily/gl-inet-onescript/master/mt-6000/script-utils.ipk"
+	wget -O /tmp/mt6000/mdadm.ipk "https://raw.githubusercontent.com/wukongdaily/gl-inet-onescript/master/mt-6000/mdadm.ipk"
+	wget -O /tmp/mt6000/lsblk.ipk "https://raw.githubusercontent.com/wukongdaily/gl-inet-onescript/master/mt-6000/lsblk.ipk"
+	opkg update
+	opkg install /tmp/mt6000/*.ipk
 }
 
 do_luci_app_adguardhome() {
@@ -433,6 +439,8 @@ while true; do
 			# 设置风扇工作温度
 			setup_cpu_fans
 		fi
+		# 解决首页“已联网”的UI问题
+		recovery_opkg_settings
 		#先安装istore商店
 		do_istore
 		#安装iStore风格
