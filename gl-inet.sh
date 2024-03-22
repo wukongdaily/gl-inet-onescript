@@ -290,9 +290,9 @@ recovery_opkg_settings() {
 		wget -O /etc/opkg/distfeeds.conf ${mt2500a_opkg}
 		;;
 	*6000*)
-		echo "Router name contains '6000'."
-		mt6000_opkg="https://raw.githubusercontent.com/wukongdaily/gl-inet-onescript/master/mt-6000/distfeeds.conf"
-		wget -O /etc/opkg/distfeeds.conf ${mt6000_opkg}
+		echo "正在适配 这货居然内核降级了！"
+		#mt6000_opkg="https://raw.githubusercontent.com/wukongdaily/gl-inet-onescript/master/mt-6000/distfeeds.conf"
+		#wget -O /etc/opkg/distfeeds.conf ${mt6000_opkg}
 		;;
 	*)
 		echo "Router name does not contain '3000' 6000 or '2500'."
