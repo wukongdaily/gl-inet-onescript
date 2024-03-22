@@ -148,13 +148,9 @@ add_dhcp_domain() {
 		uci set "dhcp.@domain[-1].name=$domain_name"
 		uci set "dhcp.@domain[-1].ip=$domain_ip"
 		uci commit dhcp
-		echo
-		echo "已添加新的域名记录"
 	else
-		echo "相同的域名记录已存在，无需重复添加"
+		echo 
 	fi
-	echo -e "\n"
-	echo -e "time.android.com    203.107.6.88 "
 }
 
 #添加出处信息
