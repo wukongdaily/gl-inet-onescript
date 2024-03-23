@@ -20,9 +20,9 @@
 - 🐋 支持`一键安装GL原厂adguardhome`
 - 📕 支持`一键恢复原厂的OPKG软件源`
 - ❓ 其他功能和特点会持续迭代
-- MT-6000✅
-- MT-3000 ✅
-- MT-2500 ✅
+- GL-inet MT-6000✅
+- GL-inet MT-3000 ✅
+- GL-inet MT-2500 ✅
 
 
 
