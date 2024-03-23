@@ -340,6 +340,7 @@ update_luci_app_quickstart() {
 		is-opkg update
 		is-opkg install luci-i18n-quickstart-zh-cn --force-depends >/dev/null 2>&1
 		yellow "恭喜您!现在你的路由器已经变成iStoreOS风格啦!"
+		green "如果没有首页和网络向导,可以执行第8项 更新luci_app_quickstart"
 	else
 		red "请先执行第一项 一键iStoreOS风格化"
 	fi
@@ -405,19 +406,21 @@ while true; do
 	echo "*******GL-iNet MT-6000 "
 	echo "**********************************************************************"
 	echo
-	blue " 1. $result"
+	yellow " 1. $result"
 	echo
 	echo " 2. 设置自定义软件源"
 	echo " 3. 删除自定义软件源"
 	echo
 	echo " 4. 设置风扇开始工作的温度(仅限MT3000)"
-	echo " 5. (慎用)恢复原厂OPKG配置软件包(需要网络环境支持)"
+	echo " 5. 恢复原厂OPKG配置软件包"
 	echo
 	echo " 6. 安装GL原厂Adguardhome(10MB)"
 	echo " 7. 安装luci-app-wireguard"
 	echo " 8. 更新luci-app-quickstart"
 	echo " 9. 安装Argon紫色主题"
 	echo "10. 安装文件管理器"
+	echo "11. 安装Docker(开发中)"
+	echo "12. 安装Docker Compose(开发中)"
 	echo
 	echo " Q. 退出本程序"
 	echo
@@ -475,6 +478,12 @@ while true; do
 		;;
 	10)
 		do_install_filemanager
+		;;
+	11)
+		yellow "开发中......"
+		;;
+	12)
+		yellow "开发中......"
 		;;
 	q | Q)
 		echo "退出"
