@@ -33,11 +33,16 @@
 ```bash
 wget -O gl-inet.sh https://raw.githubusercontent.com/wukongdaily/gl-inet-onescript/master/gl-inet.sh?$(date +%s) && chmod +x gl-inet.sh && ./gl-inet.sh
 ```
-#### 或者执行
+### 或者是备用仓库地址（内地可用）
 
 ```bash
 wget -O /tmp/gl-inet.sh https://gitee.com/wukongdaily/gl_onescript/raw/master/gl-inet.sh && chmod +x /tmp/gl-inet.sh && /tmp/gl-inet.sh
 ```
+### 下次如何调用,在当前目录下执行
+```bash
+sh gl-inet.sh
+```
+
 
 ### 2.单独安装iStore商店
 ```bash
@@ -51,7 +56,13 @@ wget -O /tmp/reinstall_istore.sh https://gitee.com/wukongdaily/gl_onescript/raw/
 /tmp/is-opkg install app-meta-linkease
 
 ```
-### 4.新手ssh连接注意事项
+
+### 4.单独安装Docker
+```bash
+开发中...
+
+```
+### 5.新手ssh连接注意事项
 https://github.com/wukongdaily/HowToUseSSH
 
 ### 辅助视频教程⬇️
