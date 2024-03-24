@@ -1,21 +1,21 @@
 #!/bin/sh
 red() {
-    echo -e "\033[31m\033[01m$1\033[0m"
+    echo -e "[WARNING] \033[31m\033[01m$1\033[0m"
 }
 green() {
-    echo -e "\033[32m\033[01m$1\033[0m"
+    echo -e "[info] \033[32m\033[01m$1\033[0m"
 }
 yellow() {
-    echo -e "\033[33m\033[01m$1\033[0m"
+    echo -e "[notice] \033[33m\033[01m$1\033[0m"
 }
 blue() {
-    echo -e "\033[34m\033[01m$1\033[0m"
+    echo -e "[info] \033[34m\033[01m$1\033[0m"
 }
 light_magenta() {
-    echo -e "\033[95m\033[01m$1\033[0m"
+    echo -e "[info] \033[95m\033[01m$1\033[0m"
 }
 light_yellow() {
-    echo -e "\033[93m\033[01m$1\033[0m"
+    echo -e "[notice] \033[93m\033[01m$1\033[0m"
 }
 lsblk_url="https://raw.githubusercontent.com/wukongdaily/gl-inet-onescript/master/mt-6000/lsblk.ipk"
 install_lsblk() {
@@ -207,9 +207,21 @@ cat /etc/rc.local
 
 # 修改 /etc/config/dockerd 文件中的 data_root 配置
 sed -i "/option data_root/c\	option data_root '/mnt/upan_data/docker/'" /etc/config/dockerd
-# 重启dockerd
-/etc/init.d/docker restart
-sleep 2
+green "正在尝试启动Docker....请稍后"
+# 初始化计数器
+counter=0
+# 循环检查 Docker 守护进程是否已经启动
+until docker info >/dev/null 2>&1; do
+    counter=$((counter + 1))
+    echo "Waiting for Docker daemon to start..."
+    sleep 1
+    # 如果等待时间达到10秒，则跳出循环
+    if [ $counter -eq 10 ]; then
+        echo "Failed to start Docker daemon within 10 seconds."
+        exit 1
+    fi
+done
+green "Docker启动成功,不过建议重启一次再使用"
 # 检查Docker是否正在运行
 if ! docker info >/dev/null 2>&1; then
     red "Docker 启动失败"
@@ -217,9 +229,7 @@ else
     DOCKER_ROOT_DIR=$(docker info 2>&1 | grep -v "WARNING" | grep "Docker Root Dir" | awk '{print $4}')
     light_magenta "当前Docker根目录为: $DOCKER_ROOT_DIR"
     light_yellow "Docker根目录剩余空间:$(df -h $DOCKER_ROOT_DIR | awk 'NR==2{print $4}')"
-    green "OK,Docker启动成功,建议重启一次"
 fi
-
 yellow "Docker 部署完毕,重启路由器来验证Docker是否正常工作。现在重启吗?(y/n)"
 read -r answer
 if [ "$answer" = "y" ] || [ -z "$answer" ]; then
