@@ -11,6 +11,9 @@ yellow() {
 blue() {
 	echo -e "\033[34m\033[01m$1\033[0m"
 }
+light_magenta() {
+    echo -e "\033[95m\033[01m$1\033[0m"
+}
 third_party_source="https://istore.linkease.com/repo/all/nas_luci"
 setup_base_init() {
 
@@ -388,6 +391,13 @@ do_install_filemanager() {
 	is-opkg install 'app-meta-linkease'
 	echo "重新登录web页面,然后您可以访问:  http://192.168.8.1/cgi-bin/luci/admin/services/linkease/file/?path=/root"
 }
+#更新脚本
+update_myself() {
+    wget -O gl-inet.sh https://raw.githubusercontent.com/wukongdaily/gl-inet-onescript/master/gl-inet.sh && chmod +x gl-inet.sh
+    echo "脚本已更新并保存在当前目录 gl-inet.sh,现在将执行新脚本。"
+    ./gl-inet.sh
+    exit 0
+}
 
 while true; do
 	clear
@@ -400,13 +410,12 @@ while true; do
 	echo "*      当前的路由器型号: "$gl_name | sed 's/ like iStoreOS//'
 	echo
 	echo "*******支持的机型列表***************************************************"
-	echo
-	echo "*******GL-iNet MT-2500A"
-	echo "*******GL-iNet MT-3000 "
-	echo "*******GL-iNet MT-6000 "
+	green "*******GL-iNet MT-2500A"
+	green "*******GL-iNet MT-3000 "
+	green "*******GL-iNet MT-6000 "
 	echo "**********************************************************************"
 	echo
-	yellow " 1. $result"
+	light_magenta " 1. $result"
 	echo
 	echo " 2. 设置自定义软件源"
 	echo " 3. 删除自定义软件源"
@@ -419,8 +428,9 @@ while true; do
 	echo " 8. 更新luci-app-quickstart"
 	echo " 9. 安装Argon紫色主题"
 	echo "10. 安装文件管理器"
-	echo "11. 安装Docker(开发中)"
+	light_magenta "11. 安装Docker(开发中)"
 	echo "12. 安装Docker Compose(开发中)"
+	light_magenta "13. 更新脚本"
 	echo
 	echo " Q. 退出本程序"
 	echo
@@ -484,6 +494,9 @@ while true; do
 		;;
 	12)
 		yellow "开发中......"
+		;;
+	13)
+		update_myself
 		;;
 	k | K)
 		yellow "注意!插入U盘之前请确认U盘数据已备份"
