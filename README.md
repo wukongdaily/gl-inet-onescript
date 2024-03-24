@@ -31,7 +31,7 @@
 ### 1. 在路由器终端执行如下命令
 
 ```bash
-wget -O /tmp/gl-inet.sh https://raw.githubusercontent.com/wukongdaily/gl-inet-onescript/master/gl-inet.sh && chmod +x /tmp/gl-inet.sh && /tmp/gl-inet.sh
+wget -O gl-inet.sh https://raw.githubusercontent.com/wukongdaily/gl-inet-onescript/master/gl-inet.sh?$(date +%s) && chmod +x gl-inet.sh && ./gl-inet.sh
 ```
 #### 或者执行
 
