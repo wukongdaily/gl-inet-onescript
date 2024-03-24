@@ -12,7 +12,7 @@ blue() {
 	echo -e "\033[34m\033[01m$1\033[0m"
 }
 light_magenta() {
-    echo -e "\033[95m\033[01m$1\033[0m"
+	echo -e "\033[95m\033[01m$1\033[0m"
 }
 third_party_source="https://istore.linkease.com/repo/all/nas_luci"
 setup_base_init() {
@@ -304,11 +304,16 @@ update_opkg_config() {
 		mt6000_opkg="https://raw.githubusercontent.com/wukongdaily/gl-inet-onescript/master/mt-6000/distfeeds-5.4.conf"
 		wget -O /etc/opkg/distfeeds.conf ${mt6000_opkg}
 		# 更换5.4.238 内核之后 缺少的依赖
+
 		mkdir -p /tmp/mt6000
 		wget -O /tmp/mt6000/script-utils.ipk "https://raw.githubusercontent.com/wukongdaily/gl-inet-onescript/master/mt-6000/script-utils.ipk?$(date +%s)"
 		wget -O /tmp/mt6000/mdadm.ipk "https://raw.githubusercontent.com/wukongdaily/gl-inet-onescript/master/mt-6000/mdadm.ipk?$(date +%s)"
 		wget -O /tmp/mt6000/lsblk.ipk "https://raw.githubusercontent.com/wukongdaily/gl-inet-onescript/master/mt-6000/lsblk.ipk?$(date +%s)"
 		opkg update
+		if [ -f "/tmp/mt6000/lsblk.ipk" ]; then
+			# 先卸载之前安装过的lsblk,确保使用的是正确的lsblk
+			opkg remove lsblk
+		fi
 		opkg install /tmp/mt6000/*.ipk
 		;;
 	5.15*)
@@ -393,10 +398,10 @@ do_install_filemanager() {
 }
 #更新脚本
 update_myself() {
-    wget -O gl-inet.sh https://raw.githubusercontent.com/wukongdaily/gl-inet-onescript/master/gl-inet.sh?$(date +%s) && chmod +x gl-inet.sh
-    echo "脚本已更新并保存在当前目录 gl-inet.sh,现在将执行新脚本。"
-    ./gl-inet.sh
-    exit 0
+	wget -O gl-inet.sh https://raw.githubusercontent.com/wukongdaily/gl-inet-onescript/master/gl-inet.sh?$(date +%s) && chmod +x gl-inet.sh
+	echo "脚本已更新并保存在当前目录 gl-inet.sh,现在将执行新脚本。"
+	./gl-inet.sh
+	exit 0
 }
 
 while true; do
