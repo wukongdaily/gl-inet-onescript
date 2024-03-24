@@ -17,6 +17,41 @@ light_magenta() {
 light_yellow() {
     echo -e "\033[93m\033[01m$1\033[0m"
 }
+lsblk_url="https://raw.githubusercontent.com/wukongdaily/gl-inet-onescript/master/mt-6000/lsblk.ipk"
+install_lsblk() {
+    # 查找 lsblk 包
+    if opkg find lsblk | grep -q lsblk; then
+        # 检查 lsblk 是否已经安装
+        if opkg list-installed | grep -q lsblk; then
+            blue "系统已包含必备组件lsblk"
+        else
+            blue "正在安装查找USB设备所需要的依赖 lsblk ..."
+            opkg install lsblk >/dev/null 2>&1
+            # 再次验证安装是否成功
+            if opkg list-installed | grep -q lsblk; then
+                green "lsblk 安装成功."
+            else
+                red "lsblk 安装失败."
+                exit 1
+            fi
+        fi
+    else
+        echo "lsblk package not found, attempting to download and install from URL..."
+        mkdir -p /tmp/mt6000
+        wget -q -O /tmp/mt6000/lsblk.ipk $lsblk_url
+        opkg install /tmp/mt6000/lsblk.ipk >/dev/null 2>&1
+        if opkg list-installed | grep -q lsblk; then
+            green "formURL lsblk 安装成功."
+        else
+            red "formURL lsblk 安装失败."
+            exit 1
+        fi
+    fi
+}
+
+green "正在查找USB设备分区,请稍后......"
+opkg update >/dev/null 2>&1
+install_lsblk
 
 # 查找USB设备分区
 USB_DEVICES=$(lsblk -o NAME,RM,TYPE | grep '1 part' | awk '{print $1}')
@@ -32,15 +67,35 @@ for USB_DEVICE_PART in $USB_DEVICES; do
     CORRECTED_PART=$(echo $USB_DEVICE_PART | sed 's/[^a-zA-Z0-9]//g')
 
     echo "找到USB设备分区: /dev/$CORRECTED_PART"
-    
+
     # 检查USB设备分区是否已挂载,这是glinet自动挂载点 /tmp/mountd/diskX_partX
     AUTOMOUNT_POINT=$(mount | grep "/dev/$CORRECTED_PART " | awk '{print $3}')
 
     if [ -n "$AUTOMOUNT_POINT" ]; then
         echo "设备分区已挂载在 $AUTOMOUNT_POINT,正在尝试卸载..."
-        # 停止docker服务 避免u盘占用
-        /etc/init.d/docker stop
-        sleep 2
+        if
+            ! command -v docker &
+            >/dev/null
+        then
+            echo "Docker is not installed, skipping Docker stop procedure."
+            # 直接执行后续操作或退出
+        else
+            # 尝试停止 Docker 服务
+            /etc/init.d/docker stop
+
+            # 等待 docker 守护进程停止
+            while true; do
+                # 检查 docker 守护进程是否停止
+                if ! docker ps >/dev/null 2>&1; then
+                    echo "Docker daemon has stopped."
+                    break # 跳出循环
+                else
+                    echo "Waiting for Docker daemon to stop..."
+                    sleep 1 # 等待1秒再次检查
+                fi
+            done
+        fi
+        # 在此处执行卸载或其他操作
         umount /dev/$CORRECTED_PART
         if [ $? -eq 0 ]; then
             echo "卸载成功。"
@@ -51,11 +106,11 @@ for USB_DEVICE_PART in $USB_DEVICES; do
     else
         echo "设备分区未挂载。"
     fi
-    
+
     # 格式化分区为EXT4，你可以根据需要更改为其他文件系统类型
     red "正在格式化U盘: /dev/$CORRECTED_PART 为 EXT4..."
     mkfs.ext4 -F /dev/$CORRECTED_PART
-    
+
     if [ $? -eq 0 ]; then
         green "格式化成功。"
     else

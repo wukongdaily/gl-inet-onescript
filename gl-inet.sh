@@ -149,7 +149,7 @@ add_dhcp_domain() {
 		uci set "dhcp.@domain[-1].ip=$domain_ip"
 		uci commit dhcp
 	else
-		echo 
+		echo
 	fi
 }
 
@@ -484,6 +484,17 @@ while true; do
 		;;
 	12)
 		yellow "开发中......"
+		;;
+	k | K)
+		yellow "注意!插入U盘之前请确认U盘数据已备份"
+		yellow "如果U盘安装过其他系统或者做过引导盘\n请先在电脑处理为一个单独分区"
+		red "确定要继续吗(y|n)"
+		read -r answer
+		if [ "$answer" = "y" ] || [ -z "$answer" ]; then
+			wget -q -O /tmp/do_docker.sh https://raw.githubusercontent.com/wukongdaily/gl-inet-onescript/master/docker/do_docker.sh && chmod +x /tmp/do_docker.sh && /tmp/do_docker.sh
+		else
+			yellow "已退出Docker安装流程"
+		fi
 		;;
 	q | Q)
 		echo "退出"
