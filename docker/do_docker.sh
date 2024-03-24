@@ -109,7 +109,7 @@ for USB_DEVICE_PART in $USB_DEVICES; do
 
     # 格式化分区为EXT4，你可以根据需要更改为其他文件系统类型
     red "正在格式化U盘: /dev/$CORRECTED_PART 为 EXT4... 请耐心等待..."
-    mkfs.ext4 -F /dev/$CORRECTED_PART >/dev/null 2>&1
+    mkfs.ext4 -F -E lazy_itable_init=1,lazy_journal_init=1 /dev/$CORRECTED_PART >/dev/null 2>&1
 
     if [ $? -eq 0 ]; then
         green "格式化成功。"
