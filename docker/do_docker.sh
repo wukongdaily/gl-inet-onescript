@@ -143,7 +143,7 @@ echo '{
 # 安装 Docker 和 dockerd
 green "正在更新OPKG软件包..."
 opkg update >/dev/null 2>&1
-green "正在安装 Docker及相关服务...请耐心等待一会..."
+green "正在安装 Docker及相关服务...请耐心等待一会...大约需要1分钟\n"
 opkg install luci-app-dockerman >/dev/null 2>&1
 opkg install luci-i18n-dockerman-zh-cn >/dev/null 2>&1
 opkg install dockerd --force-depends >/dev/null 2>&1
