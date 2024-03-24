@@ -1,21 +1,21 @@
 #!/bin/sh
 red() {
-    echo -e "[WARNING] \033[31m\033[01m$1\033[0m"
+    echo -e "\033[31m\033[01m [WARNING] $1\033[0m"
 }
 green() {
-    echo -e "[info] \033[32m\033[01m$1\033[0m"
+    echo -e "\033[32m\033[01m [INFO] $1\033[0m"
 }
 yellow() {
-    echo -e "[notice] \033[33m\033[01m$1\033[0m"
+    echo -e "\033[33m\033[01m [NOTICE] $1\033[0m"
 }
 blue() {
-    echo -e "[info] \033[34m\033[01m$1\033[0m"
+    echo -e "\033[34m\033[01m [MESSAGE] $1\033[0m"
 }
 light_magenta() {
-    echo -e "[info] \033[95m\033[01m$1\033[0m"
+    echo -e "\033[95m\033[01m [NOTICE] $1\033[0m"
 }
 light_yellow() {
-    echo -e "[notice] \033[93m\033[01m$1\033[0m"
+    echo -e "\033[93m\033[01m [NOTICE] $1\033[0m"
 }
 lsblk_url="https://raw.githubusercontent.com/wukongdaily/gl-inet-onescript/master/mt-6000/lsblk.ipk"
 install_lsblk() {
@@ -221,7 +221,7 @@ until docker info >/dev/null 2>&1; do
         exit 1
     fi
 done
-green "Docker启动成功,不过建议重启一次再使用"
+yellow "Docker 部署完毕,建议重启一次路由器"
 # 检查Docker是否正在运行
 if ! docker info >/dev/null 2>&1; then
     red "Docker 启动失败"
@@ -229,18 +229,19 @@ else
     DOCKER_ROOT_DIR=$(docker info 2>&1 | grep -v "WARNING" | grep "Docker Root Dir" | awk '{print $4}')
     light_magenta "当前Docker根目录为: $DOCKER_ROOT_DIR"
     light_yellow "Docker根目录剩余空间:$(df -h $DOCKER_ROOT_DIR | awk 'NR==2{print $4}')"
-fi
-yellow "Docker 部署完毕,重启路由器来验证Docker是否正常工作。现在重启吗?(y/n)"
-read -r answer
-if [ "$answer" = "y" ] || [ -z "$answer" ]; then
-    yellow "正在重启路由器..."
-    reboot
-else
-    # 检查Docker是否正在运行
-    if ! docker info >/dev/null 2>&1; then
-        yellow "您还没有启动Docker。"
-        exit 1
+    # 检查DOCKER_ROOT_DIR是否为"/opt/docker"
+    if [ "$DOCKER_ROOT_DIR" = "/opt/docker" ]; then
+        yellow "虽然Docker启动成功了,但是Docker根目录不正确 $DOCKER_ROOT_DIR 。建议立即重启以修正。"
+        red "是否立即重启？(y/n)"
+        read -r answer
+        if [ "$answer" = "y" ] || [ "$answer" = "Y" ]; then
+            red "正在重启..."
+            reboot
+        else
+            yellow "选择了不立即重启。请手动重启以应用更改。"
+        fi
     else
-        green "好吧,不重启也能用,建议先查看Docker根目录是否正确再开始使用。"
+        echo "Docker根目录设置正确。"
     fi
 fi
+
