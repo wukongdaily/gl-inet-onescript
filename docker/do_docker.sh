@@ -1,76 +1,104 @@
 #!/bin/sh
-red(){
+red() {
     echo -e "\033[31m\033[01m$1\033[0m"
 }
-green(){
+green() {
     echo -e "\033[32m\033[01m$1\033[0m"
 }
-yellow(){
+yellow() {
     echo -e "\033[33m\033[01m$1\033[0m"
 }
-blue(){
+blue() {
     echo -e "\033[34m\033[01m$1\033[0m"
 }
+light_magenta() {
+    echo -e "\033[95m\033[01m$1\033[0m"
+}
+light_yellow() {
+    echo -e "\033[93m\033[01m$1\033[0m"
+}
 
-# 找到挂载在 /tmp/mountd 下的 U 盘设备
-MOUNT_BASE="/tmp/mountd"
-AUTOMOUNT_POINT=$(find $MOUNT_BASE -mindepth 1 -maxdepth 1 -type d | head -n 1)
-if [ -z "$AUTOMOUNT_POINT" ]; then
-    red "没有找到 U 盘的挂载点。请重新插拔U盘再试试"
+# 查找USB设备分区
+USB_DEVICES=$(lsblk -o NAME,RM,TYPE | grep '1 part' | awk '{print $1}')
+
+if [ -z "$USB_DEVICES" ]; then
+    echo "未找到USB设备分区。"
     exit 1
 fi
 
-# 使用 df 来找到设备文件，这假设挂载点的路径不含空格
-DEVICE=$(df | grep "$AUTOMOUNT_POINT" | awk '{ print $1 }')
-if [ -z "$DEVICE" ]; then
-    yellow "无法找到 U 盘。"
-    exit 1
-fi
+# 遍历所有找到的USB设备分区
+for USB_DEVICE_PART in $USB_DEVICES; do
+    # 移除不必要的字符
+    CORRECTED_PART=$(echo $USB_DEVICE_PART | sed 's/[^a-zA-Z0-9]//g')
 
-# 此处设备路径已经找到，可以继续执行格式化和挂载等操作
-yellow "找到 U 盘设备：$DEVICE,挂载在:$AUTOMOUNT_POINT"
+    echo "找到USB设备分区: /dev/$CORRECTED_PART"
+    
+    # 检查USB设备分区是否已挂载,这是glinet自动挂载点 /tmp/mountd/diskX_partX
+    AUTOMOUNT_POINT=$(mount | grep "/dev/$CORRECTED_PART " | awk '{print $3}')
 
-# 卸载自动挂载的 U 盘
-umount $AUTOMOUNT_POINT
-
-# 检查并格式化 U 盘为 ext4
-FORMAT_DISK=$DEVICE  
-MOUNT_POINT="/mnt/upan_data"
-DOCKER_ROOT="$MOUNT_POINT/docker"
-
-echo "格式化 $FORMAT_DISK 为 ext4 ..."
-yellow "如果您确定要格式化U盘,请输入 y 来确认"
-if mkfs.ext4 $FORMAT_DISK; then
-    echo "U盘格式化成功。"
-else
-    red "U盘格式化失败,请确保刚才输入y确认。再次尝试需要重新插拔一次U盘"
-    exit 1
-fi
-
+    if [ -n "$AUTOMOUNT_POINT" ]; then
+        echo "设备分区已挂载在 $AUTOMOUNT_POINT,正在尝试卸载..."
+        # 停止docker服务 避免u盘占用
+        /etc/init.d/docker stop
+        sleep 2
+        umount /dev/$CORRECTED_PART
+        if [ $? -eq 0 ]; then
+            echo "卸载成功。"
+        else
+            echo "卸载失败，请检查设备是否正被使用。"
+            exit 1
+        fi
+    else
+        echo "设备分区未挂载。"
+    fi
+    
+    # 格式化分区为EXT4，你可以根据需要更改为其他文件系统类型
+    red "正在格式化U盘: /dev/$CORRECTED_PART 为 EXT4..."
+    mkfs.ext4 -F /dev/$CORRECTED_PART
+    
+    if [ $? -eq 0 ]; then
+        green "格式化成功。"
+    else
+        red "\n U盘格式化失败"
+        exit 1
+    fi
+done
 yellow "为Docker Root 创建挂载点..."
+USB_MOUNT_POINT="/mnt/upan_data"
+DOCKER_ROOT="$USB_MOUNT_POINT/docker"
 mkdir -p $DOCKER_ROOT
 
-echo "将挂载 U 盘到 $DOCKER_ROOT..."
-mount $FORMAT_DISK $MOUNT_POINT
+green "将挂载 U 盘到 $DOCKER_ROOT..."
+mount -t ext4 /dev/$CORRECTED_PART $USB_MOUNT_POINT
 
+# 检查挂载命令的退出状态
+if [ $? -ne 0 ]; then
+    red "挂载失败，脚本退出。"
+    exit 1
+fi
+green "U盘挂载成功啦\n"
 green "正在创建 Docker 配置文件 /etc/docker/daemon.json"
 mkdir -p /etc/docker
 echo '{
   "bridge": "docker0",
   "storage-driver": "overlay2",
   "data-root": "'$DOCKER_ROOT'"
-}' > /etc/docker/daemon.json
+}' >/etc/docker/daemon.json
 
 # 安装 Docker 和 dockerd
-green "正在安装 Docker..."
 opkg update
-opkg install luci-app-dockerman
-opkg install luci-i18n-dockerman-zh-cn
+green "正在安装 Docker及相关服务..."
+opkg install luci-app-dockerman >/dev/null 2>&1
+opkg install luci-i18n-dockerman-zh-cn >/dev/null 2>&1
 opkg install dockerd --force-depends >/dev/null 2>&1
-
+if [ $? -eq 0 ]; then
+    green "Docker 安装成功。"
+else
+    light_magenta "Docker 安装失败。"
+fi
 # 创建并配置启动脚本
-green "设置 Docker 跟随系统启动"
-cat << 'EOF' > /etc/init.d/docker
+green "正在设置 Docker 跟随系统启动"
+cat <<'EOF' >/etc/init.d/docker
 #!/bin/sh /etc/rc.common
 
 START=99
@@ -103,28 +131,51 @@ chmod +x /etc/init.d/docker
 green "设置开机挂载U盘后 再启动Docker"
 # 首先，备份 /etc/rc.local
 cp /etc/rc.local /etc/rc.local.backup
+# U盘分区 /dev/sdx
+USB_DEVICE_PART="/dev/$CORRECTED_PART"
+# glinet系统重启后的 USB自动挂载点
+SYSTEM_USB_AUTO_MOUNTPOINT="/tmp/mountd/disk1_part1"
+# 卸载USB自动挂载点 挂载自定义挂载点 /mnt/upan_data
+if ! grep -q "umount $SYSTEM_USB_AUTO_MOUNTPOINT" /etc/rc.local; then
+    sed -i '/exit 0/d' /etc/rc.local
 
-# 删除原有的 exit 0
-sed -i '/exit 0/d' /etc/rc.local
-
-# 将新的命令添加到 /etc/rc.local，然后再加上 exit 0
-{
-    echo "umount $AUTOMOUNT_POINT || true"
-    echo "mount $FORMAT_DISK $MOUNT_POINT || true"
-    echo "/etc/init.d/docker start || true"
-    echo "exit 0"
-} >> /etc/rc.local
+    # 将新的命令添加到 /etc/rc.local，然后再加上 exit 0
+    {
+        echo "umount $SYSTEM_USB_AUTO_MOUNTPOINT || true"
+        echo "mount $USB_DEVICE_PART $USB_MOUNT_POINT || true"
+        echo "/etc/init.d/docker start || true"
+        echo "exit 0"
+    } >>/etc/rc.local
+fi
 
 cat /etc/rc.local
 
 # 修改 /etc/config/dockerd 文件中的 data_root 配置
 sed -i "/option data_root/c\	option data_root '/mnt/upan_data/docker/'" /etc/config/dockerd
+# 重启dockerd
+/etc/init.d/docker restart
+sleep 2
+# 检查Docker是否正在运行
+if ! docker info >/dev/null 2>&1; then
+    red "Docker 启动失败"
+else
+    DOCKER_ROOT_DIR=$(docker info 2>&1 | grep -v "WARNING" | grep "Docker Root Dir" | awk '{print $4}')
+    light_magenta "当前Docker根目录为: $DOCKER_ROOT_DIR"
+    light_yellow "Docker根目录剩余空间:$(df -h $DOCKER_ROOT_DIR | awk 'NR==2{print $4}')"
+    green "OK,Docker启动成功,建议重启一次"
+fi
 
-yellow "Docker 部署完毕，请重启路由器来使更改生效。现在重启吗？(y/n)"
+yellow "Docker 部署完毕,重启路由器来验证Docker是否正常工作。现在重启吗?(y/n)"
 read -r answer
 if [ "$answer" = "y" ] || [ -z "$answer" ]; then
     yellow "正在重启路由器..."
     reboot
 else
-    echo "更改将在下次重启后生效。建议立刻重启"
+    # 检查Docker是否正在运行
+    if ! docker info >/dev/null 2>&1; then
+        yellow "您还没有启动Docker。"
+        exit 1
+    else
+        green "好吧,不重启也能用,建议先查看Docker根目录是否正确再开始使用。"
+    fi
 fi
