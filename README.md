@@ -36,7 +36,7 @@ wget -O gl-inet.sh https://raw.githubusercontent.com/wukongdaily/gl-inet-onescri
 ### 或者是备用仓库地址（内地可用）
 
 ```bash
-wget -O /tmp/gl-inet.sh https://gitee.com/wukongdaily/gl_onescript/raw/master/gl-inet.sh && chmod +x /tmp/gl-inet.sh && /tmp/gl-inet.sh
+wget -O gl-inet.sh https://gitee.com/wukongdaily/gl_onescript/raw/master/gl-inet.sh?$(date +%s) && chmod +x gl-inet.sh && ./gl-inet.sh
 ```
 ### 下次如何调用,在当前目录下执行
 ```bash
