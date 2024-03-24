@@ -67,7 +67,39 @@ https://github.com/wukongdaily/HowToUseSSH
 
 ### 辅助视频教程⬇️
 
+## 安装1panel 面板 来管理Docker 容器
 
+### 可以使用 docker离线包加载
+```bash
+https://pan.baidu.com/s/1Lm9dkXhvPionZPVXOBXCjw?pwd=1111
+
+```
+### 上传到U盘其他空间
+```bash
+docker load < /mnt/upan_data/1panel.tar
+```
+
+```bash
+docker run -d \
+    --name 1panel \
+    --restart always \
+    --network host \
+    -v /var/run/docker.sock:/var/run/docker.sock \
+    -v /www/data/1panel-data:/opt \
+    -e TZ=Asia/Shanghai \
+    moelin/1panel:latest
+```
+
+- 默认端口：10086
+- 默认账户：1panel
+- 默认密码：1panel_password
+- 默认入口：entrance
+
+## 访问地址
+```bash
+http://192.168.8.1:10086/entrance
+```
+  
 ## 🗂️ 引用项目
 
 本项目的开发参照了以下项目，感谢这些开源项目的作者：
