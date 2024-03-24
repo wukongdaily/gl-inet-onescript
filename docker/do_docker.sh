@@ -1,21 +1,21 @@
 #!/bin/sh
 red() {
-    echo -e "\033[31m\033[01m [WARNING] $1\033[0m"
+    echo -e "\033[31m\033[01m[WARNING] $1\033[0m"
 }
 green() {
-    echo -e "\033[32m\033[01m [INFO] $1\033[0m"
+    echo -e "\033[32m\033[01m[INFO] $1\033[0m"
 }
 yellow() {
-    echo -e "\033[33m\033[01m [NOTICE] $1\033[0m"
+    echo -e "\033[33m\033[01m[NOTICE] $1\033[0m"
 }
 blue() {
-    echo -e "\033[34m\033[01m [MESSAGE] $1\033[0m"
+    echo -e "\033[34m\033[01m[MESSAGE] $1\033[0m"
 }
 light_magenta() {
-    echo -e "\033[95m\033[01m [NOTICE] $1\033[0m"
+    echo -e "\033[95m\033[01m[NOTICE] $1\033[0m"
 }
 light_yellow() {
-    echo -e "\033[93m\033[01m [NOTICE] $1\033[0m"
+    echo -e "\033[93m\033[01m[NOTICE] $1\033[0m"
 }
 lsblk_url="https://raw.githubusercontent.com/wukongdaily/gl-inet-onescript/master/mt-6000/lsblk.ipk"
 install_lsblk() {
@@ -220,12 +220,14 @@ until docker info >/dev/null 2>&1; do
     fi
 done
 /etc/init.d/docker stop
-/etc/init.d/docker start
+yellow "正在重启Docker 守护进程...."
 sleep 2
-yellow "Docker 部署完毕,建议重启一次路由器"
+/etc/init.d/docker start
+sleep 5
+yellow "Docker 运行环境部署完毕,建议重启一次路由器"
 # 检查Docker是否正在运行
 if ! docker info >/dev/null 2>&1; then
-    red "Docker 启动失败"
+    red "Docker 启动失败,您可以手动启动docker 执行 /etc/init.d/docker start"
 else
     DOCKER_ROOT_DIR=$(docker info 2>&1 | grep -v "WARNING" | grep "Docker Root Dir" | awk '{print $4}')
     light_magenta "当前Docker根目录为: $DOCKER_ROOT_DIR"
@@ -242,7 +244,7 @@ else
             yellow "选择了不立即重启。请手动重启以应用更改。"
         fi
     else
-        green "Docker根目录 $DOCKER_ROOT_DIR 设置正确,您可以直接使用啦～"
+        green "设置正确,您可以直接使用啦～"
         light_yellow "不过为了验证下次启动docker的有效性 建议手动重启路由器一次 祝您使用愉快"
     fi
 fi
