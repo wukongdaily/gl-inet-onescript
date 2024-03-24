@@ -305,9 +305,9 @@ update_opkg_config() {
 		wget -O /etc/opkg/distfeeds.conf ${mt6000_opkg}
 		# 更换5.4.238 内核之后 缺少的依赖
 		mkdir -p /tmp/mt6000
-		wget -O /tmp/mt6000/script-utils.ipk "https://raw.githubusercontent.com/wukongdaily/gl-inet-onescript/master/mt-6000/script-utils.ipk"
-		wget -O /tmp/mt6000/mdadm.ipk "https://raw.githubusercontent.com/wukongdaily/gl-inet-onescript/master/mt-6000/mdadm.ipk"
-		wget -O /tmp/mt6000/lsblk.ipk "https://raw.githubusercontent.com/wukongdaily/gl-inet-onescript/master/mt-6000/lsblk.ipk"
+		wget -O /tmp/mt6000/script-utils.ipk "https://raw.githubusercontent.com/wukongdaily/gl-inet-onescript/master/mt-6000/script-utils.ipk?$(date +%s)"
+		wget -O /tmp/mt6000/mdadm.ipk "https://raw.githubusercontent.com/wukongdaily/gl-inet-onescript/master/mt-6000/mdadm.ipk?$(date +%s)"
+		wget -O /tmp/mt6000/lsblk.ipk "https://raw.githubusercontent.com/wukongdaily/gl-inet-onescript/master/mt-6000/lsblk.ipk?$(date +%s)"
 		opkg update
 		opkg install /tmp/mt6000/*.ipk
 		;;
