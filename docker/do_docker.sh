@@ -108,8 +108,8 @@ for USB_DEVICE_PART in $USB_DEVICES; do
     fi
 
     # 格式化分区为EXT4，你可以根据需要更改为其他文件系统类型
-    red "正在格式化U盘: /dev/$CORRECTED_PART 为 EXT4..."
-    mkfs.ext4 -F /dev/$CORRECTED_PART
+    red "正在格式化U盘: /dev/$CORRECTED_PART 为 EXT4... 请耐心等待..."
+    mkfs.ext4 -F /dev/$CORRECTED_PART >/dev/null 2>&1
 
     if [ $? -eq 0 ]; then
         green "格式化成功。"
@@ -141,18 +141,15 @@ echo '{
 }' >/etc/docker/daemon.json
 
 # 安装 Docker 和 dockerd
-opkg update
-green "正在安装 Docker及相关服务..."
+green "正在更新OPKG软件包..."
+opkg update >/dev/null 2>&1
+green "正在安装 Docker及相关服务...请耐心等待一会..."
 opkg install luci-app-dockerman >/dev/null 2>&1
 opkg install luci-i18n-dockerman-zh-cn >/dev/null 2>&1
 opkg install dockerd --force-depends >/dev/null 2>&1
-if [ $? -eq 0 ]; then
-    green "Docker 安装成功。"
-else
-    light_magenta "Docker 安装失败。"
-fi
+
 # 创建并配置启动脚本
-green "正在设置 Docker 跟随系统启动"
+green "正在设置 Docker 跟随系统启动的文件:/etc/init.d/docker"
 cat <<'EOF' >/etc/init.d/docker
 #!/bin/sh /etc/rc.common
 
@@ -183,7 +180,7 @@ chmod +x /etc/init.d/docker
 /etc/init.d/docker enable
 /etc/init.d/docker start
 
-green "设置开机挂载U盘后 再启动Docker"
+green "正在设置开机启动顺序的配置\n先挂载U盘,再启动Docker 修改/etc/rc.local后如下\n"
 # 首先，备份 /etc/rc.local
 cp /etc/rc.local /etc/rc.local.backup
 # U盘分区 /dev/sdx
@@ -207,6 +204,7 @@ cat /etc/rc.local
 
 # 修改 /etc/config/dockerd 文件中的 data_root 配置
 sed -i "/option data_root/c\	option data_root '/mnt/upan_data/docker/'" /etc/config/dockerd
+# 安装完毕后
 green "正在尝试启动Docker....请稍后"
 # 初始化计数器
 counter=0
@@ -221,6 +219,9 @@ until docker info >/dev/null 2>&1; do
         exit 1
     fi
 done
+/etc/init.d/docker stop
+/etc/init.d/docker start
+sleep 2
 yellow "Docker 部署完毕,建议重启一次路由器"
 # 检查Docker是否正在运行
 if ! docker info >/dev/null 2>&1; then
@@ -241,7 +242,8 @@ else
             yellow "选择了不立即重启。请手动重启以应用更改。"
         fi
     else
-        echo "Docker根目录设置正确。"
+        green "Docker根目录 $DOCKER_ROOT_DIR 设置正确,您可以直接使用啦～"
+        light_yellow "不过为了验证下次启动docker的有效性 建议手动重启路由器一次 祝您使用愉快"
     fi
 fi
 
