@@ -393,7 +393,7 @@ do_install_filemanager() {
 }
 #更新脚本
 update_myself() {
-    wget -O gl-inet.sh https://raw.githubusercontent.com/wukongdaily/gl-inet-onescript/master/gl-inet.sh && chmod +x gl-inet.sh
+    wget -O gl-inet.sh https://raw.githubusercontent.com/wukongdaily/gl-inet-onescript/master/gl-inet.sh?$(date +%s) && chmod +x gl-inet.sh
     echo "脚本已更新并保存在当前目录 gl-inet.sh,现在将执行新脚本。"
     ./gl-inet.sh
     exit 0
