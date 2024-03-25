@@ -15,15 +15,44 @@ get_router_name() {
 
 # 安装依赖应用
 install_depends_apps() {
-    blue "正在安装 部署docker环境所需的工具 lsblk 和 fdisk..."
-    local router_name=$(get_router_name)
-    opkg update >/dev/null 2>&1
-    if opkg install lsblk fdisk >/dev/null 2>&1; then
-        green "$router_name 的 lsblk 和 fdisk 工具安装成功。"
-    else
-        red "安装失败。"
-        exit 1
-    fi
+    blue "正在安装部署环境的所需要的工具 lsblk 和 fdisk ..."
+    router_name=$(get_router_name)
+    case "$router_name" in
+    *2500*|*3000*)
+        opkg update >/dev/null 2>&1
+        if opkg install lsblk fdisk >/dev/null 2>&1; then
+            green "$router_name 的 lsblk fdisk 工具 安装成功。"
+        else
+            red "安装失败。"
+            exit 1
+        fi
+        ;;
+    *6000*)
+        red "由于 mt6000 的软件源中没有找到 lsblk 和 fdisk ..."
+        yellow "因此先借用 mt3000 的软件源来安装 lsblk 和 fdisk 工具"
+        # 备份 /etc/opkg/distfeeds.conf
+        cp /etc/opkg/distfeeds.conf /etc/opkg/distfeeds.conf.backup
+        # 先替换为 mt3000 的软件源来安装 lsblk 和 fdisk 工具
+        mt3000_opkg="https://raw.githubusercontent.com/wukongdaily/gl-inet-onescript/master/mt-3000/distfeeds.conf"
+        wget -q -O /etc/opkg/distfeeds.conf ${mt3000_opkg}
+        green "正在更新为 mt3000 的软件源"
+        opkg update >/dev/null 2>&1
+        green "再次尝试安装 lsblk 和 fdisk 工具"
+        if opkg install lsblk fdisk >/dev/null 2>&1; then
+            green "$router_name 的 lsblk fdisk 工具 安装成功。"
+            # 还原软件源
+            cp /etc/opkg/distfeeds.conf.backup /etc/opkg/distfeeds.conf
+        else
+            red "安装失败。"
+            # 还原软件源
+            cp /etc/opkg/distfeeds.conf.backup /etc/opkg/distfeeds.conf
+            exit 1
+        fi
+        ;;
+    *)
+        echo "Router name does not contain '3000', '6000', or '2500'."
+        ;;
+    esac
 }
 
 # 准备USB设备
