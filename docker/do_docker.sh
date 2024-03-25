@@ -167,7 +167,7 @@ start_docker_and_check() {
         yellow "不过为了验证下次启动docker的有效性 建议手动重启路由器一次 祝您使用愉快\n"
         red "是否立即重启？(y/n)"
         read -r answer
-        if [ "$answer" = "y" ] || [ "$answer" = "Y" ]; then
+        if [ "$answer" = "y" ] || [ -z "$answer" ]; then
             red "正在重启..."
             reboot
         else
