@@ -17,124 +17,120 @@ light_magenta() {
 light_yellow() {
     echo -e "\033[93m\033[01m[NOTICE] $1\033[0m"
 }
-lsblk_url="https://raw.githubusercontent.com/wukongdaily/gl-inet-onescript/master/mt-6000/lsblk.ipk"
-install_lsblk() {
-    # 查找 lsblk 包
-    if opkg find lsblk | grep -q lsblk; then
-        # 检查 lsblk 是否已经安装
-        if opkg list-installed | grep -q lsblk; then
-            blue "系统已包含必备组件lsblk"
-        else
-            blue "正在安装查找USB设备所需要的依赖 lsblk ..."
-            opkg install lsblk >/dev/null 2>&1
-            # 再次验证安装是否成功
-            if opkg list-installed | grep -q lsblk; then
-                green "lsblk 安装成功."
-            else
-                red "lsblk 安装失败."
-                exit 1
-            fi
-        fi
-    else
-        echo "lsblk package not found, attempting to download and install from URL..."
-        mkdir -p /tmp/mt6000
-        wget -q -O /tmp/mt6000/lsblk.ipk $lsblk_url
-        opkg install /tmp/mt6000/lsblk.ipk >/dev/null 2>&1
-        if opkg list-installed | grep -q lsblk; then
-            green "formURL lsblk 安装成功."
-        else
-            red "formURL lsblk 安装失败."
-            exit 1
-        fi
-    fi
+
+##获取路由型号信息
+get_router_name() {
+    model_info=$(cat /tmp/sysinfo/model)
+    echo "$model_info"
 }
 
-format_usb(){
-    # 检查USB设备分区是否已挂载,这是glinet自动挂载点 /tmp/mountd/diskX_partX
-    AUTOMOUNT_POINT=$(mount | grep "/dev/$CORRECTED_PART " | awk '{print $3}')
-
-    if [ -n "$AUTOMOUNT_POINT" ]; then
-        echo "设备分区已挂载在 $AUTOMOUNT_POINT,正在尝试卸载..."
-        if
-            ! command -v docker &
-            >/dev/null
-        then
-            echo "Docker is not installed, skipping Docker stop procedure."
-            # 直接执行后续操作或退出
+# 安装必备工具lsblk和fdisk等
+install_depends_apps() {
+    blue "正在安装部署环境的所需要的工具 lsblk 和fdisk ..."
+    router_name=$(get_router_name)
+    case "$router_name" in
+    *3000*)
+        opkg update >/dev/null 2>&1
+        if opkg install lsblk fdisk >/dev/null 2>&1; then
+            green "$router_name 的 lsblk fdisk 工具 安装成功。"
         else
-            # 尝试停止 Docker 服务
-            /etc/init.d/docker stop
-
-            # 等待 docker 守护进程停止
-            while true; do
-                # 检查 docker 守护进程是否停止
-                if ! docker ps >/dev/null 2>&1; then
-                    echo "Docker daemon has stopped."
-                    break # 跳出循环
-                else
-                    echo "Waiting for Docker daemon to stop..."
-                    sleep 1 # 等待1秒再次检查
-                fi
-            done
-        fi
-        # 在此处执行卸载或其他操作
-        umount /dev/$CORRECTED_PART
-        if [ $? -eq 0 ]; then
-            echo "卸载成功。"
-        else
-            echo "卸载失败，请检查设备是否正被使用。"
+            red "安装失败。"
             exit 1
         fi
-    else
-        echo "设备分区未挂载。"
-    fi
+        ;;
+    *2500*)
+        opkg update >/dev/null 2>&1
+        if opkg install lsblk fdisk >/dev/null 2>&1; then
+            green "$router_name 的 lsblk fdisk 工具 安装成功。"
+        else
+            red "安装失败。"
+            exit 1
+        fi
+        ;;
+    *6000*)
+        red "由于 mt6000 的软件源中没有找到 lsblk 和fdisk ..."
+        yellow "因此先借用mt3000的软件源来安装lsblk 和fdisk工具"
+        # 备份 /etc/opkg/distfeeds.conf
+        cp /etc/opkg/distfeeds.conf /etc/opkg/distfeeds.conf.backup
+        # 先替换为mt3000的软件源来安装lsblk 和fdisk工具
+        mt3000_opkg="https://raw.githubusercontent.com/wukongdaily/gl-inet-onescript/master/mt-3000/distfeeds.conf"
+        wget -q -O /etc/opkg/distfeeds.conf ${mt3000_opkg}
+        green "正在更新为mt3000的软件源"
+        opkg update >/dev/null 2>&1
+        green "再次尝试安装 lsblk 和fdisk工具"
+        if opkg install lsblk fdisk >/dev/null 2>&1; then
+            green "$router_name 的 lsblk fdisk 工具 安装成功。"
+            #还原软件源
+            cp /etc/opkg/distfeeds.conf.backup /etc/opkg/distfeeds.conf
+        else
+            red "安装失败。"
+            #还原软件源
+            cp /etc/opkg/distfeeds.conf.backup /etc/opkg/distfeeds.conf
+            exit 1
+        fi
+        ;;
+    *)
+        echo "Router name does not contain '3000' 6000 or '2500'."
+        ;;
+    esac
+}
 
-    # 格式化分区为EXT4，你可以根据需要更改为其他文件系统类型
-    red "正在格式化U盘: /dev/$CORRECTED_PART 为 EXT4... 请耐心等待..."
-    red "通常情况 U盘越大格式化时间会越久一些"
-    mkfs.ext4 -F -E lazy_itable_init=1,lazy_journal_init=1 /dev/$CORRECTED_PART >/dev/null 2>&1
+# START
+install_depends_apps
+green "现在开始查找USB设备分区,请稍后......"
+# 自动识别第一个可移除的USB磁盘
+USB_DISK=$(lsblk -dn -o NAME,RM,TYPE | awk '$2=="1" && $3=="disk" {print "/dev/"$1; exit}')
+if [ -z "$USB_DISK" ]; then
+    echo "未找到USB磁盘。"
+    exit 1
+fi
+yellow "找到USB磁盘：$USB_DISK"
 
-    if [ $? -eq 0 ]; then
-        green "格式化成功。"
-    else
-        red "\n U盘格式化失败"
+# 卸载所有与该磁盘相关的挂载点
+for mount in $(mount | grep "$USB_DISK" | awk '{print $3}'); do
+    yellow "正在尝试卸载U盘挂载点：$mount"
+    if ! umount $mount; then
+        red "警告：无法卸载挂载点 $mount。可能有文件正在被访问或权限不足。"
         exit 1
+    else
+        green "U盘挂载点 $mount 卸载成功。"
     fi
-}
-green "正在更新软件包,请稍后......"
-green "正在查找USB设备分区,请稍后......"
-opkg update >/dev/null 2>&1
-install_lsblk
-
-# 查找USB设备分区
-USB_DEVICES=$(lsblk -o NAME,RM,TYPE -dn | awk '/1/ && !/mmcblk/ && $3=="disk" {print $1}')
-
-for device in $USB_DEVICES; do
-  # 检查该设备下是否存在分区
-  PARTITIONS=$(lsblk -o NAME,TYPE -dn | grep "^${device}" | awk '$2=="part" {print $1}')
-  if [ -n "$PARTITIONS" ]; then
-    # 如果存在分区，则仅处理这些分区
-    for part in $PARTITIONS; do
-      FORMAT_TARGET=$part
-    done
-  else
-    # 如果没有分区，直接处理整个磁盘
-    FORMAT_TARGET=$device
-  fi
-  CORRECTED_PART=$(echo $FORMAT_TARGET | sed 's/[^a-zA-Z0-9]//g')
-  echo "找到USB设备分区: /dev/$CORRECTED_PART"
-  format_usb
 done
 
+red "正在重新分区并格式化$USB_DISK..."
+# 使用fdisk清除所有分区并创建一个新的主分区
+{
+    echo o # 创建一个新的空DOS分区表
+    echo n # 添加一个新分区
+    echo p # 主分区
+    echo 1 # 分区号1
+    echo   # 第一个可用扇区（默认）
+    echo   # 最后一个扇区（默认，使用剩余空间）
+    echo w # 写入并退出
+} | fdisk $USB_DISK >/dev/null 2>&1
+
+# 等待磁盘分区表更新
+sleep 5
+
+# 格式化新分区为EXT4文件系统
+NEW_PARTITION="${USB_DISK}1"
+red "正在将U盘 $NEW_PARTITION 格式化为EXT4文件系统..."
+mkfs.ext4 -F $NEW_PARTITION >/dev/null 2>&1
+green "$NEW_PARTITION 已成功格式化为EXT4文件系统。"
+
+# 卸载所有与该磁盘相关的挂载点
+for mount in $(mount | grep "$USB_DISK" | awk '{print $3}'); do
+    echo "再次卸载U盘的自动挂载点：$mount"
+    umount $mount
+done
 
 yellow "为Docker Root 创建挂载点..."
 USB_MOUNT_POINT="/mnt/upan_data"
 DOCKER_ROOT="$USB_MOUNT_POINT/docker"
 mkdir -p $DOCKER_ROOT
 
-green "将挂载 U 盘到 $DOCKER_ROOT..."
-mount -t ext4 /dev/$CORRECTED_PART $USB_MOUNT_POINT
-
+green "将U盘 挂载到 $USB_MOUNT_POINT..."
+mount -t ext4 $NEW_PARTITION $USB_MOUNT_POINT
 # 检查挂载命令的退出状态
 if [ $? -ne 0 ]; then
     red "挂载失败，脚本退出。"
@@ -150,7 +146,7 @@ echo '{
 }' >/etc/docker/daemon.json
 
 # 安装 Docker 和 dockerd
-green "正在更新OPKG软件包..."
+green "正在更新 OPKG 软件包..."
 opkg update >/dev/null 2>&1
 green "正在安装 Docker及相关服务...请耐心等待一会...大约需要1分钟\n"
 opkg install luci-app-dockerman >/dev/null 2>&1
@@ -189,11 +185,10 @@ chmod +x /etc/init.d/docker
 /etc/init.d/docker enable
 /etc/init.d/docker start
 
-green "正在设置开机启动顺序的配置\n先挂载U盘,再启动Docker 修改/etc/rc.local后如下\n"
+green "正在设置开机启动顺序的配置\n\n先挂载U盘,再启动Docker 修改/etc/rc.local后如下\n"
 # 首先，备份 /etc/rc.local
 cp /etc/rc.local /etc/rc.local.backup
-# U盘分区 /dev/sdx
-USB_DEVICE_PART="/dev/$CORRECTED_PART"
+# U盘分区 /dev/sdx=$NEW_PARTITION
 # glinet系统重启后的 USB自动挂载点
 SYSTEM_USB_AUTO_MOUNTPOINT="/tmp/mountd/disk1_part1"
 # 卸载USB自动挂载点 挂载自定义挂载点 /mnt/upan_data
@@ -203,7 +198,7 @@ if ! grep -q "umount $SYSTEM_USB_AUTO_MOUNTPOINT" /etc/rc.local; then
     # 将新的命令添加到 /etc/rc.local，然后再加上 exit 0
     {
         echo "umount $SYSTEM_USB_AUTO_MOUNTPOINT || true"
-        echo "mount $USB_DEVICE_PART $USB_MOUNT_POINT || true"
+        echo "mount $NEW_PARTITION $USB_MOUNT_POINT || true"
         echo "/etc/init.d/docker start || true"
         echo "exit 0"
     } >>/etc/rc.local
@@ -233,7 +228,8 @@ yellow "正在重启Docker 守护进程...."
 sleep 2
 /etc/init.d/docker start
 sleep 5
-yellow "Docker 运行环境部署完毕,建议重启一次路由器"
+green "Docker 运行环境部署完毕"
+yellow "正在帮您启动Docker....若出现卡住现象 20s都没反应。建议手动重启路由器"
 # 检查Docker是否正在运行
 if ! docker info >/dev/null 2>&1; then
     red "Docker 启动失败,您可以手动启动docker 执行 /etc/init.d/docker start"
@@ -245,7 +241,7 @@ else
     if [ "$DOCKER_ROOT_DIR" = "/opt/docker" ]; then
         yellow "虽然Docker启动成功了,但是Docker根目录不正确 $DOCKER_ROOT_DIR 。建议立即重启以修正。"
     else
-        green "设置正确,您可以直接使用啦～"
+        green "Docker启动成功并设置正确,您可以直接使用啦～\n"
         light_yellow "不过为了验证下次启动docker的有效性 建议手动重启路由器一次 祝您使用愉快"
     fi
     echo
