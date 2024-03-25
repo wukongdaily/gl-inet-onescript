@@ -145,6 +145,8 @@ install_docker() {
     opkg install luci-app-dockerman >/dev/null 2>&1
     opkg install luci-i18n-dockerman-zh-cn >/dev/null 2>&1
     opkg install dockerd --force-depends >/dev/null 2>&1
+    # 修改 /etc/config/dockerd 文件中的 data_root 配置
+    sed -i "/option data_root/c\	option data_root '/mnt/upan_data/docker/'" /etc/config/dockerd
 }
 
 # 配置 Docker 开机启动
@@ -200,35 +202,7 @@ EOF
     fi
 
     cat /etc/rc.local
-
-    # 修改 /etc/config/dockerd 文件中的 data_root 配置
-    sed -i "/option data_root/c\	option data_root '/mnt/upan_data/docker/'" /etc/config/dockerd
-    # 安装完毕后
-    yellow "正在帮您启动Docker....若出现卡住现象 20s都没反应。建议手动重启路由器"
-    /etc/init.d/docker start
-    # 初始化计数器
-    counter=0
-    # 循环检查 Docker 守护进程是否已经启动
-    until docker info >/dev/null 2>&1; do
-        counter=$((counter + 1))
-        echo "Waiting for Docker daemon to start..."
-        sleep 1
-        # 如果等待时间达到10秒，则跳出循环
-        if [ $counter -eq 10 ]; then
-            red "Docker 启动失败或超时,您可以手动启动docker 执行 /etc/init.d/docker start"
-            exit 1
-        fi
-    done
-    check_docker_info
-}
-
-# 启动 Docker 并检查
-check_docker_info() {
-    green "Docker 启动成功并设置正确,您可以直接使用啦～\n"
-    DOCKER_ROOT_DIR=$(docker info 2>&1 | grep -v "WARNING" | grep "Docker Root Dir" | awk '{print $4}')
-    light_magenta "当前Docker根目录为: $DOCKER_ROOT_DIR"
-    light_yellow "Docker根目录剩余空间:$(df -h $DOCKER_ROOT_DIR | awk 'NR==2{print $4}')"
-    yellow "不过为了验证下次启动docker的有效性 建议手动重启路由器一次 祝您使用愉快\n"
+    green "Docker 运行环境部署完成 重启后生效\n"
     red "是否立即重启？(y/n)"
     read -r answer
     if [ "$answer" = "y" ] || [ -z "$answer" ]; then
