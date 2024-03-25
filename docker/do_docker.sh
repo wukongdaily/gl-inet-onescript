@@ -85,7 +85,9 @@ if [ -z "$USB_DISK" ]; then
     exit 1
 fi
 yellow "找到USB磁盘：$USB_DISK"
-
+# 清零磁盘开始部分以清除分区表和文件系统签名
+dd if=/dev/zero of=$USB_DISK bs=1M count=10
+sync
 # 卸载所有与该磁盘相关的挂载点
 for mount in $(mount | grep "$USB_DISK" | awk '{print $3}'); do
     yellow "正在尝试卸载U盘挂载点：$mount"
