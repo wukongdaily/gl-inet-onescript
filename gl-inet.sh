@@ -496,7 +496,6 @@ while true; do
 		;;
 	11)
 		yellow "注意!插入U盘之前请确认U盘数据已备份"
-		red "如果U盘安装过其他系统或者做过引导盘\n最好先在电脑处理为一个单独分区"
 		red "确定要继续吗(y|n)"
 		read -r answer
 		if [ "$answer" = "y" ] || [ -z "$answer" ]; then
