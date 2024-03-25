@@ -56,7 +56,9 @@ install_lsblk
 # 查找USB设备分区
 #USB_DEVICES=$(lsblk -o NAME,RM,TYPE | grep '1 part' | awk '{print $1}')
 #USB_DEVICES=$(lsblk -o NAME,RM,TYPE | awk '/1/ && /disk|part/ {print $1}')
-USB_DEVICES=$(lsblk -o NAME,RM,TYPE | awk '/1/ && /disk|part/ && !/mmcblk/ {print $1}')
+#USB_DEVICES=$(lsblk -o NAME,RM,TYPE | awk '/1/ && /disk|part/ && !/mmcblk/ {print $1}')
+USB_DEVICES=$(lsblk -o NAME,RM,TYPE | awk '/1/ && !/mmcblk/ && ($3=="disk" || $3=="part") {print $1}')
+
 
 if [ -z "$USB_DEVICES" ]; then
     echo "未找到USB设备分区。"
