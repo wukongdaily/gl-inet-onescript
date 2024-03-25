@@ -77,6 +77,7 @@ create_and_format_partition() {
     red "正在将U盘 $new_partition 格式化为EXT4文件系统..."
     mkfs.ext4 -F $new_partition >/dev/null 2>&1
     green "$new_partition 已成功格式化为EXT4文件系统。"
+    configure_and_start_docker $new_partition
 }
 
 # 配置并启动Docker
@@ -175,7 +176,6 @@ start_docker_and_check() {
     fi
 }
 
-# 主执行流程
+# START
 install_depends_apps
 prepare_usb_device
-configure_and_start_docker "${USB_DISK}1"
