@@ -48,13 +48,15 @@ install_lsblk() {
         fi
     fi
 }
-
+green "正在更新软件包,请稍后......"
 green "正在查找USB设备分区,请稍后......"
 opkg update >/dev/null 2>&1
 install_lsblk
 
 # 查找USB设备分区
-USB_DEVICES=$(lsblk -o NAME,RM,TYPE | grep '1 part' | awk '{print $1}')
+#USB_DEVICES=$(lsblk -o NAME,RM,TYPE | grep '1 part' | awk '{print $1}')
+#USB_DEVICES=$(lsblk -o NAME,RM,TYPE | awk '/1/ && /disk|part/ {print $1}')
+USB_DEVICES=$(lsblk -o NAME,RM,TYPE | awk '/1/ && /disk|part/ && !/mmcblk/ {print $1}')
 
 if [ -z "$USB_DEVICES" ]; then
     echo "未找到USB设备分区。"
@@ -109,6 +111,7 @@ for USB_DEVICE_PART in $USB_DEVICES; do
 
     # 格式化分区为EXT4，你可以根据需要更改为其他文件系统类型
     red "正在格式化U盘: /dev/$CORRECTED_PART 为 EXT4... 请耐心等待..."
+    red "通常情况 U盘越大格式化时间会越久一些"
     mkfs.ext4 -F -E lazy_itable_init=1,lazy_journal_init=1 /dev/$CORRECTED_PART >/dev/null 2>&1
 
     if [ $? -eq 0 ]; then
@@ -235,17 +238,17 @@ else
     # 检查DOCKER_ROOT_DIR是否为"/opt/docker"
     if [ "$DOCKER_ROOT_DIR" = "/opt/docker" ]; then
         yellow "虽然Docker启动成功了,但是Docker根目录不正确 $DOCKER_ROOT_DIR 。建议立即重启以修正。"
-        red "是否立即重启？(y/n)"
-        read -r answer
-        if [ "$answer" = "y" ] || [ "$answer" = "Y" ]; then
-            red "正在重启..."
-            reboot
-        else
-            yellow "选择了不立即重启。请手动重启以应用更改。"
-        fi
     else
         green "设置正确,您可以直接使用啦～"
         light_yellow "不过为了验证下次启动docker的有效性 建议手动重启路由器一次 祝您使用愉快"
     fi
+    echo
+    red "是否立即重启？(y/n)"
+    read -r answer
+    if [ "$answer" = "y" ] || [ "$answer" = "Y" ]; then
+        red "正在重启..."
+        reboot
+    else
+        yellow "您选择了不重启"
+    fi
 fi
-
