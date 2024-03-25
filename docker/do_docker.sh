@@ -48,30 +48,8 @@ install_lsblk() {
         fi
     fi
 }
-green "正在更新软件包,请稍后......"
-green "正在查找USB设备分区,请稍后......"
-opkg update >/dev/null 2>&1
-install_lsblk
 
-# 查找USB设备分区
-#USB_DEVICES=$(lsblk -o NAME,RM,TYPE | grep '1 part' | awk '{print $1}')
-#USB_DEVICES=$(lsblk -o NAME,RM,TYPE | awk '/1/ && /disk|part/ {print $1}')
-#USB_DEVICES=$(lsblk -o NAME,RM,TYPE | awk '/1/ && /disk|part/ && !/mmcblk/ {print $1}')
-USB_DEVICES=$(lsblk -o NAME,RM,TYPE | awk '/1/ && !/mmcblk/ && ($3=="disk" || $3=="part") {print $1}')
-
-
-if [ -z "$USB_DEVICES" ]; then
-    echo "未找到USB设备分区。"
-    exit 1
-fi
-
-# 遍历所有找到的USB设备分区
-for USB_DEVICE_PART in $USB_DEVICES; do
-    # 移除不必要的字符
-    CORRECTED_PART=$(echo $USB_DEVICE_PART | sed 's/[^a-zA-Z0-9]//g')
-
-    echo "找到USB设备分区: /dev/$CORRECTED_PART"
-
+format_usb(){
     # 检查USB设备分区是否已挂载,这是glinet自动挂载点 /tmp/mountd/diskX_partX
     AUTOMOUNT_POINT=$(mount | grep "/dev/$CORRECTED_PART " | awk '{print $3}')
 
@@ -122,7 +100,33 @@ for USB_DEVICE_PART in $USB_DEVICES; do
         red "\n U盘格式化失败"
         exit 1
     fi
+}
+green "正在更新软件包,请稍后......"
+green "正在查找USB设备分区,请稍后......"
+opkg update >/dev/null 2>&1
+install_lsblk
+
+# 查找USB设备分区
+USB_DEVICES=$(lsblk -o NAME,RM,TYPE -dn | awk '/1/ && !/mmcblk/ && $3=="disk" {print $1}')
+
+for device in $USB_DEVICES; do
+  # 检查该设备下是否存在分区
+  PARTITIONS=$(lsblk -o NAME,TYPE -dn | grep "^${device}" | awk '$2=="part" {print $1}')
+  if [ -n "$PARTITIONS" ]; then
+    # 如果存在分区，则仅处理这些分区
+    for part in $PARTITIONS; do
+      FORMAT_TARGET=$part
+    done
+  else
+    # 如果没有分区，直接处理整个磁盘
+    FORMAT_TARGET=$device
+  fi
+  CORRECTED_PART=$(echo $FORMAT_TARGET | sed 's/[^a-zA-Z0-9]//g')
+  echo "找到USB设备分区: /dev/$CORRECTED_PART"
+  format_usb
 done
+
+
 yellow "为Docker Root 创建挂载点..."
 USB_MOUNT_POINT="/mnt/upan_data"
 DOCKER_ROOT="$USB_MOUNT_POINT/docker"
