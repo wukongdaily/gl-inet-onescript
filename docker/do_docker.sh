@@ -18,7 +18,7 @@ install_depends_apps() {
     blue "正在安装部署环境的所需要的工具 lsblk 和 fdisk ..."
     router_name=$(get_router_name)
     case "$router_name" in
-    *2500*|*3000*)
+    *2500* | *3000*)
         opkg update >/dev/null 2>&1
         if opkg install lsblk fdisk >/dev/null 2>&1; then
             green "$router_name 的 lsblk fdisk 工具 安装成功。"
@@ -134,7 +134,7 @@ configure_and_start_docker() {
 
     install_docker
     configure_docker_to_start_on_boot "$new_partition" "$usb_mount_point"
-    start_docker_and_check
+
 }
 
 # 安装 Docker 和 dockerd
@@ -180,28 +180,62 @@ EOF
 
     chmod +x /etc/init.d/docker
     /etc/init.d/docker enable
+
+    green "正在设置开机启动顺序的配置\n\n先挂载U盘,再启动Docker 修改/etc/rc.local后如下\n"
+    # 首先，备份 /etc/rc.local
+    cp /etc/rc.local /etc/rc.local.backup
+    # glinet系统重启后的 USB自动挂载点
+    SYSTEM_USB_AUTO_MOUNTPOINT="/tmp/mountd/disk1_part1"
+    # 卸载USB自动挂载点 挂载自定义挂载点 /mnt/upan_data
+    if ! grep -q "umount $SYSTEM_USB_AUTO_MOUNTPOINT" /etc/rc.local; then
+        sed -i '/exit 0/d' /etc/rc.local
+
+        # 将新的命令添加到 /etc/rc.local，然后再加上 exit 0
+        {
+            echo "umount $SYSTEM_USB_AUTO_MOUNTPOINT || true"
+            echo "mount $new_partition $usb_mount_point || true"
+            echo "/etc/init.d/docker start || true"
+            echo "exit 0"
+        } >>/etc/rc.local
+    fi
+
+    cat /etc/rc.local
+
+    # 修改 /etc/config/dockerd 文件中的 data_root 配置
+    sed -i "/option data_root/c\	option data_root '/mnt/upan_data/docker/'" /etc/config/dockerd
+    # 安装完毕后
+    yellow "正在帮您启动Docker....若出现卡住现象 20s都没反应。建议手动重启路由器"
+    /etc/init.d/docker start
+    # 初始化计数器
+    counter=0
+    # 循环检查 Docker 守护进程是否已经启动
+    until docker info >/dev/null 2>&1; do
+        counter=$((counter + 1))
+        echo "Waiting for Docker daemon to start..."
+        sleep 1
+        # 如果等待时间达到10秒，则跳出循环
+        if [ $counter -eq 10 ]; then
+            red "Docker 启动失败或超时,您可以手动启动docker 执行 /etc/init.d/docker start"
+            exit 1
+        fi
+    done
+    check_docker_info
 }
 
 # 启动 Docker 并检查
-start_docker_and_check() {
-    /etc/init.d/docker start
-    sleep 5
-    if ! docker info >/dev/null 2>&1; then
-        red "Docker 启动失败,您可以手动启动docker 执行 /etc/init.d/docker start"
+check_docker_info() {
+    green "Docker 启动成功并设置正确,您可以直接使用啦～\n"
+    DOCKER_ROOT_DIR=$(docker info 2>&1 | grep -v "WARNING" | grep "Docker Root Dir" | awk '{print $4}')
+    light_magenta "当前Docker根目录为: $DOCKER_ROOT_DIR"
+    light_yellow "Docker根目录剩余空间:$(df -h $DOCKER_ROOT_DIR | awk 'NR==2{print $4}')"
+    yellow "不过为了验证下次启动docker的有效性 建议手动重启路由器一次 祝您使用愉快\n"
+    red "是否立即重启？(y/n)"
+    read -r answer
+    if [ "$answer" = "y" ] || [ -z "$answer" ]; then
+        red "正在重启..."
+        reboot
     else
-        green "Docker 启动成功并设置正确,您可以直接使用啦～\n"
-        DOCKER_ROOT_DIR=$(docker info 2>&1 | grep -v "WARNING" | grep "Docker Root Dir" | awk '{print $4}')
-        light_magenta "当前Docker根目录为: $DOCKER_ROOT_DIR"
-        light_yellow "Docker根目录剩余空间:$(df -h $DOCKER_ROOT_DIR | awk 'NR==2{print $4}')"
-        yellow "不过为了验证下次启动docker的有效性 建议手动重启路由器一次 祝您使用愉快\n"
-        red "是否立即重启？(y/n)"
-        read -r answer
-        if [ "$answer" = "y" ] || [ -z "$answer" ]; then
-            red "正在重启..."
-            reboot
-        else
-            yellow "您选择了不重启"
-        fi
+        yellow "您选择了不重启"
     fi
 }
 
