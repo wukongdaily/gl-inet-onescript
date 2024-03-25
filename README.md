@@ -67,7 +67,8 @@ https://github.com/wukongdaily/HowToUseSSH
 
 ### 辅助视频教程⬇️
 
-## 安装1panel 面板 来管理Docker 容器
+# Docker面板的选择
+## 🔑 安装1panel 面板 来管理Docker 容器
 
 ### 可以使用 docker离线包加载
 ```bash
@@ -98,6 +99,12 @@ docker run -d \
 ## 访问地址
 ```bash
 http://192.168.8.1:10086/entrance
+```
+
+## 🔑 安装Fast OS面板 来管理Docker 容器
+```bash
+docker run --name fastos
+--restart always -p 8081:8081 -p 8082:8082 -d -v /var/run/docker.sock:/var/run/docker.sock -v /etc/docker/:/etc/docker/ -v /root/data:/fast/data -e FAST_STORE=http://dockernb.com:8300  wangbinxingkong/fast:latest
 ```
   
 ## 🗂️ 引用项目
