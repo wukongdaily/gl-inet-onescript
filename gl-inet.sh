@@ -433,7 +433,7 @@ while true; do
 	echo " 8. 更新luci-app-quickstart"
 	echo " 9. 安装Argon紫色主题"
 	echo "10. 安装文件管理器"
-	light_magenta "11. 安装Docker(开发中)"
+	light_magenta "11. 安装Docker"
 	echo "12. 安装Docker Compose(开发中)"
 	light_magenta "13. 更新脚本"
 	echo
@@ -495,17 +495,8 @@ while true; do
 		do_install_filemanager
 		;;
 	11)
-		yellow "开发中......"
-		;;
-	12)
-		yellow "开发中......"
-		;;
-	13)
-		update_myself
-		;;
-	k | K)
 		yellow "注意!插入U盘之前请确认U盘数据已备份"
-		yellow "如果U盘安装过其他系统或者做过引导盘\n请先在电脑处理为一个单独分区"
+		red "如果U盘安装过其他系统或者做过引导盘\n请先在电脑处理为一个单独分区"
 		red "确定要继续吗(y|n)"
 		read -r answer
 		if [ "$answer" = "y" ] || [ -z "$answer" ]; then
@@ -513,6 +504,12 @@ while true; do
 		else
 			yellow "已退出Docker安装流程"
 		fi
+		;;
+	12)
+		yellow "开发中......"
+		;;
+	13)
+		update_myself
 		;;
 	q | Q)
 		echo "退出"
