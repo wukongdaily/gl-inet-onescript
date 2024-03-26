@@ -108,6 +108,10 @@ http://192.168.8.1:10086/entrance
 docker run --name fastos
 --restart always -p 8081:8081 -p 8082:8082 -d -v /var/run/docker.sock:/var/run/docker.sock -v /etc/docker/:/etc/docker/ -v /root/data:/fast/data -e FAST_STORE=http://dockernb.com:8300  wangbinxingkong/fast:latest
 ```
+### Fast OS 面板离线包
+```bash
+https://pan.baidu.com/s/1S5jxahCzE-HyIa-mUvOcZQ?pwd=1111
+```
   
 ## 🗂️ 引用项目
 
