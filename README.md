@@ -44,26 +44,25 @@ wget -O gl-inet.sh https://gitee.com/wukongdaily/gl_onescript/raw/master/gl-inet
 ```bash
 sh gl-inet.sh
 ```
+### 2.单独安装Docker
+```bash
+wget -O do_docker.sh https://raw.githubusercontent.com/wukongdaily/gl-inet-onescript/master/docker/do_docker.sh?$(date +%s) && chmod +x do_docker.sh && ./do_docker.sh
+```
 
-
-### 2.单独安装iStore商店
+### 3.单独安装iStore商店
 ```bash
 wget -O /tmp/reinstall_istore.sh https://gitee.com/wukongdaily/gl_onescript/raw/master/reinstall_istore.sh && chmod +x /tmp/reinstall_istore.sh && /tmp/reinstall_istore.sh
 
 ```
 
-### 3.单独安装文件管理器
+### 4.单独安装文件管理器
 ```bash
 wget -O /tmp/reinstall_istore.sh https://gitee.com/wukongdaily/gl_onescript/raw/master/reinstall_istore.sh && chmod +x /tmp/reinstall_istore.sh && /tmp/reinstall_istore.sh
 /tmp/is-opkg install app-meta-linkease
 
 ```
 
-### 4.单独安装Docker
-```bash
-开发中...
 
-```
 ### 5.新手ssh连接注意事项
 https://github.com/wukongdaily/HowToUseSSH
 
