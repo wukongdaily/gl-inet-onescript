@@ -67,7 +67,7 @@ wget -O /tmp/reinstall_istore.sh https://gitee.com/wukongdaily/gl_onescript/raw/
 https://github.com/wukongdaily/HowToUseSSH
 
 ### 辅助视频教程⬇️
-
+https://www.bilibili.com/video/BV1YJ4m1L7A3/
 # Docker面板的选择
 ## 🔑 安装1panel 面板 来管理Docker 容器
 
@@ -126,6 +126,6 @@ https://pan.baidu.com/s/1S5jxahCzE-HyIa-mUvOcZQ?pwd=1111
 ### istore
 https://github.com/linkease/istore
 
-
+![mt3000](https://github.com/wukongdaily/gl-inet-onescript/assets/143675923/0ff6cb12-0812-4198-b97b-30698da6a8c4)
 
 
