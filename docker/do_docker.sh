@@ -34,11 +34,12 @@ install_depends_apps() {
         cp /etc/opkg/distfeeds.conf /etc/opkg/distfeeds.conf.backup
         # 先替换为 mt3000 的软件源来安装 lsblk 和 fdisk 工具
         mt3000_opkg="https://raw.githubusercontent.com/wukongdaily/gl-inet-onescript/master/mt-3000/distfeeds.conf"
-        wget -q -O /etc/opkg/distfeeds.conf ${mt3000_opkg}
+        wget -O /etc/opkg/distfeeds.conf ${mt3000_opkg}
         green "正在更新为 mt3000 的软件源"
-        opkg update >/dev/null 2>&1
+        cat /etc/opkg/distfeeds.conf
+        opkg update
         green "再次尝试安装 lsblk 和 fdisk 工具"
-        if opkg install lsblk fdisk >/dev/null 2>&1; then
+        if opkg install fdisk lsblk; then
             green "$router_name 的 lsblk fdisk 工具 安装成功。"
             # 还原软件源
             cp /etc/opkg/distfeeds.conf.backup /etc/opkg/distfeeds.conf
