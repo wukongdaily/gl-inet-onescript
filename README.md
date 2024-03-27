@@ -73,7 +73,9 @@ https://www.bilibili.com/video/BV1YJ4m1L7A3/
 
 ### 可以使用 docker离线包加载
 ```bash
-https://pan.baidu.com/s/1Zh913sP6rZWXmhC_rKjWQA?pwd=1111
+国内地址 https://pan.baidu.com/s/1Zh913sP6rZWXmhC_rKjWQA?pwd=1111
+
+备选地址 https://drive.google.com/drive/folders/15HL-lHxW9J74Fwwebrg0lMjRsenScWnO
 ```
 ### 上传到U盘其他空间(这里注意是/mnt/upan_data)
 ```bash
