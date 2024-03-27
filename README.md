@@ -73,12 +73,11 @@ https://www.bilibili.com/video/BV1YJ4m1L7A3/
 
 ### 可以使用 docker离线包加载
 ```bash
-https://pan.baidu.com/s/1Lm9dkXhvPionZPVXOBXCjw?pwd=1111
-
+https://pan.baidu.com/s/1Zh913sP6rZWXmhC_rKjWQA?pwd=1111
 ```
-### 上传到U盘其他空间
+### 上传到U盘其他空间(这里注意是/mnt/upan_data)
 ```bash
-docker load < /mnt/upan_data/1panel.tar
+docker load < /mnt/upan_data/1panel-arm64.tar.gz
 ```
 
 ```bash
