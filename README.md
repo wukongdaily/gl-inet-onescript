@@ -21,7 +21,7 @@
 - 🌏 支持`一键安装Docker Compose(开发中)`
 - 🐋 支持`一键安装GL原厂adguardhome`
 - 📕 支持`一键恢复原厂的OPKG软件源`
-- ❓ 其他功能和特点会持续迭代
+- 💡 使用条件：GL-iNet 原厂固件（非测试版、预览版）
 - GL-inet MT-6000✅
 - GL-inet MT-3000 ✅
 - GL-inet MT-2500 ✅
