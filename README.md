@@ -138,3 +138,8 @@ docker run -d \
   -e PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/lib/android-sdk/platform-tools \
   wukongdaily/box:latest
 ```
+# 常见问题
+- 1、如果你发现运行容器后,访问docker容器的web界面之后，路由器的指示灯发生闪烁，不用慌，其实没有断网。
+  wan口网线拔了再插上就好了。其实不处理也无所谓的。闪烁也不代表没有网络。不准确的。
+- 2、如果你发现运行容器后,访问不了docker容器的web界面。一般重启路由器就能解决。
+- 3、请注意为了节省路由器空间,平时上传文件 最好是上传到 /mnt/upan_data 这个目录下。因为这是U盘空间，比较大。
