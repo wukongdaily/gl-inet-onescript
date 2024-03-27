@@ -127,4 +127,14 @@ https://github.com/linkease/istore
 
 ![mt3000](https://github.com/wukongdaily/gl-inet-onescript/assets/143675923/0ff6cb12-0812-4198-b97b-30698da6a8c4)
 
-
+# 其他docker举例 盒子助手docker版
+```bash
+docker run -d \
+  --restart unless-stopped \
+  --name tvhelper \
+  -p 2299:22 \
+  -p 2288:80 \
+  -v "/mnt/upan_data/tvhelper_data:/tvhelper/shells/data" \
+  -e PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/lib/android-sdk/platform-tools \
+  wukongdaily/box:latest
+```
