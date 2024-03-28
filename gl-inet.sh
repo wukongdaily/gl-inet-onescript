@@ -404,6 +404,65 @@ update_myself() {
 	exit 0
 }
 
+#根据release地址和命名前缀获取apk地址
+get_docker_compose_url() {
+	if [ $# -eq 0 ]; then
+		echo "需要提供GitHub releases页面的URL作为参数。"
+		return 1
+	fi
+	local releases_url=$1
+	# 使用curl获取重定向的URL
+	latest_url=$(curl -Ls -o /dev/null -w "%{url_effective}" "$releases_url")
+	# 使用sed从URL中提取tag值,并保留前导字符'v'
+	tag=$(echo $latest_url | sed 's|.*/v|v|')
+	# 检查是否成功获取到tag
+	if [ -z "$tag" ]; then
+		echo "未找到最新的release tag。"
+		return 1
+	fi
+	# 拼接docker-compose下载链接
+	local repo_path=$(echo "$releases_url" | sed -n 's|https://github.com/\(.*\)/releases/latest|\1|p')
+	docker_compose_download_url="https://github.com/${repo_path}/releases/download/${tag}/docker-compose-linux-aarch64"
+	echo "$docker_compose_download_url"
+}
+
+# 下载并安装Docker Compose
+do_install_docker_compose() {
+	# https://github.com/docker/compose/releases/download/v2.26.0/docker-compose-linux-aarch64
+	# 检查/usr/bin/docker是否存在并且可执行
+	if [ -f "/usr/bin/docker" ] && [ -x "/usr/bin/docker" ]; then
+		echo "Docker is installed and has execute permissions."
+	else
+		red "警告 您还没有安装Docker"
+		exit 1
+	fi
+	if [[ "$gl_name" == *3000* ]]; then
+		red "警告 docker-compose 组件的大小将近60MB,请谨慎安装"
+		yellow "确定要继续安装吗(y|n)"
+		read -r answer
+		if [ "$answer" = "y" ] || [ -z "$answer" ]; then
+			green "正在获取最新版docker-compose下载地址"
+		else
+			yellow "已退出docker-compose安装流程"
+			exit 1
+		fi
+	fi
+	local github_releases_url="https://github.com/docker/compose/releases/latest"
+	local docker_compose_url=$(get_docker_compose_url "$github_releases_url")
+	echo "最新版docker-compose 地址:$docker_compose_url"
+	wget -O /usr/bin/docker-compose $docker_compose_url
+	# 检查wget命令的退出状态
+	if [ $? -eq 0 ]; then
+		green "docker-compose下载并安装成功,你可以使用啦"
+		chmod +x /usr/bin/docker-compose
+	else
+		red "安装失败,请检查网络连接.或者手动下载到 /usr/bin/docker-compose 记得赋予执行权限"
+		yellow "刚才使用的地址是:$docker_compose_url"
+		exit 1
+	fi
+
+}
+
 while true; do
 	clear
 	gl_name=$(get_router_name)
@@ -434,7 +493,7 @@ while true; do
 	echo " 9. 安装Argon紫色主题"
 	echo "10. 安装文件管理器"
 	light_magenta "11. 安装Docker"
-	echo "12. 安装Docker Compose(开发中)"
+	light_magenta "12. 安装docker-compose"
 	light_magenta "13. 更新脚本"
 	echo
 	echo " Q. 退出本程序"
