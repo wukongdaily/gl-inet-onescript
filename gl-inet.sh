@@ -564,7 +564,7 @@ while true; do
 		fi
 		;;
 	12)
-		yellow "开发中......"
+		do_install_docker_compose
 		;;
 	13)
 		update_myself
