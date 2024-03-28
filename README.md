@@ -65,6 +65,15 @@ wget -O /tmp/reinstall_istore.sh https://gitee.com/wukongdaily/gl_onescript/raw/
 
 ### 5.新手ssh连接注意事项
 https://github.com/wukongdaily/HowToUseSSH
+### 6.使用独立版docker-compose
+```bash
+docker-compose version
+```
+```bash
+# 注意上述代码中使用的是独立版docker-compose，并非标准安装的docker compose
+# 区别就是中间没有空格是一个独立的可执行文件。当然这个叫做docker-compose的可执行文件，
+# 你可以任意命名，不过就是习惯这样写，还有的人重命名为docker_compose之类的都可以。
+```
 
 ### 辅助视频教程⬇️
 https://www.bilibili.com/video/BV1YJ4m1L7A3/
