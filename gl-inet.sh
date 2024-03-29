@@ -39,9 +39,8 @@ install_istore_os_style() {
 	do_install_argon_skin
 	#增加首页终端图标
 	opkg install ttyd
+	do_install_filetransfer
 	is-opkg install 'app-meta-ddnsto'
-	#安装首页需要的文件管理功能
-	is-opkg install 'app-meta-linkease'
 	# 安装磁盘管理
 	is-opkg install 'app-meta-diskman'
 	# 若已安装iStore商店则在概览中追加iStore字样
@@ -354,6 +353,14 @@ update_luci_app_quickstart() {
 	fi
 }
 
+# 安装体积非常小的文件传输软件 默认上传位置/tmp/upload/
+do_install_filetransfer(){
+	mkdir -p /tmp/luci-app-filetransfer/
+	cd /tmp/luci-app-filetransfer/
+	wget -O luci-app-filetransfer_all.ipk "https://raw.githubusercontent.com/wukongdaily/gl-inet-onescript/master/luci-app-filetransfer/luci-app-filetransfer_all.ipk"
+	wget -O luci-lib-fs_1.0-14_all.ipk "https://raw.githubusercontent.com/wukongdaily/gl-inet-onescript/master/luci-app-filetransfer/luci-lib-fs_1.0-14_all.ipk"
+	opkg install *.ipk --force-depends
+}
 do_install_depends_ipk() {
 
 	wget -O "/tmp/luci-lua-runtime_all.ipk" "https://raw.githubusercontent.com/wukongdaily/gl-inet-onescript/master/theme/luci-lua-runtime_all.ipk"
