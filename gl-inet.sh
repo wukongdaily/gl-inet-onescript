@@ -39,7 +39,10 @@ install_istore_os_style() {
 	do_install_argon_skin
 	#增加首页终端图标
 	opkg install ttyd
+	#默认使用体积很小的文件传输：系统——文件传输
 	do_install_filetransfer
+	#默认安装必备工具SFTP 方便下载文件 比如finalshell等工具可以直接浏览路由器文件
+	is-opkg install app-meta-sftp
 	is-opkg install 'app-meta-ddnsto'
 	# 安装磁盘管理
 	is-opkg install 'app-meta-diskman'
