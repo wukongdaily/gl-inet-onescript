@@ -37,9 +37,7 @@ wget -O gl-inet.sh https://raw.githubusercontent.com/wukongdaily/gl-inet-onescri
 ```
 ### 或者是备用仓库地址（内地可用）
 
-```bash
-wget -O gl-inet.sh https://gitee.com/wukongdaily/gl_onescript/raw/master/gl-inet.sh?$(date +%s) && chmod +x gl-inet.sh && ./gl-inet.sh
-```
+
 ```bash
 wget -O gl-inet.sh https://mirror.ghproxy.com/https://raw.githubusercontent.com/wukongdaily/gl-inet-onescript/master/gl-inet.sh?$(date +%s) && chmod +x gl-inet.sh && ./gl-inet.sh
 ```
