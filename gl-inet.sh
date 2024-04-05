@@ -1,20 +1,17 @@
 #!/bin/sh
-red() {
-	echo -e "\033[31m\033[01m$1\033[0m"
-}
-green() {
-	echo -e "\033[32m\033[01m$1\033[0m"
-}
-yellow() {
-	echo -e "\033[33m\033[01m$1\033[0m"
-}
-blue() {
-	echo -e "\033[34m\033[01m$1\033[0m"
-}
-light_magenta() {
-	echo -e "\033[95m\033[01m$1\033[0m"
-}
+# 定义颜色输出函数
+red() { echo -e "\033[31m\033[01m[WARNING] $1\033[0m"; }
+green() { echo -e "\033[32m\033[01m[INFO] $1\033[0m"; }
+yellow() { echo -e "\033[33m\033[01m[NOTICE] $1\033[0m"; }
+blue() { echo -e "\033[34m\033[01m[MESSAGE] $1\033[0m"; }
+light_magenta() { echo -e "\033[95m\033[01m[NOTICE] $1\033[0m"; }
+light_yellow() { echo -e "\033[93m\033[01m[NOTICE] $1\033[0m"; }
+
 third_party_source="https://istore.linkease.com/repo/all/nas_luci"
+proxy=""
+if [ $# -gt 0 ]; then
+	proxy="https://mirror.ghproxy.com/"
+fi
 setup_base_init() {
 
 	#添加出处信息
@@ -281,12 +278,12 @@ recovery_opkg_settings() {
 	case "$router_name" in
 	*3000*)
 		echo "Router name contains '3000'."
-		mt3000_opkg="https://raw.githubusercontent.com/wukongdaily/gl-inet-onescript/master/mt-3000/distfeeds.conf"
+		mt3000_opkg="${proxy}https://raw.githubusercontent.com/wukongdaily/gl-inet-onescript/master/mt-3000/distfeeds.conf"
 		wget -O /etc/opkg/distfeeds.conf ${mt3000_opkg}
 		;;
 	*2500*)
 		echo "Router name contains '2500'."
-		mt2500a_opkg="https://raw.githubusercontent.com/wukongdaily/gl-inet-onescript/master/mt-2500a/distfeeds.conf"
+		mt2500a_opkg="${proxy}https://raw.githubusercontent.com/wukongdaily/gl-inet-onescript/master/mt-2500a/distfeeds.conf"
 		wget -O /etc/opkg/distfeeds.conf ${mt2500a_opkg}
 		;;
 	*6000*)
@@ -303,14 +300,14 @@ update_opkg_config() {
 	echo "MT-6000 kernel version: $kernel_version"
 	case $kernel_version in
 	5.4*)
-		mt6000_opkg="https://raw.githubusercontent.com/wukongdaily/gl-inet-onescript/master/mt-6000/distfeeds-5.4.conf"
+		mt6000_opkg="${proxy}https://raw.githubusercontent.com/wukongdaily/gl-inet-onescript/master/mt-6000/distfeeds-5.4.conf"
 		wget -O /etc/opkg/distfeeds.conf ${mt6000_opkg}
 		# 更换5.4.238 内核之后 缺少的依赖
 
 		mkdir -p /tmp/mt6000
-		wget -O /tmp/mt6000/script-utils.ipk "https://raw.githubusercontent.com/wukongdaily/gl-inet-onescript/master/mt-6000/script-utils.ipk?$(date +%s)"
-		wget -O /tmp/mt6000/mdadm.ipk "https://raw.githubusercontent.com/wukongdaily/gl-inet-onescript/master/mt-6000/mdadm.ipk?$(date +%s)"
-		wget -O /tmp/mt6000/lsblk.ipk "https://raw.githubusercontent.com/wukongdaily/gl-inet-onescript/master/mt-6000/lsblk.ipk?$(date +%s)"
+		wget -O /tmp/mt6000/script-utils.ipk "${proxy}https://raw.githubusercontent.com/wukongdaily/gl-inet-onescript/master/mt-6000/script-utils.ipk?$(date +%s)"
+		wget -O /tmp/mt6000/mdadm.ipk "${proxy}https://raw.githubusercontent.com/wukongdaily/gl-inet-onescript/master/mt-6000/mdadm.ipk?$(date +%s)"
+		wget -O /tmp/mt6000/lsblk.ipk "${proxy}https://raw.githubusercontent.com/wukongdaily/gl-inet-onescript/master/mt-6000/lsblk.ipk?$(date +%s)"
 		opkg update
 		if [ -f "/tmp/mt6000/lsblk.ipk" ]; then
 			# 先卸载之前安装过的lsblk,确保使用的是正确的lsblk
@@ -319,7 +316,7 @@ update_opkg_config() {
 		opkg install /tmp/mt6000/*.ipk
 		;;
 	5.15*)
-		mt6000_opkg="https://raw.githubusercontent.com/wukongdaily/gl-inet-onescript/master/mt-6000/distfeeds.conf"
+		mt6000_opkg="${proxy}https://raw.githubusercontent.com/wukongdaily/gl-inet-onescript/master/mt-6000/distfeeds.conf"
 		wget -O /etc/opkg/distfeeds.conf ${mt6000_opkg}
 		;;
 	*)
@@ -357,17 +354,17 @@ update_luci_app_quickstart() {
 }
 
 # 安装体积非常小的文件传输软件 默认上传位置/tmp/upload/
-do_install_filetransfer(){
+do_install_filetransfer() {
 	mkdir -p /tmp/luci-app-filetransfer/
 	cd /tmp/luci-app-filetransfer/
-	wget -O luci-app-filetransfer_all.ipk "https://raw.githubusercontent.com/wukongdaily/gl-inet-onescript/master/luci-app-filetransfer/luci-app-filetransfer_all.ipk"
-	wget -O luci-lib-fs_1.0-14_all.ipk "https://raw.githubusercontent.com/wukongdaily/gl-inet-onescript/master/luci-app-filetransfer/luci-lib-fs_1.0-14_all.ipk"
+	wget -O luci-app-filetransfer_all.ipk "${proxy}https://raw.githubusercontent.com/wukongdaily/gl-inet-onescript/master/luci-app-filetransfer/luci-app-filetransfer_all.ipk"
+	wget -O luci-lib-fs_1.0-14_all.ipk "${proxy}https://raw.githubusercontent.com/wukongdaily/gl-inet-onescript/master/luci-app-filetransfer/luci-lib-fs_1.0-14_all.ipk"
 	opkg install *.ipk --force-depends
 }
 do_install_depends_ipk() {
 
-	wget -O "/tmp/luci-lua-runtime_all.ipk" "https://raw.githubusercontent.com/wukongdaily/gl-inet-onescript/master/theme/luci-lua-runtime_all.ipk"
-	wget -O "/tmp/libopenssl3.ipk" "https://raw.githubusercontent.com/wukongdaily/gl-inet-onescript/master/theme/libopenssl3.ipk"
+	wget -O "/tmp/luci-lua-runtime_all.ipk" "${proxy}https://raw.githubusercontent.com/wukongdaily/gl-inet-onescript/master/theme/luci-lua-runtime_all.ipk"
+	wget -O "/tmp/libopenssl3.ipk" "${proxy}https://raw.githubusercontent.com/wukongdaily/gl-inet-onescript/master/theme/libopenssl3.ipk"
 	opkg install "/tmp/luci-lua-runtime_all.ipk"
 	opkg install "/tmp/libopenssl3.ipk"
 }
@@ -380,9 +377,9 @@ do_install_argon_skin() {
 	# 所以这里安装上一个版本2.2.9,考虑到主题皮肤并不需要长期更新，因此固定版本没问题
 	opkg update
 	opkg install luci-lib-ipkg
-	wget -O "/tmp/luci-theme-argon.ipk" "https://raw.githubusercontent.com/wukongdaily/gl-inet-onescript/master/theme/luci-theme-argon-master_2.2.9.4_all.ipk"
-	wget -O "/tmp/luci-app-argon-config.ipk" "https://raw.githubusercontent.com/wukongdaily/gl-inet-onescript/master/theme/luci-app-argon-config_0.9_all.ipk"
-	wget -O "/tmp/luci-i18n-argon-config-zh-cn.ipk" "https://raw.githubusercontent.com/wukongdaily/gl-inet-onescript/master/theme/luci-i18n-argon-config-zh-cn.ipk"
+	wget -O "/tmp/luci-theme-argon.ipk" "${proxy}https://raw.githubusercontent.com/wukongdaily/gl-inet-onescript/master/theme/luci-theme-argon-master_2.2.9.4_all.ipk"
+	wget -O "/tmp/luci-app-argon-config.ipk" "${proxy}https://raw.githubusercontent.com/wukongdaily/gl-inet-onescript/master/theme/luci-app-argon-config_0.9_all.ipk"
+	wget -O "/tmp/luci-i18n-argon-config-zh-cn.ipk" "${proxy}https://raw.githubusercontent.com/wukongdaily/gl-inet-onescript/master/theme/luci-i18n-argon-config-zh-cn.ipk"
 	cd /tmp/
 	opkg install luci-theme-argon.ipk luci-app-argon-config.ipk luci-i18n-argon-config-zh-cn.ipk
 	# 检查上一个命令的返回值
@@ -408,7 +405,7 @@ do_install_filemanager() {
 }
 #更新脚本
 update_myself() {
-	wget -O gl-inet.sh https://raw.githubusercontent.com/wukongdaily/gl-inet-onescript/master/gl-inet.sh?$(date +%s) && chmod +x gl-inet.sh
+	wget -O gl-inet.sh ${proxy}https://raw.githubusercontent.com/wukongdaily/gl-inet-onescript/master/gl-inet.sh?$(date +%s) && chmod +x gl-inet.sh
 	echo "脚本已更新并保存在当前目录 gl-inet.sh,现在将执行新脚本。"
 	./gl-inet.sh
 	exit 0
@@ -461,7 +458,6 @@ do_install_docker_compose() {
 	local docker_compose_url=$(get_docker_compose_url "$github_releases_url")
 	echo "最新版docker-compose 地址:$docker_compose_url"
 	wget -O /usr/bin/docker-compose $docker_compose_url
-	# 检查wget命令的退出状态
 	if [ $? -eq 0 ]; then
 		green "docker-compose下载并安装成功,你可以使用啦"
 		chmod +x /usr/bin/docker-compose
@@ -568,7 +564,12 @@ while true; do
 		red "确定要继续吗(y|n)"
 		read -r answer
 		if [ "$answer" = "y" ] || [ -z "$answer" ]; then
-			wget -q -O do_docker.sh https://raw.githubusercontent.com/wukongdaily/gl-inet-onescript/master/docker/do_docker.sh && chmod +x do_docker.sh && ./do_docker.sh
+			wget -q -O do_docker.sh ${proxy}https://raw.githubusercontent.com/wukongdaily/gl-inet-onescript/master/docker/do_docker.sh && chmod +x do_docker.sh
+			if [ -z "$proxy" ]; then
+				./do_docker.sh
+			else
+				./do_docker.sh use_proxy
+			fi
 		else
 			yellow "已退出Docker安装流程"
 		fi

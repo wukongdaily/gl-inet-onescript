@@ -36,14 +36,17 @@
 wget -O gl-inet.sh https://raw.githubusercontent.com/wukongdaily/gl-inet-onescript/master/gl-inet.sh?$(date +%s) && chmod +x gl-inet.sh && ./gl-inet.sh
 ```
 ### 或者是备用仓库地址（内地可用）
-
-
 ```bash
-wget -O gl-inet.sh https://mirror.ghproxy.com/https://raw.githubusercontent.com/wukongdaily/gl-inet-onescript/master/gl-inet.sh?$(date +%s) && chmod +x gl-inet.sh && ./gl-inet.sh
+wget -O gl-inet.sh https://mirror.ghproxy.com/https://gitee.com/wukongdaily/gl_onescript/raw/master/gl-inet.sh?$(date +%s) && chmod +x gl-inet.sh 
+sh gl-inet.sh use_proxy
 ```
 ### 下次如何调用,在当前目录下执行
 ```bash
 sh gl-inet.sh
+```
+### 或
+```bash
+sh gl-inet.sh use_proxy
 ```
 ### 2.单独安装Docker
 ```bash
