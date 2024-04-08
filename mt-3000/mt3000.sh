@@ -125,6 +125,7 @@ change_overlay_usb() {
     uci commit fstab
     # 清理临时目录
     rm -rf $TMP_DIR
+    cp /etc/config/fstab $MOUNT_POINT/fstab.bak
     cyan "overlay更换分区完成 重启验证是否成功."
     red "是否立即重启？(y/n)"
     read -r answer
