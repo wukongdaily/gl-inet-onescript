@@ -6,7 +6,7 @@ yellow() { echo -e "\033[33m\033[01m$1\033[0m"; }
 blue() { echo -e "\033[34m\033[01m$1\033[0m"; }
 light_magenta() { echo -e "\033[95m\033[01m$1\033[0m"; }
 light_yellow() { echo -e "\033[93m\033[01m$1\033[0m"; }
-
+cyan() { echo -e "\033[38;2;0;255;255m$1\033[0m"; }
 third_party_source="https://istore.linkease.com/repo/all/nas_luci"
 proxy=""
 if [ $# -gt 0 ]; then
@@ -469,6 +469,12 @@ do_install_docker_compose() {
 
 }
 
+#mt3000更换分区
+mt3000_overlay_changed(){
+	wget -O mt3000.sh ${proxy}https://raw.githubusercontent.com/wukongdaily/gl-inet-onescript/master/mt-3000/mt3000.sh && chmod +x mt3000.sh
+	sh mt3000.sh
+}
+
 while true; do
 	clear
 	gl_name=$(get_router_name)
@@ -501,6 +507,7 @@ while true; do
 	light_magenta "11. 安装Docker"
 	light_magenta "12. 安装docker-compose"
 	light_magenta "13. 更新脚本"
+	cyan "14. MT3000一键更换分区"
 	echo
 	echo " Q. 退出本程序"
 	echo
@@ -579,6 +586,9 @@ while true; do
 		;;
 	13)
 		update_myself
+		;;
+	14)
+		mt3000_overlay_changed
 		;;
 	q | Q)
 		echo "退出"
