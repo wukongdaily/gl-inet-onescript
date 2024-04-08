@@ -36,7 +36,7 @@
 ```bash
 wget -O gl-inet.sh https://raw.githubusercontent.com/wukongdaily/gl-inet-onescript/master/gl-inet.sh?$(date +%s) && chmod +x gl-inet.sh && ./gl-inet.sh
 ```
-### 上述如果下载失败 使用下列命令
+### 上述命令如果下载失败——内地用户请使用⬇️
 ```bash
 wget -O gl-inet.sh https://mirror.ghproxy.com/https://raw.githubusercontent.com/wukongdaily/gl-inet-onescript/master/gl-inet.sh && chmod +x gl-inet.sh 
 sh gl-inet.sh use_proxy
