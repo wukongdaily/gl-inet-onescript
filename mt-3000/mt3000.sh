@@ -188,7 +188,6 @@ rebind_usb_overlay() {
     uci set fstab.overlay.target="/overlay"
     uci commit fstab
     green "重新绑定成功！ 重启后生效"
-    cat /etc/config/fstab
     red "正在重启..."
     reboot
 }
