@@ -107,11 +107,11 @@ docker run -d \
     --restart always \
     --network host \
     -v /var/run/docker.sock:/var/run/docker.sock \
-    -v /www/data/1panel-data:/opt \
+    -v /www/data/1panel-data:/mnt/data_sda2/1panel_data \
     -e TZ=Asia/Shanghai \
     moelin/1panel:latest
 ```
-
+`其中 /mnt/data_sda2/ 可以换成自己实际的路径,最好是空间大点的`
 - 默认端口：10086
 - 默认账户：1panel
 - 默认密码：1panel_password
