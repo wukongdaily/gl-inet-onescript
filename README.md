@@ -39,7 +39,7 @@ wget -O gl-inet.sh https://raw.githubusercontent.com/wukongdaily/gl-inet-onescri
 ### 🆕内地用户请使用⬇️(New 2024-05-05)
 ```bash
 wget -O gl-inet.sh https://cafe.cpolar.cn/wkdaily/gl-inet-onescript/raw/branch/master/gl-inet.sh && chmod +x gl-inet.sh 
-sh gl-inet.sh use_proxy
+sh gl-inet.sh proxy
 
 ```
 ### 下次如何调用,在当前目录下执行
@@ -49,7 +49,7 @@ sh gl-inet.sh
 ```
 ### 或 使用
 ```bash
-sh gl-inet.sh use_proxy
+sh gl-inet.sh proxy
 ```
 ### 2.单独安装Docker
 ```bash
@@ -58,7 +58,7 @@ wget -O do_docker.sh https://raw.githubusercontent.com/wukongdaily/gl-inet-onesc
 ### 或 使用
 ```bash
 wget -q -O do_docker.sh https://cafe.cpolar.cn/wkdaily/gl-inet-onescript/raw/branch/master/docker/do_docker.sh && chmod +x do_docker.sh
-sh do_docker.sh use_proxy
+sh do_docker.sh proxy
 ```
 
 ### 3.单独安装iStore商店
