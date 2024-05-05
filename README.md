@@ -36,9 +36,9 @@
 ```bash
 wget -O gl-inet.sh https://raw.githubusercontent.com/wukongdaily/gl-inet-onescript/master/gl-inet.sh && chmod +x gl-inet.sh && ./gl-inet.sh
 ```
-### 上述命令如果下载失败——内地用户请使用⬇️
+### 内地用户请使用⬇️
 ```bash
-wget -O gl-inet.sh https://mirror.ghproxy.com/https://raw.githubusercontent.com/wukongdaily/gl-inet-onescript/master/gl-inet.sh && chmod +x gl-inet.sh 
+wget -O gl-inet.sh https://cafe.cpolar.cn/wkdaily/gl-inet-onescript/raw/branch/master/gl-inet.sh && chmod +x gl-inet.sh 
 sh gl-inet.sh use_proxy
 ```
 ### 下次如何调用,在当前目录下执行
@@ -55,7 +55,7 @@ wget -O do_docker.sh https://raw.githubusercontent.com/wukongdaily/gl-inet-onesc
 ```
 ### 或 使用
 ```bash
-wget -q -O do_docker.sh https://mirror.ghproxy.com/https://raw.githubusercontent.com/wukongdaily/gl-inet-onescript/master/docker/do_docker.sh && chmod +x do_docker.sh
+wget -q -O do_docker.sh https://cafe.cpolar.cn/wkdaily/gl-inet-onescript/raw/branch/master/docker/do_docker.sh && chmod +x do_docker.sh
 sh do_docker.sh use_proxy
 ```
 
