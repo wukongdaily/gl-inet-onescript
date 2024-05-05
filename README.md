@@ -33,9 +33,7 @@
 
 ### 1. SSH连接到路由器,或者在路由器终端执行如下命令
 
-```bash
-wget -O gl-inet.sh https://raw.githubusercontent.com/wukongdaily/gl-inet-onescript/master/gl-inet.sh && chmod +x gl-inet.sh && ./gl-inet.sh
-```
+
 ### 🆕内地用户请使用⬇️(New 2024-05-05)
 ```bash
 wget -O gl-inet.sh https://cafe.cpolar.cn/wkdaily/gl-inet-onescript/raw/branch/master/gl-inet.sh && chmod +x gl-inet.sh 
@@ -44,18 +42,10 @@ sh gl-inet.sh proxy
 ```
 ### 下次如何调用,在当前目录下执行
 ```bash
-sh gl-inet.sh
-
-```
-### 或 使用
-```bash
 sh gl-inet.sh proxy
 ```
 ### 2.单独安装Docker
-```bash
-wget -O do_docker.sh https://raw.githubusercontent.com/wukongdaily/gl-inet-onescript/master/docker/do_docker.sh?$(date +%s) && chmod +x do_docker.sh && ./do_docker.sh
-```
-### 或 使用
+
 ```bash
 wget -q -O do_docker.sh https://cafe.cpolar.cn/wkdaily/gl-inet-onescript/raw/branch/master/docker/do_docker.sh && chmod +x do_docker.sh
 sh do_docker.sh proxy
