@@ -36,7 +36,7 @@
 ```bash
 wget -O gl-inet.sh https://raw.githubusercontent.com/wukongdaily/gl-inet-onescript/master/gl-inet.sh && chmod +x gl-inet.sh && ./gl-inet.sh
 ```
-### 内地用户请使用⬇️
+### 🆕内地用户请使用⬇️(New 2024-05-05)
 ```bash
 wget -O gl-inet.sh https://cafe.cpolar.cn/wkdaily/gl-inet-onescript/raw/branch/master/gl-inet.sh && chmod +x gl-inet.sh 
 sh gl-inet.sh use_proxy
