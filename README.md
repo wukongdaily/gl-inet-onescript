@@ -40,10 +40,12 @@ wget -O gl-inet.sh https://raw.githubusercontent.com/wukongdaily/gl-inet-onescri
 ```bash
 wget -O gl-inet.sh https://cafe.cpolar.cn/wkdaily/gl-inet-onescript/raw/branch/master/gl-inet.sh && chmod +x gl-inet.sh 
 sh gl-inet.sh use_proxy
+
 ```
 ### 下次如何调用,在当前目录下执行
 ```bash
 sh gl-inet.sh
+
 ```
 ### 或 使用
 ```bash
