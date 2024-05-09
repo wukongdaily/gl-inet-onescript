@@ -8,10 +8,7 @@ blue() { echo -e "\033[34m\033[01m[MESSAGE] $1\033[0m"; }
 light_magenta() { echo -e "\033[95m\033[01m[NOTICE] $1\033[0m"; }
 light_yellow() { echo -e "\033[93m\033[01m[NOTICE] $1\033[0m"; }
 
-proxy=""
-if [ $# -gt 0 ]; then
-  proxy="https://mirror.ghproxy.com/"
-fi
+
 # 获取路由器型号信息
 get_router_name() {
     cat /tmp/sysinfo/model
@@ -37,7 +34,7 @@ install_depends_apps() {
         # 备份 /etc/opkg/distfeeds.conf
         cp /etc/opkg/distfeeds.conf /etc/opkg/distfeeds.conf.backup
         # 先替换为 mt3000 的软件源来安装 lsblk 和 fdisk 工具
-        mt3000_opkg="${proxy}https://raw.githubusercontent.com/wukongdaily/gl-inet-onescript/master/mt-3000/distfeeds.conf"
+        mt3000_opkg="https://cafe.cpolar.cn/wkdaily/gl-inet-onescript/raw/branch/master/mt-3000/distfeeds.conf"
         wget -O /etc/opkg/distfeeds.conf ${mt3000_opkg}
         green "正在更新为 mt3000 的软件源"
         cat /etc/opkg/distfeeds.conf

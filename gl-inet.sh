@@ -8,10 +8,7 @@ light_magenta() { echo -e "\033[95m\033[01m$1\033[0m"; }
 light_yellow() { echo -e "\033[93m\033[01m$1\033[0m"; }
 cyan() { echo -e "\033[38;2;0;255;255m$1\033[0m"; }
 third_party_source="https://istore.linkease.com/repo/all/nas_luci"
-proxy=""
-if [ $# -gt 0 ]; then
-	proxy="https://mirror.ghproxy.com/"
-fi
+
 setup_base_init() {
 
 	#添加出处信息
@@ -278,12 +275,12 @@ recovery_opkg_settings() {
 	case "$router_name" in
 	*3000*)
 		echo "Router name contains '3000'."
-		mt3000_opkg="${proxy}https://raw.githubusercontent.com/wukongdaily/gl-inet-onescript/master/mt-3000/distfeeds.conf"
+		mt3000_opkg="https://cafe.cpolar.cn/wkdaily/gl-inet-onescript/raw/branch/master/mt-3000/distfeeds.conf"
 		wget -O /etc/opkg/distfeeds.conf ${mt3000_opkg}
 		;;
 	*2500*)
 		echo "Router name contains '2500'."
-		mt2500a_opkg="${proxy}https://raw.githubusercontent.com/wukongdaily/gl-inet-onescript/master/mt-2500a/distfeeds.conf"
+		mt2500a_opkg="https://cafe.cpolar.cn/wkdaily/gl-inet-onescript/raw/branch/master/mt-2500a/distfeeds.conf"
 		wget -O /etc/opkg/distfeeds.conf ${mt2500a_opkg}
 		;;
 	*6000*)
@@ -300,14 +297,14 @@ update_opkg_config() {
 	echo "MT-6000 kernel version: $kernel_version"
 	case $kernel_version in
 	5.4*)
-		mt6000_opkg="${proxy}https://raw.githubusercontent.com/wukongdaily/gl-inet-onescript/master/mt-6000/distfeeds-5.4.conf"
+		mt6000_opkg="https://cafe.cpolar.cn/wkdaily/gl-inet-onescript/raw/branch/master/mt-6000/distfeeds-5.4.conf"
 		wget -O /etc/opkg/distfeeds.conf ${mt6000_opkg}
 		# 更换5.4.238 内核之后 缺少的依赖
 
 		mkdir -p /tmp/mt6000
-		wget -O /tmp/mt6000/script-utils.ipk "${proxy}https://raw.githubusercontent.com/wukongdaily/gl-inet-onescript/master/mt-6000/script-utils.ipk?$(date +%s)"
-		wget -O /tmp/mt6000/mdadm.ipk "${proxy}https://raw.githubusercontent.com/wukongdaily/gl-inet-onescript/master/mt-6000/mdadm.ipk?$(date +%s)"
-		wget -O /tmp/mt6000/lsblk.ipk "${proxy}https://raw.githubusercontent.com/wukongdaily/gl-inet-onescript/master/mt-6000/lsblk.ipk?$(date +%s)"
+		wget -O /tmp/mt6000/script-utils.ipk "https://cafe.cpolar.cn/wkdaily/gl-inet-onescript/raw/branch/master/mt-6000/script-utils.ipk"
+		wget -O /tmp/mt6000/mdadm.ipk "https://cafe.cpolar.cn/wkdaily/gl-inet-onescript/raw/branch/master/mt-6000/mdadm.ipk"
+		wget -O /tmp/mt6000/lsblk.ipk "https://cafe.cpolar.cn/wkdaily/gl-inet-onescript/raw/branch/master/mt-6000/lsblk.ipk"
 		opkg update
 		if [ -f "/tmp/mt6000/lsblk.ipk" ]; then
 			# 先卸载之前安装过的lsblk,确保使用的是正确的lsblk
@@ -316,7 +313,7 @@ update_opkg_config() {
 		opkg install /tmp/mt6000/*.ipk
 		;;
 	5.15*)
-		mt6000_opkg="${proxy}https://raw.githubusercontent.com/wukongdaily/gl-inet-onescript/master/mt-6000/distfeeds.conf"
+		mt6000_opkg="https://cafe.cpolar.cn/wkdaily/gl-inet-onescript/raw/branch/master/mt-6000/distfeeds.conf"
 		wget -O /etc/opkg/distfeeds.conf ${mt6000_opkg}
 		;;
 	*)
@@ -348,6 +345,7 @@ update_luci_app_quickstart() {
 		is-opkg install luci-i18n-quickstart-zh-cn --force-depends >/dev/null 2>&1
 		yellow "恭喜您!现在你的路由器已经变成iStoreOS风格啦!"
 		green "如果没有首页和网络向导,可以执行第8项 更新luci_app_quickstart"
+		green "您可以登录网页 查看是否生效 http://gl-mt3000.local/cgi-bin/luci"
 	else
 		red "请先执行第一项 一键iStoreOS风格化"
 	fi
@@ -357,14 +355,14 @@ update_luci_app_quickstart() {
 do_install_filetransfer() {
 	mkdir -p /tmp/luci-app-filetransfer/
 	cd /tmp/luci-app-filetransfer/
-	wget -O luci-app-filetransfer_all.ipk "${proxy}https://raw.githubusercontent.com/wukongdaily/gl-inet-onescript/master/luci-app-filetransfer/luci-app-filetransfer_all.ipk"
-	wget -O luci-lib-fs_1.0-14_all.ipk "${proxy}https://raw.githubusercontent.com/wukongdaily/gl-inet-onescript/master/luci-app-filetransfer/luci-lib-fs_1.0-14_all.ipk"
+	wget -O luci-app-filetransfer_all.ipk "https://cafe.cpolar.cn/wkdaily/gl-inet-onescript/raw/branch/master/luci-app-filetransfer/luci-app-filetransfer_all.ipk"
+	wget -O luci-lib-fs_1.0-14_all.ipk "https://cafe.cpolar.cn/wkdaily/gl-inet-onescript/raw/branch/master/luci-app-filetransfer/luci-lib-fs_1.0-14_all.ipk"
 	opkg install *.ipk --force-depends
 }
 do_install_depends_ipk() {
 
-	wget -O "/tmp/luci-lua-runtime_all.ipk" "${proxy}https://raw.githubusercontent.com/wukongdaily/gl-inet-onescript/master/theme/luci-lua-runtime_all.ipk"
-	wget -O "/tmp/libopenssl3.ipk" "${proxy}https://raw.githubusercontent.com/wukongdaily/gl-inet-onescript/master/theme/libopenssl3.ipk"
+	wget -O "/tmp/luci-lua-runtime_all.ipk" "https://cafe.cpolar.cn/wkdaily/gl-inet-onescript/raw/branch/master/theme/luci-lua-runtime_all.ipk"
+	wget -O "/tmp/libopenssl3.ipk" "https://cafe.cpolar.cn/wkdaily/gl-inet-onescript/raw/branch/master/theme/libopenssl3.ipk"
 	opkg install "/tmp/luci-lua-runtime_all.ipk"
 	opkg install "/tmp/libopenssl3.ipk"
 }
@@ -377,9 +375,9 @@ do_install_argon_skin() {
 	# 所以这里安装上一个版本2.2.9,考虑到主题皮肤并不需要长期更新，因此固定版本没问题
 	opkg update
 	opkg install luci-lib-ipkg
-	wget -O "/tmp/luci-theme-argon.ipk" "${proxy}https://raw.githubusercontent.com/wukongdaily/gl-inet-onescript/master/theme/luci-theme-argon-master_2.2.9.4_all.ipk"
-	wget -O "/tmp/luci-app-argon-config.ipk" "${proxy}https://raw.githubusercontent.com/wukongdaily/gl-inet-onescript/master/theme/luci-app-argon-config_0.9_all.ipk"
-	wget -O "/tmp/luci-i18n-argon-config-zh-cn.ipk" "${proxy}https://raw.githubusercontent.com/wukongdaily/gl-inet-onescript/master/theme/luci-i18n-argon-config-zh-cn.ipk"
+	wget -O "/tmp/luci-theme-argon.ipk" "https://cafe.cpolar.cn/wkdaily/gl-inet-onescript/raw/branch/master/theme/luci-theme-argon-master_2.2.9.4_all.ipk"
+	wget -O "/tmp/luci-app-argon-config.ipk" "https://cafe.cpolar.cn/wkdaily/gl-inet-onescript/raw/branch/master/theme/luci-app-argon-config_0.9_all.ipk"
+	wget -O "/tmp/luci-i18n-argon-config-zh-cn.ipk" "https://cafe.cpolar.cn/wkdaily/gl-inet-onescript/raw/branch/master/theme/luci-i18n-argon-config-zh-cn.ipk"
 	cd /tmp/
 	opkg install luci-theme-argon.ipk luci-app-argon-config.ipk luci-i18n-argon-config-zh-cn.ipk
 	# 检查上一个命令的返回值
@@ -405,7 +403,7 @@ do_install_filemanager() {
 }
 #更新脚本
 update_myself() {
-	wget -O gl-inet.sh ${proxy}https://raw.githubusercontent.com/wukongdaily/gl-inet-onescript/master/gl-inet.sh?$(date +%s) && chmod +x gl-inet.sh
+	wget -O gl-inet.sh "https://cafe.cpolar.cn/wkdaily/gl-inet-onescript/raw/branch/master/gl-inet.sh" && chmod +x gl-inet.sh
 	echo "脚本已更新并保存在当前目录 gl-inet.sh,现在将执行新脚本。"
 	./gl-inet.sh
 	exit 0
@@ -471,7 +469,7 @@ do_install_docker_compose() {
 
 #mt3000更换分区
 mt3000_overlay_changed(){
-	wget -O mt3000.sh ${proxy}https://raw.githubusercontent.com/wukongdaily/gl-inet-onescript/master/mt-3000/mt3000.sh && chmod +x mt3000.sh
+	wget -O mt3000.sh "https://cafe.cpolar.cn/wkdaily/gl-inet-onescript/raw/branch/master/mt-3000/mt3000.sh" && chmod +x mt3000.sh
 	sh mt3000.sh
 }
 
@@ -571,12 +569,8 @@ while true; do
 		red "确定要继续吗(y|n)"
 		read -r answer
 		if [ "$answer" = "y" ] || [ -z "$answer" ]; then
-			wget -q -O do_docker.sh ${proxy}https://raw.githubusercontent.com/wukongdaily/gl-inet-onescript/master/docker/do_docker.sh && chmod +x do_docker.sh
-			if [ -z "$proxy" ]; then
-				./do_docker.sh
-			else
-				./do_docker.sh use_proxy
-			fi
+			wget -q -O do_docker.sh "https://cafe.cpolar.cn/wkdaily/gl-inet-onescript/raw/branch/master/docker/do_docker.sh" && chmod +x do_docker.sh
+			./do_docker.sh
 		else
 			yellow "已退出Docker安装流程"
 		fi

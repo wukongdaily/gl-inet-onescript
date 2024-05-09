@@ -32,28 +32,21 @@
 ## 🚀 快速上手
 
 ### 1. SSH连接到路由器,或者在路由器终端执行如下命令
+
 ```bash
-ssh root@GL-MT3000.local
-# 或使用ip连接
-ssh root@192.168.8.1
+wget -O gl-inet.sh https://cafe.cpolar.cn/wkdaily/gl-inet-onescript/raw/branch/master/gl-inet.sh && chmod +x gl-inet.sh && ./gl-inet.sh
 ```
 
-### 🆕内地用户请使用⬇️(New 2024-05-05)
-```bash
-wget -O gl-inet.sh https://cafe.cpolar.cn/wkdaily/gl-inet-onescript/raw/branch/master/gl-inet.sh && chmod +x gl-inet.sh 
-sh gl-inet.sh proxy
-
-```
 ### 下次如何调用,在当前目录下执行
 ```bash
-sh gl-inet.sh proxy
+sh gl-inet.sh
 ```
-### 2.单独安装Docker
 
+### 2.单独安装Docker
 ```bash
-wget -q -O do_docker.sh https://cafe.cpolar.cn/wkdaily/gl-inet-onescript/raw/branch/master/docker/do_docker.sh && chmod +x do_docker.sh
-sh do_docker.sh proxy
+wget -O do_docker.sh https://cafe.cpolar.cn/wkdaily/gl-inet-onescript/raw/branch/master/docker/do_docker.sh && chmod +x do_docker.sh && ./do_docker.sh
 ```
+
 
 ### 3.单独安装iStore商店
 ```bash
