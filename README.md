@@ -154,6 +154,13 @@ docker run -d \
   wan口网线拔了再插上就好了。其实不处理也无所谓的。闪烁也不代表没有网络。不准确的。
 - 2、如果你发现运行容器后,访问不了docker容器的web界面。一般重启路由器就能解决。
 - 3、请注意为了节省路由器空间,平时上传文件 最好是上传到 /mnt/upan_data 这个目录下。因为这是U盘空间，比较大。
+# 特别说明
+```
+对于MT2500和MT3000 如果你打算安装使用docker，建议使用的固件版本4.5.0，在这之后的版本目前测试发现不太稳定，不太适合docker。
+4.5.0 固件可以从官网下载。这个路由器可以随时降级到4.5.0的。
+https://dl.gl-inet.cn/release/router/stable/mt3000/4.5.0
+https://dl.gl-inet.cn/release/router/stable/mt2500/4.5.0
+```
 # 💰打赏作者💰
 <img src="https://github.com/wukongdaily/tvhelper-docker/assets/143675923/1f92c5ba-1b6b-4967-a1ab-20697159badc" width="30%" />
 
