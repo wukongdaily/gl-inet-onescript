@@ -27,7 +27,7 @@
 - GL-inet MT-3000 ✅
 - GL-inet MT-2500 ✅ 固件版本4.5.0（最好降级到此版本）
 - OrangePi Zero3(官方Openwrt镜像)
-
+- 🌟✨🌟[已经刷了iStoreOS固件的MT3000点击这里](https://github.com/wukongdaily/istoreos-mt3000-script)
 
 ## 🚀 快速上手
 
