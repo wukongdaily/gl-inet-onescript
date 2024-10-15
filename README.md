@@ -75,6 +75,7 @@ docker-compose version
 ```
 
 ### 辅助视频教程⬇️
+https://www.bilibili.com/video/BV1312bYZEjE
 https://www.bilibili.com/video/BV1YJ4m1L7A3/
 ### 博客地址:https://wkdaily.cpolar.cn
 # Docker面板的选择
@@ -163,4 +164,7 @@ https://dl.gl-inet.cn/release/router/stable/mt2500/4.5.0
 ```
 # 💰打赏作者💰
 <img src="https://github.com/wukongdaily/tvhelper-docker/assets/143675923/1f92c5ba-1b6b-4967-a1ab-20697159badc" width="30%" />
+
+# 参考视频 点击直达
+[![B 站视频封面](https://i2.hdslb.com/bfs/archive/2fda32c5af12d06fdf5f95afd8384796ac6ec61c.jpg@560w_350h_1c_!web-space-index-topvideo.avif)](https://www.bilibili.com/video/BV1312bYZEjE)
 
