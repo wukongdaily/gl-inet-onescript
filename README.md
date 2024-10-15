@@ -168,3 +168,7 @@ https://dl.gl-inet.cn/release/router/stable/mt2500/4.5.0
 # 参考视频 点击直达
 [![B 站视频封面](https://i2.hdslb.com/bfs/archive/2fda32c5af12d06fdf5f95afd8384796ac6ec61c.jpg@560w_350h_1c_!web-space-index-topvideo.avif)](https://www.bilibili.com/video/BV1312bYZEjE)
 
+## 更多完整版
+https://www.youtube.com/watch?v=YlhIdizH0hM
+
+
