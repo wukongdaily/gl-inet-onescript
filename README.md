@@ -1,3 +1,5 @@
+# 通知通知：由于iStoreOS 软件中心今天出现了一些状况，本脚本可能一周不能使用。具体 issue[请看这里](https://github.com/wukongdaily/gl-inet-onescript/issues/28)
+# 预计11月19日左右能修复。
 # GL-iNet 系列路由器 一键iStoreOS风格化脚本
 [![GitHub](https://img.shields.io/github/license/wukongdaily/gl-inet-onescript.svg?label=LICENSE&logo=github&logoColor=%20)](https://github.com/wukongdaily/gl-inet-onescript/blob/master/LICENSE)
 ![GitHub Stars](https://img.shields.io/github/stars/wukongdaily/gl-inet-onescript.svg?style=flat&logo=appveyor&label=Stars&logo=github)
