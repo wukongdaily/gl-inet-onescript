@@ -40,15 +40,18 @@ install_istore_os_style() {
 	is-opkg install 'app-meta-ddnsto'
 	# 安装磁盘管理
 	is-opkg install 'app-meta-diskman'
-	# 若已安装iStore商店则在概览中追加iStore字样
-	if ! grep -q " like iStoreOS" /tmp/sysinfo/model; then
-		sed -i '1s/$/ like iStoreOS/' /tmp/sysinfo/model
-	fi
+	FILE_PATH="/etc/openwrt_release"
+	NEW_DESCRIPTION="Openwrt like iStoreOS Style by wukongdaily"
+	CONTENT=$(cat $FILE_PATH)
+	UPDATED_CONTENT=$(echo "$CONTENT" | sed "s/DISTRIB_DESCRIPTION='[^']*'/DISTRIB_DESCRIPTION='$NEW_DESCRIPTION'/")
+	echo "$UPDATED_CONTENT" >$FILE_PATH
+
 }
 # 安装iStore 参考 https://github.com/linkease/istore
 do_istore() {
 	echo "do_istore method==================>"
-	ISTORE_REPO=https://istore.linkease.com/repo/all/store
+	# 换源
+	ISTORE_REPO=https://istore.istoreos.com/repo/all/store
 	FCURL="curl --fail --show-error"
 
 	curl -V >/dev/null 2>&1 || {
@@ -72,6 +75,10 @@ do_istore() {
 	/tmp/is-opkg opkg install --force-reinstall luci-app-store || exit $?
 	[ -s "/etc/init.d/tasks" ] || /tmp/is-opkg opkg install --force-reinstall taskd
 	[ -s "/usr/lib/lua/luci/cbi.lua" ] || /tmp/is-opkg opkg install luci-compat >/dev/null 2>&1
+	# 换源
+	sed -i 's/istore.linkease.com/istore.istoreos.com/g' /bin/is-opkg
+	sed -i 's/istore.linkease.com/istore.istoreos.com/g' /etc/opkg/compatfeeds.conf
+	sed -i 's/istore.linkease.com/istore.istoreos.com/g' /www/luci-static/istore/index.js
 }
 
 #设置风扇工作温度
@@ -156,7 +163,7 @@ add_dhcp_domain() {
 add_author_info() {
 	uci set system.@system[0].description='wukongdaily'
 	uci set system.@system[0].notes='文档说明:
-    https://github.com/wukongdaily/gl-inet-onescript'
+    https://wkdaily.cpolar.cn/'
 	uci commit system
 }
 
@@ -343,9 +350,13 @@ update_luci_app_quickstart() {
 		# 如果 /bin/is-opkg 存在，则执行 is-opkg update
 		is-opkg update
 		is-opkg install luci-i18n-quickstart-zh-cn --force-depends >/dev/null 2>&1
+		opkg install iptables-mod-tproxy
+		opkg install iptables-mod-socket
+		opkg install iptables-mod-iprange
 		yellow "恭喜您!现在你的路由器已经变成iStoreOS风格啦!"
 		green "如果没有首页和网络向导,可以执行第8项 更新luci_app_quickstart"
-		green "您可以登录网页 查看是否生效 http://gl-mt3000.local/cgi-bin/luci"
+		addr_hostname=$(uci get system.@system[0].hostname)
+		green "您可以登录网页 查看是否生效 http://${addr_hostname}.local/cgi-bin/luci"
 	else
 		red "请先执行第一项 一键iStoreOS风格化"
 	fi
@@ -360,7 +371,6 @@ do_install_filetransfer() {
 	opkg install *.ipk --force-depends
 }
 do_install_depends_ipk() {
-
 	wget -O "/tmp/luci-lua-runtime_all.ipk" "https://cafe.cpolar.cn/wkdaily/gl-inet-onescript/raw/branch/master/theme/luci-lua-runtime_all.ipk"
 	wget -O "/tmp/libopenssl3.ipk" "https://cafe.cpolar.cn/wkdaily/gl-inet-onescript/raw/branch/master/theme/libopenssl3.ipk"
 	opkg install "/tmp/luci-lua-runtime_all.ipk"
@@ -468,7 +478,7 @@ do_install_docker_compose() {
 }
 
 #mt3000更换分区
-mt3000_overlay_changed(){
+mt3000_overlay_changed() {
 	wget -O mt3000.sh "https://cafe.cpolar.cn/wkdaily/gl-inet-onescript/raw/branch/master/mt-3000/mt3000.sh" && chmod +x mt3000.sh
 	sh mt3000.sh
 }
