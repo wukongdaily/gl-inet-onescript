@@ -48,21 +48,6 @@ sh gl-inet.sh
 wget -O do_docker.sh https://cafe.cpolar.cn/wkdaily/gl-inet-onescript/raw/branch/master/docker/do_docker.sh && chmod +x do_docker.sh && ./do_docker.sh
 ```
 
-
-### 3.单独安装iStore商店
-```bash
-wget -O /tmp/reinstall_istore.sh https://gitee.com/wukongdaily/gl_onescript/raw/master/reinstall_istore.sh && chmod +x /tmp/reinstall_istore.sh && /tmp/reinstall_istore.sh
-
-```
-
-### 4.单独安装文件管理器
-```bash
-wget -O /tmp/reinstall_istore.sh https://gitee.com/wukongdaily/gl_onescript/raw/master/reinstall_istore.sh && chmod +x /tmp/reinstall_istore.sh && /tmp/reinstall_istore.sh
-/tmp/is-opkg install app-meta-linkease
-
-```
-
-
 ### 5.新手ssh连接注意事项
 https://github.com/wukongdaily/HowToUseSSH
 ### 6.使用独立版docker-compose
