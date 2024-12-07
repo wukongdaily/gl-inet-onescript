@@ -36,7 +36,7 @@
 ### 1. SSH连接到路由器,或者在路由器终端执行如下命令
 
 ```bash
-wget -O gl-inet.sh https://cafe.cpolar.cn/wkdaily/gl-inet-onescript/raw/branch/master/gl-inet.sh && chmod +x gl-inet.sh && ./gl-inet.sh
+wget -O gl-inet.sh https://cafe.vip.cpolar.top/wkdaily/gl-inet-onescript/raw/branch/master/gl-inet.sh && chmod +x gl-inet.sh && ./gl-inet.sh
 ```
 
 ### 下次如何调用,在当前目录下执行
@@ -46,7 +46,7 @@ sh gl-inet.sh
 
 ### 2.单独安装Docker
 ```bash
-wget -O do_docker.sh https://cafe.cpolar.cn/wkdaily/gl-inet-onescript/raw/branch/master/docker/do_docker.sh && chmod +x do_docker.sh && ./do_docker.sh
+wget -O do_docker.sh https://cafe.vip.cpolar.top/wkdaily/gl-inet-onescript/raw/branch/master/docker/do_docker.sh && chmod +x do_docker.sh && ./do_docker.sh
 ```
 
 ### 5.新手ssh连接注意事项
