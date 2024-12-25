@@ -39,9 +39,9 @@
 wget -O gl-inet.sh https://cafe.cpolar.top/wkdaily/gl-inet-onescript/raw/branch/master/gl-inet.sh && chmod +x gl-inet.sh && ./gl-inet.sh
 ```
 
-### 下次如何调用,在当前目录下执行
+### 下次如何调用?输入快捷键 g 即可
 ```bash
-sh gl-inet.sh
+g
 ```
 
 ### 2.单独安装Docker
