@@ -43,7 +43,8 @@ wget -O gl-inet.sh https://cafe.cpolar.top/wkdaily/gl-inet-onescript/raw/branch/
 ```bash
 g
 ```
-
+### 注意⚠️4.7.0以上版本。如何访问luci界面？
+http://192.168.8.1:8080
 ### 2.单独安装Docker
 ```bash
 wget -O do_docker.sh https://cafe.cpolar.top/wkdaily/gl-inet-onescript/raw/branch/master/docker/do_docker.sh && chmod +x do_docker.sh && ./do_docker.sh
