@@ -64,8 +64,7 @@ docker-compose version
 
 ### 辅助视频教程⬇️
 https://www.bilibili.com/video/BV1312bYZEjE
-https://www.bilibili.com/video/BV1YJ4m1L7A3/
-### 博客地址:https://wkdaily.cpolar.cn
+### 博客地址:https://wkdaily.cpolar.top
 # Docker面板的选择
 ## 🔑 安装1panel 面板 来管理Docker 容器
 
