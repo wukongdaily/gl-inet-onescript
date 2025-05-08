@@ -62,6 +62,10 @@ docker-compose version
 # 你可以任意命名，不过就是习惯这样写，还有的人重命名为docker_compose之类的都可以。
 ```
 
+## ❤️赞助作者 ⬇️⬇️
+#### 项目开发不易 感谢您的支持鼓励。<br>
+[![点击这里赞助我](https://img.shields.io/badge/点击这里赞助我-支持作者的项目-orange?logo=github)](https://wkdaily.cpolar.top/01) <br>
+
 ### 辅助视频教程⬇️
 https://www.bilibili.com/video/BV1312bYZEjE
 ### 博客地址:https://wkdaily.cpolar.top
@@ -149,8 +153,8 @@ docker run -d \
 https://dl.gl-inet.cn/release/router/stable/mt3000/4.5.0
 https://dl.gl-inet.cn/release/router/stable/mt2500/4.5.0
 ```
-# 💰打赏作者💰
-<img src="https://github.com/wukongdaily/tvhelper-docker/assets/143675923/1f92c5ba-1b6b-4967-a1ab-20697159badc" width="20%" />
+
+
 
 # 参考视频 点击直达
 [![B 站视频封面](https://i2.hdslb.com/bfs/archive/2fda32c5af12d06fdf5f95afd8384796ac6ec61c.jpg@560w_350h_1c_!web-space-index-topvideo.avif)](https://www.bilibili.com/video/BV1312bYZEjE)
