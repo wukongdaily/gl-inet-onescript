@@ -67,6 +67,9 @@ docker-compose version
 #### 项目开发不易 感谢您的支持鼓励。<br>
 [![点击这里赞助我](https://img.shields.io/badge/点击这里赞助我-支持作者的项目-orange?logo=github)](https://wkdaily.cpolar.top/01) <br>
 
+## 🆕✨区域切换(CN|US)
+https://github.com/wukongdaily/AreaSwitch
+
 ### 辅助视频教程⬇️
 https://www.bilibili.com/video/BV1312bYZEjE
 ### 博客地址:https://wkdaily.cpolar.top
