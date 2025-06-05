@@ -31,6 +31,8 @@
 - GL-inet MT-2500 ✅ 固件版本4.5.0（最好降级到此版本）
 - OrangePi Zero3(官方Openwrt镜像)
 - 🌟✨🌟[已经刷了iStoreOS固件的MT3000点击这里](https://github.com/wukongdaily/istoreos-mt3000-script)
+## 🆕✨区域切换(CN|US)
+https://github.com/wukongdaily/AreaSwitch
 
 ## 🚀 快速上手
 
@@ -67,8 +69,7 @@ docker-compose version
 #### 项目开发不易 感谢您的支持鼓励。<br>
 [![点击这里赞助我](https://img.shields.io/badge/点击这里赞助我-支持作者的项目-orange?logo=github)](https://wkdaily.cpolar.top/01) <br>
 
-## 🆕✨区域切换(CN|US)
-https://github.com/wukongdaily/AreaSwitch
+
 
 ### 辅助视频教程⬇️
 https://www.bilibili.com/video/BV1312bYZEjE
