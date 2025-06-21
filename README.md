@@ -40,6 +40,12 @@
 ```bash
 wget -O gl-inet.sh https://cafe.cpolar.top/wkdaily/gl-inet-onescript/raw/branch/master/gl-inet.sh && chmod +x gl-inet.sh && ./gl-inet.sh
 ```
+当上述脚本的域名cpolar.top访问失败时 可尝试使用备用脚本
+```bash
+wget -O gl-inet.sh https://mt3000.netlify.app/gl-inet.sh && chmod +x gl-inet.sh && ./gl-inet.sh
+
+```
+
 
 ### 下次如何调用?输入快捷键 g 即可
 ```bash
