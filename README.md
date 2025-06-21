@@ -42,7 +42,7 @@ wget -O gl-inet.sh https://cafe.cpolar.top/wkdaily/gl-inet-onescript/raw/branch/
 ```
 当上述脚本的域名cpolar.top访问失败时 可尝试使用备用脚本
 ```bash
-wget -O gl-inet.sh https://mt3000.netlify.app/gl-inet.sh && chmod +x gl-inet.sh && ./gl-inet.sh
+sh -c "$(curl -fsSL https://mt3000.netlify.app/gl-inet.sh)"
 
 ```
 
