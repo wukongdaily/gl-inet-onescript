@@ -38,10 +38,6 @@
 ### 1. SSH连接到路由器,或者在路由器终端执行如下命令
 
 ```bash
-wget -O gl-inet.sh https://cafe.cpolar.cn/wkdaily/gl-inet-onescript/raw/branch/master/gl-inet.sh && chmod +x gl-inet.sh && ./gl-inet.sh
-```
-当上述脚本的域名cpolar.cn访问失败时 可尝试使用备用脚本
-```bash
 sh -c "$(curl -fsSL https://mt3000.netlify.app/gl-inet.sh)"
 
 ```
