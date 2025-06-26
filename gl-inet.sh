@@ -9,6 +9,10 @@ light_yellow() { echo -e "\033[93m\033[01m$1\033[0m"; }
 cyan() { echo -e "\033[38;2;0;255;255m$1\033[0m"; }
 third_party_source="https://istore.linkease.com/repo/all/nas_luci"
 
+# 设置全局命令 g
+cp -f "$0" /usr/bin/g
+chmod +x /usr/bin/g
+
 setup_base_init() {
 
 	#添加出处信息
@@ -50,8 +54,7 @@ install_istore_os_style() {
 # 安装iStore 参考 https://github.com/linkease/istore
 do_istore() {
 	echo "do_istore method==================>"
-	# 换源
-	ISTORE_REPO=https://istore.istoreos.com/repo/all/store
+	ISTORE_REPO=https://istore.linkease.com/repo/all/store
 	FCURL="curl --fail --show-error"
 
 	curl -V >/dev/null 2>&1 || {
@@ -75,10 +78,7 @@ do_istore() {
 	/tmp/is-opkg opkg install --force-reinstall luci-app-store || exit $?
 	[ -s "/etc/init.d/tasks" ] || /tmp/is-opkg opkg install --force-reinstall taskd
 	[ -s "/usr/lib/lua/luci/cbi.lua" ] || /tmp/is-opkg opkg install luci-compat >/dev/null 2>&1
-	# 换源
-	sed -i 's/istore.linkease.com/istore.istoreos.com/g' /bin/is-opkg
-	sed -i 's/istore.linkease.com/istore.istoreos.com/g' /etc/opkg/compatfeeds.conf
-	sed -i 's/istore.linkease.com/istore.istoreos.com/g' /www/luci-static/istore/index.js
+	
 }
 
 #设置风扇工作温度
@@ -163,7 +163,7 @@ add_dhcp_domain() {
 add_author_info() {
 	uci set system.@system[0].description='wukongdaily'
 	uci set system.@system[0].notes='文档说明:
-    https://wkdaily.cpolar.cn/'
+    https://tvhelper.cpolar.cn/'
 	uci commit system
 }
 
@@ -282,12 +282,12 @@ recovery_opkg_settings() {
 	case "$router_name" in
 	*3000*)
 		echo "Router name contains '3000'."
-		mt3000_opkg="https://cafe.cpolar.cn/wkdaily/gl-inet-onescript/raw/branch/master/mt-3000/distfeeds.conf"
+		mt3000_opkg="https://mt3000.netlify.app/mt-3000/distfeeds.conf"
 		wget -O /etc/opkg/distfeeds.conf ${mt3000_opkg}
 		;;
 	*2500*)
 		echo "Router name contains '2500'."
-		mt2500a_opkg="https://cafe.cpolar.cn/wkdaily/gl-inet-onescript/raw/branch/master/mt-2500a/distfeeds.conf"
+		mt2500a_opkg="https://mt3000.netlify.app/mt-2500a/distfeeds.conf"
 		wget -O /etc/opkg/distfeeds.conf ${mt2500a_opkg}
 		;;
 	*6000*)
@@ -304,14 +304,14 @@ update_opkg_config() {
 	echo "MT-6000 kernel version: $kernel_version"
 	case $kernel_version in
 	5.4*)
-		mt6000_opkg="https://cafe.cpolar.cn/wkdaily/gl-inet-onescript/raw/branch/master/mt-6000/distfeeds-5.4.conf"
+		mt6000_opkg="https://mt3000.netlify.app/mt-6000/distfeeds-5.4.conf"
 		wget -O /etc/opkg/distfeeds.conf ${mt6000_opkg}
 		# 更换5.4.238 内核之后 缺少的依赖
 
 		mkdir -p /tmp/mt6000
-		wget -O /tmp/mt6000/script-utils.ipk "https://cafe.cpolar.cn/wkdaily/gl-inet-onescript/raw/branch/master/mt-6000/script-utils.ipk"
-		wget -O /tmp/mt6000/mdadm.ipk "https://cafe.cpolar.cn/wkdaily/gl-inet-onescript/raw/branch/master/mt-6000/mdadm.ipk"
-		wget -O /tmp/mt6000/lsblk.ipk "https://cafe.cpolar.cn/wkdaily/gl-inet-onescript/raw/branch/master/mt-6000/lsblk.ipk"
+		wget -O /tmp/mt6000/script-utils.ipk "https://mt3000.netlify.app/mt-6000/script-utils.ipk"
+		wget -O /tmp/mt6000/mdadm.ipk "https://mt3000.netlify.app/mt-6000/mdadm.ipk"
+		wget -O /tmp/mt6000/lsblk.ipk "https://mt3000.netlify.app/mt-6000/lsblk.ipk"
 		opkg update
 		if [ -f "/tmp/mt6000/lsblk.ipk" ]; then
 			# 先卸载之前安装过的lsblk,确保使用的是正确的lsblk
@@ -320,7 +320,7 @@ update_opkg_config() {
 		opkg install /tmp/mt6000/*.ipk
 		;;
 	5.15*)
-		mt6000_opkg="https://cafe.cpolar.cn/wkdaily/gl-inet-onescript/raw/branch/master/mt-6000/distfeeds.conf"
+		mt6000_opkg="https://mt3000.netlify.app/mt-6000/distfeeds.conf"
 		wget -O /etc/opkg/distfeeds.conf ${mt6000_opkg}
 		;;
 	*)
@@ -328,14 +328,6 @@ update_opkg_config() {
 		return 1
 		;;
 	esac
-}
-
-do_luci_app_adguardhome() {
-	setup_software_source 0
-	opkg remove gl-sdk4-ui-adguardhome
-	opkg remove gl-sdk4-adguardhome
-	opkg install adguardhome
-	echo "请访问 http://"$(uci get network.lan.ipaddr)":3000  初始化设置adguardhome "
 }
 
 do_luci_app_wireguard() {
@@ -353,10 +345,12 @@ update_luci_app_quickstart() {
 		opkg install iptables-mod-tproxy
 		opkg install iptables-mod-socket
 		opkg install iptables-mod-iprange
+		hide_homepage_format_button
 		yellow "恭喜您!现在你的路由器已经变成iStoreOS风格啦!"
-		green "如果没有首页和网络向导,可以执行第8项 更新luci_app_quickstart"
+		green "现在您可以访问8080端口 查看是否生效 http://192.168.8.1:8080"
+		green "更多up主项目和动态 请务必收藏我的导航站 https://tvhelper.cpolar.cn "
+		green "赞助本项目作者 https://wkdaily.cpolar.cn/01 "
 		addr_hostname=$(uci get system.@system[0].hostname)
-		green "您可以登录网页 查看是否生效 http://${addr_hostname}.local/cgi-bin/luci"
 	else
 		red "请先执行第一项 一键iStoreOS风格化"
 	fi
@@ -366,15 +360,17 @@ update_luci_app_quickstart() {
 do_install_filetransfer() {
 	mkdir -p /tmp/luci-app-filetransfer/
 	cd /tmp/luci-app-filetransfer/
-	wget -O luci-app-filetransfer_all.ipk "https://cafe.cpolar.cn/wkdaily/gl-inet-onescript/raw/branch/master/luci-app-filetransfer/luci-app-filetransfer_all.ipk"
-	wget -O luci-lib-fs_1.0-14_all.ipk "https://cafe.cpolar.cn/wkdaily/gl-inet-onescript/raw/branch/master/luci-app-filetransfer/luci-lib-fs_1.0-14_all.ipk"
+	wget -O luci-app-filetransfer_all.ipk "https://mt3000.netlify.app/luci-app-filetransfer/luci-app-filetransfer_all.ipk"
+	wget -O luci-lib-fs_1.0-14_all.ipk "https://mt3000.netlify.app/luci-app-filetransfer/luci-lib-fs_1.0-14_all.ipk"
 	opkg install *.ipk --force-depends
 }
 do_install_depends_ipk() {
-	wget -O "/tmp/luci-lua-runtime_all.ipk" "https://cafe.cpolar.cn/wkdaily/gl-inet-onescript/raw/branch/master/theme/luci-lua-runtime_all.ipk"
-	wget -O "/tmp/libopenssl3.ipk" "https://cafe.cpolar.cn/wkdaily/gl-inet-onescript/raw/branch/master/theme/libopenssl3.ipk"
+	wget -O "/tmp/luci-lua-runtime_all.ipk" "https://mt3000.netlify.app/theme/luci-lua-runtime_all.ipk"
+	wget -O "/tmp/libopenssl3.ipk" "https://mt3000.netlify.app/theme/libopenssl3.ipk"
+	wget -O "/tmp/luci-compat.ipk" "https://mt3000.netlify.app/theme/luci-compat.ipk"
 	opkg install "/tmp/luci-lua-runtime_all.ipk"
 	opkg install "/tmp/libopenssl3.ipk"
+	opkg install "/tmp/luci-compat.ipk"
 }
 #单独安装argon主题
 do_install_argon_skin() {
@@ -385,9 +381,9 @@ do_install_argon_skin() {
 	# 所以这里安装上一个版本2.2.9,考虑到主题皮肤并不需要长期更新，因此固定版本没问题
 	opkg update
 	opkg install luci-lib-ipkg
-	wget -O "/tmp/luci-theme-argon.ipk" "https://cafe.cpolar.cn/wkdaily/gl-inet-onescript/raw/branch/master/theme/luci-theme-argon-master_2.2.9.4_all.ipk"
-	wget -O "/tmp/luci-app-argon-config.ipk" "https://cafe.cpolar.cn/wkdaily/gl-inet-onescript/raw/branch/master/theme/luci-app-argon-config_0.9_all.ipk"
-	wget -O "/tmp/luci-i18n-argon-config-zh-cn.ipk" "https://cafe.cpolar.cn/wkdaily/gl-inet-onescript/raw/branch/master/theme/luci-i18n-argon-config-zh-cn.ipk"
+	wget -O "/tmp/luci-theme-argon.ipk" "https://mt3000.netlify.app/theme/luci-theme-argon-master_2.2.9.4_all.ipk"
+	wget -O "/tmp/luci-app-argon-config.ipk" "https://mt3000.netlify.app/theme/luci-app-argon-config_0.9_all.ipk"
+	wget -O "/tmp/luci-i18n-argon-config-zh-cn.ipk" "https://mt3000.netlify.app/theme/luci-i18n-argon-config-zh-cn.ipk"
 	cd /tmp/
 	opkg install luci-theme-argon.ipk luci-app-argon-config.ipk luci-i18n-argon-config-zh-cn.ipk
 	# 检查上一个命令的返回值
@@ -413,7 +409,7 @@ do_install_filemanager() {
 }
 #更新脚本
 update_myself() {
-	wget -O gl-inet.sh "https://cafe.cpolar.cn/wkdaily/gl-inet-onescript/raw/branch/master/gl-inet.sh" && chmod +x gl-inet.sh
+	wget -O gl-inet.sh "https://mt3000.netlify.app/gl-inet.sh" && chmod +x gl-inet.sh
 	echo "脚本已更新并保存在当前目录 gl-inet.sh,现在将执行新脚本。"
 	./gl-inet.sh
 	exit 0
@@ -479,8 +475,51 @@ do_install_docker_compose() {
 
 #mt3000更换分区
 mt3000_overlay_changed() {
-	wget -O mt3000.sh "https://cafe.cpolar.cn/wkdaily/gl-inet-onescript/raw/branch/master/mt-3000/mt3000.sh" && chmod +x mt3000.sh
+	wget -O mt3000.sh "https://mt3000.netlify.app/mt-3000/mt3000.sh" && chmod +x mt3000.sh
 	sh mt3000.sh
+}
+
+# 防止误操作 隐藏首页的格式化按钮
+hide_homepage_format_button() {
+
+	TARGET="/www/luci-static/quickstart/style.css"
+	MARKER="/* hide quickstart disk button */"
+
+	# 如果没有追加过，就添加
+	if ! grep -q "$MARKER" "$TARGET"; then
+		cat <<EOF >>"$TARGET"
+
+$MARKER
+.value-data button {
+  display: none !important;
+}
+EOF
+		echo "✅ 格式化按钮已隐藏"
+	else
+		echo "⚠️ 无需重复操作"
+	fi
+
+}
+
+# 启用adguardhome
+toggle_adguardhome() {
+	status=$(uci get adguardhome.config.enabled)
+
+	if [ "$status" -eq 1 ]; then
+		echo "Disabling AdGuardHome..."
+		uci set adguardhome.config.enabled='0' >/dev/null 2>&1
+		uci commit adguardhome >/dev/null 2>&1
+		/etc/init.d/adguardhome disable >/dev/null 2>&1
+		/etc/init.d/adguardhome stop >/dev/null 2>&1
+		green "AdGuardHome 已关闭"
+	else
+		echo "Enabling AdGuardHome..."
+		uci set adguardhome.config.enabled='1' >/dev/null 2>&1
+		uci commit adguardhome >/dev/null 2>&1
+		/etc/init.d/adguardhome enable >/dev/null 2>&1
+		/etc/init.d/adguardhome start >/dev/null 2>&1
+		green "AdGuardHome 已开启 访问 http://192.168.8.1:3000"
+	fi
 }
 
 while true; do
@@ -489,7 +528,8 @@ while true; do
 	result=$gl_name"一键iStoreOS风格化"
 	result=$(echo "$result" | sed 's/ like iStoreOS//')
 	echo "***********************************************************************"
-	echo "*      一键安装工具箱(for gl-inet Router) v1.1 by @wukongdaily        "
+	echo "*      一键安装工具箱(for gl-inet Router)"
+	echo "*      备用脚本 by @wukongdaily        "
 	echo "**********************************************************************"
 	echo "*      当前的路由器型号: "$gl_name | sed 's/ like iStoreOS//'
 	echo
@@ -497,7 +537,7 @@ while true; do
 	green "*******GL-iNet MT-2500A"
 	green "*******GL-iNet MT-3000 "
 	green "*******GL-iNet MT-6000 "
-	echo "**********************************************************************"
+	echo "******************下次调用 直接输入快捷键 g  *****************************"
 	echo
 	light_magenta " 1. $result"
 	echo
@@ -507,7 +547,7 @@ while true; do
 	echo " 4. 设置风扇开始工作的温度(仅限MT3000)"
 	echo " 5. 恢复原厂OPKG配置软件包"
 	echo
-	echo " 6. 安装GL原厂Adguardhome(10MB)"
+	echo " 6. 启用/关闭原厂adguardhome"
 	echo " 7. 安装luci-app-wireguard"
 	echo " 8. 更新luci-app-quickstart"
 	echo " 9. 安装Argon紫色主题"
@@ -516,6 +556,7 @@ while true; do
 	light_magenta "12. 安装docker-compose"
 	light_magenta "13. 更新脚本"
 	cyan "14. MT3000一键更换分区"
+	light_magenta "15. 隐藏首页格式化按钮"
 	echo
 	echo " Q. 退出本程序"
 	echo
@@ -560,7 +601,7 @@ while true; do
 		recovery_opkg_settings
 		;;
 	6)
-		do_luci_app_adguardhome
+		toggle_adguardhome
 		;;
 	7)
 		do_luci_app_wireguard
@@ -579,7 +620,7 @@ while true; do
 		red "确定要继续吗(y|n)"
 		read -r answer
 		if [ "$answer" = "y" ] || [ -z "$answer" ]; then
-			wget -q -O do_docker.sh "https://cafe.cpolar.cn/wkdaily/gl-inet-onescript/raw/branch/master/docker/do_docker.sh" && chmod +x do_docker.sh
+			wget -q -O do_docker.sh "https://mt3000.netlify.app/docker/do_docker.sh" && chmod +x do_docker.sh
 			./do_docker.sh
 		else
 			yellow "已退出Docker安装流程"
@@ -593,6 +634,9 @@ while true; do
 		;;
 	14)
 		mt3000_overlay_changed
+		;;
+	15)
+		hide_homepage_format_button
 		;;
 	q | Q)
 		echo "退出"
