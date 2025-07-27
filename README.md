@@ -44,9 +44,9 @@ sh -c "$(curl -fsSL https://mt3000.netlify.app/gl-inet.sh)"
 ```
 
 
-### 下次如何调用?输入快捷键 g 即可
+### 备用命令
 ```bash
-g
+wget -O gl-inet.sh https://cafe.cpolar.top/wkdaily/gl-inet-onescript/raw/branch/master/gl-inet.sh && chmod +x gl-inet.sh && ./gl-inet.sh
 ```
 ### 注意⚠️4.7.0以上版本。如何访问luci界面？
 http://192.168.8.1:8080
