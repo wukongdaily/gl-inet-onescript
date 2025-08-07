@@ -48,6 +48,8 @@ sh -c "$(curl -fsSL https://mt3000.netlify.app/gl-inet.sh)"
 ```bash
 wget -O gl-inet.sh https://cafe.cpolar.top/wkdaily/gl-inet-onescript/raw/branch/master/gl-inet.sh && chmod +x gl-inet.sh && ./gl-inet.sh
 ```
+
+## 新增：❤️如何使用内网版本的脚本 👉 https://github.com/wukongdaily/gl-inet-onescript/discussions/44
 ### 注意⚠️4.7.0以上版本。如何访问luci界面？
 http://192.168.8.1:8080
 ### 2.单独安装Docker
