@@ -33,6 +33,8 @@
 - OrangePi Zero3(官方Openwrt镜像)
 - 🌟✨🌟[已经刷了iStoreOS固件的MT3000点击这里](https://github.com/wukongdaily/istoreos-mt3000-script)
 
+- ❤️ 新增  [内网版本glibox 用于局域网调用 本脚本 ](https://github.com/wukongdaily/gl-inet-onescript/releases/tag/20250805)
+
 
 ## 🚀 快速上手
 
