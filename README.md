@@ -174,3 +174,43 @@ https://dl.gl-inet.cn/release/router/stable/mt2500/4.5.0
 https://www.youtube.com/watch?v=YlhIdizH0hM
 
 
+# 新增❤️ 使用glibox 内网版的 脚本服务器
+> 支持x86-64 和 arm64 两种平台来搭建，glibox 是基于dufs 制作的内网文件服务器 用于托管本项目的脚本。免得因为网络问题下载失败。看到许多人 不断复用我的脚本 干脆搭建一个内网版本 。
+
+**视频教学**：https://www.bilibili.com/video/BV1eWt3zCE2y
+**视频教学**： https://youtu.be/ee4fANDk_CM
+
+```bash
+docker run -d \
+  --restart unless-stopped \
+  --name glibox \
+  -p 15050:15050 \
+  wukongdaily/glibox
+
+```
+
+
+### 对于MT3000/2500/6000  （ssh连接到路由器内 在路由器内执行）
+
+```bash
+read -p "请输入glibox局域网 IP: " ip && wget -O /tmp/gl.sh http://$ip:15050/glinet/gl-inet.sh && sh /tmp/gl.sh $ip
+
+```
+
+### 对于be3600 （ssh连接到路由器内 在路由器内执行）
+
+```bash
+read -p "请输入glibox局域网 IP: " ip && wget -O /tmp/gl.sh http://$ip:15050/glinet/be3600.sh && sh /tmp/gl.sh $ip
+```
+
+
+### https://hub.docker.com/r/wukongdaily/glibox/tags
+
+<img width="70%" height="70%" alt="image" src="https://github.com/user-attachments/assets/b13fada3-6d5c-4427-b20e-16e44ada5276" />
+
+
+# 💰打赏作者💰
+https://wkdaily.cpolar.cn/01
+
+<img width="15%" height="15%" alt="image" src="https://github.com/user-attachments/assets/347eb57a-bcdb-4577-ac32-7fd880cbf205" />
+
