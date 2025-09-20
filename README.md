@@ -45,10 +45,10 @@ sh -c "$(curl -fsSL https://mt3000.netlify.app/gl-inet.sh)"
 
 ```
 
-
-### 备用命令
+#### 新增 兼容原厂op24固件的脚本
 ```bash
-wget -O gl-inet.sh https://cafe.cpolar.top/wkdaily/gl-inet-onescript/raw/branch/master/gl-inet.sh && chmod +x gl-inet.sh && ./gl-inet.sh
+sh -c "$(curl -fsSL https://mt3000.netlify.app/gl-inet-op24.sh)"
+
 ```
 
 ## 新增：❤️如何使用内网版本的脚本 👉 https://github.com/wukongdaily/gl-inet-onescript/discussions/44
