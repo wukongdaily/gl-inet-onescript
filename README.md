@@ -209,6 +209,16 @@ read -p "请输入glibox局域网 IP: " ip && wget -O /tmp/gl.sh http://$ip:1505
 <img width="70%" height="70%" alt="image" src="https://github.com/user-attachments/assets/b13fada3-6d5c-4427-b20e-16e44ada5276" />
 
 
+### MT3000 原厂OP24 固件软件源 替换为阿里云
+```bash
+src/gz core https://fw.gl-inet.cn/releases/v24.x/24.10.2/mediatek/filogic
+src/gz base https://mirrors.aliyun.com/openwrt/releases/24.10.2/packages/aarch64_cortex-a53/base
+src/gz luci https://mirrors.aliyun.com/openwrt/releases/24.10.2/packages/aarch64_cortex-a53/luci
+src/gz packages https://mirrors.aliyun.com/openwrt/releases/24.10.2/packages/aarch64_cortex-a53/packages
+src/gz routing https://mirrors.aliyun.com/openwrt/releases/24.10.2/packages/aarch64_cortex-a53/routing
+src/gz telephony https://mirrors.aliyun.com/openwrt/releases/24.10.2/packages/aarch64_cortex-a53/telephony
+```
+
 # 💰打赏作者💰
 https://wkdaily.cpolar.cn/01
 
