@@ -219,6 +219,9 @@ src/gz routing https://mirrors.aliyun.com/openwrt/releases/24.10.2/packages/aarc
 src/gz telephony https://mirrors.aliyun.com/openwrt/releases/24.10.2/packages/aarch64_cortex-a53/telephony
 ```
 
+### 鸣谢
+鸣谢GL论坛大佬 https://github.com/VMatrices
+
 # 💰打赏作者💰
 https://wkdaily.cpolar.cn/01
 
