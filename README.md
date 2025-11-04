@@ -232,3 +232,7 @@ https://wkdaily.cpolar.cn/01
 
 <img width="15%" height="15%" alt="image" src="https://github.com/user-attachments/assets/347eb57a-bcdb-4577-ac32-7fd880cbf205" />
 
+### 更换最新iStoreOS首页 <2025-11-04>
+<img width="3840" height="4393" alt="FireShot" src="https://github.com/user-attachments/assets/1811e922-97d6-48d7-b6ca-d0c471d2fb0a" />
+
+
