@@ -63,6 +63,7 @@ sh -c "$(curl -fsSL https://mt3000.netlify.app/be3600.sh)"
 ```
 
 ## 新增：❤️如何使用内网版本的脚本 👉 https://github.com/wukongdaily/gl-inet-onescript/discussions/44
+### 新增：❤️如何下载run格式安装包 👉 [#45](https://github.com/wkccd/CloudRunFilesBuilder/releases)
 ### 注意⚠️4.7.0以上版本。如何访问luci界面？
 http://192.168.8.1:8080
 ### 2.单独安装Docker
