@@ -22,7 +22,7 @@
 - 🔑 支持`一键设置MT-3000风扇开始工作的温度`
 - 🌏 支持`一键部署Docker运行环境`
 - 🌏 支持`一键安装docker-compose`
-- ✅ 支持`一键启动/关闭GL原厂adguardhome` 🆕
+- ✅ 新增`高级卸载插件 by VedioTalk` 🆕
 - ✅ 新增`个性化辅助UI插件的安装` 🆕
 - 📕 支持`一键恢复原厂的OPKG软件源`
 - 🔑 支持`MT-3000 一键更换分区到U盘`
@@ -237,7 +237,10 @@ src/gz telephony https://mirrors.aliyun.com/openwrt/releases/24.10.2/packages/aa
 ```
 
 ### 鸣谢
-鸣谢GL论坛大佬 https://github.com/VMatrices
+- [鸣谢GL论坛大佬——iBelieve](https://forum.gl-inet.cn/forum.php?mod=viewthread&tid=3129&extra=page%3D1) 
+- https://github.com/VMatrices
+- [高级卸载插件作者VedioTalk](https://xz.vumstar.com/)
+- iStoreOS https://site.istoreos.com
 
 # 💰打赏作者💰
 https://wkdaily.cpolar.cn/01
