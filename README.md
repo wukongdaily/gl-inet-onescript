@@ -41,24 +41,24 @@
 ### 1. SSH连接到路由器,或者在路由器终端执行如下命令 (MT2500/3000/6000)
 
 ```bash
-sh -c "$(curl -fsSL https://mt3000.netlify.app/gl-inet.sh)"
+sh -c "$(curl -fsSL https://cafe.cpolar.cn/wkdaily/gl/raw/branch/main/gl-inet.sh)"
 
 ```
 
 #### 新增 兼容原厂op24固件的脚本 (MT3000/6000)
 ```bash
-sh -c "$(curl -fsSL https://mt3000.netlify.app/gl-inet-op24.sh)"
+sh -c "$(curl -fsSL https://cafe.cpolar.cn/wkdaily/gl/raw/branch/main/gl-inet-op24.sh)"
 
 ```
 
 #### 新增 BE6500脚本 (GL-BE6500) ❤️
 ```bash
-sh -c "$(curl -fsSL https://mt3000.netlify.app/be6500.sh)"
+sh -c "$(curl -fsSL https://cafe.cpolar.cn/wkdaily/gl/raw/branch/main/be6500.sh)"
 
 ```
 #### 新增 BE3600脚本 (GL-BE3600)
 ```bash
-sh -c "$(curl -fsSL https://mt3000.netlify.app/be3600.sh)"
+sh -c "$(curl -fsSL https://cafe.cpolar.cn/wkdaily/gl/raw/branch/main/be3600.sh)"
 
 ```
 
