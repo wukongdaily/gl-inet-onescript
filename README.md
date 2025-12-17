@@ -251,4 +251,8 @@ https://wkdaily.cpolar.cn/01
 ### 更换最新iStoreOS首页 <2025-12-17> 支持按需显示UI模块
 <img width="3412" height="1472" alt="image" src="https://github.com/user-attachments/assets/9c807485-3e9a-46a5-8f0c-97cdf41053eb" />
 
+---
+
+<img width="2648" height="1666" alt="image" src="https://github.com/user-attachments/assets/e1728a7a-26fc-4bd4-8cb6-43ba20c4b651" />
+
 
