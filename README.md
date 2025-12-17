@@ -16,7 +16,7 @@
 > 其他机型:[GL-BE3600 在这里](https://github.com/wukongdaily/be3600/)
 ## 💡 特色功能
 
-- 💻 支持`一键安装iStoreOS风格`
+- 💻 支持`一键安装iStoreOS风格 新首页风格 支持按需显示UI模块`
 - 💻 支持`一键安装紫色的Argon主题`
 - 💻 支持`一键安装文件管理器`
 - 🔑 支持`一键设置MT-3000风扇开始工作的温度`
@@ -61,7 +61,7 @@ sh -c "$(curl -fsSL https://cafe.cpolar.cn/wkdaily/gl/raw/branch/main/be6500.sh)
 sh -c "$(curl -fsSL https://cafe.cpolar.cn/wkdaily/gl/raw/branch/main/be3600.sh)"
 
 ```
-
+## 常见问题 https://github.com/wukongdaily/gl-inet-onescript/discussions/53 如8080端口提示拒绝访问
 ## 新增：❤️如何使用内网版本的脚本 👉 https://github.com/wukongdaily/gl-inet-onescript/discussions/44
 #### 🌏🇺🇸🇭🇰🇲🇴 非中国大陆用户请[访问这里的脚本](https://wklife.netlify.app/#/script)
 ### 新增：❤️如何下载run格式安装包 👉 [#45](https://github.com/wkccd/CloudRunFilesBuilder/releases)
@@ -248,7 +248,7 @@ https://wkdaily.cpolar.cn/01
 
 <img width="15%" height="15%" alt="image" src="https://github.com/user-attachments/assets/347eb57a-bcdb-4577-ac32-7fd880cbf205" />
 
-### 更换最新iStoreOS首页 <2025-11-04>
-<img width="3840" height="4393" alt="FireShot" src="https://github.com/user-attachments/assets/1811e922-97d6-48d7-b6ca-d0c471d2fb0a" />
+### 更换最新iStoreOS首页 <2025-12-17> 支持按需显示UI模块
+<img width="3412" height="1472" alt="image" src="https://github.com/user-attachments/assets/9c807485-3e9a-46a5-8f0c-97cdf41053eb" />
 
 
