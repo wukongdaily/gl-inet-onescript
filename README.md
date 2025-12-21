@@ -61,6 +61,12 @@ sh -c "$(curl -fsSL https://cafe.cpolar.cn/wkdaily/gl/raw/branch/main/be6500.sh)
 sh -c "$(curl -fsSL https://cafe.cpolar.cn/wkdaily/gl/raw/branch/main/be3600.sh)"
 
 ```
+---
+#### ❤️新增 MT-3600BE脚本 (GL-MT3600BE)
+```bash
+sh -c "$(curl -fsSL https://cafe.cpolar.cn/wkdaily/gl/raw/branch/main/mt3600.sh)"
+
+```
 ## 常见问题 https://github.com/wukongdaily/gl-inet-onescript/discussions/53 如8080端口提示拒绝访问
 ## 新增：❤️如何使用内网版本的脚本 👉 https://github.com/wukongdaily/gl-inet-onescript/discussions/44
 #### 🌏🇺🇸🇭🇰🇲🇴 非中国大陆用户请[访问这里的脚本](https://wklife.netlify.app/#/script)
