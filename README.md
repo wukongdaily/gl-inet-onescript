@@ -4,7 +4,7 @@
 ![GitHub Stars](https://img.shields.io/github/stars/wukongdaily/gl-inet-onescript.svg?style=flat&logo=appveyor&label=Stars&logo=github)
 ![GitHub Forks](https://img.shields.io/github/forks/wukongdaily/gl-inet-onescript.svg?style=flat&logo=appveyor&label=Forks&logo=github)
 [![YouTube](https://img.shields.io/badge/YouTube-123456?logo=youtube&labelColor=ff0000)](https://www.youtube.com/watch?v=YlhIdizH0hM)
-[![Bilibili](https://img.shields.io/badge/Bilibili-123456?logo=bilibili&logoColor=fff&labelColor=fb7299)](https://www.bilibili.com/video/BV1312bYZEjE)
+[![Bilibili](https://img.shields.io/badge/Bilibili-123456?logo=bilibili&logoColor=fff&labelColor=fb7299)](https://www.bilibili.com/video/BV1GyqmBEEsq/)
 
 
 ## 🤔 这是什么？
@@ -17,7 +17,7 @@
 <img alt="Static Badge" src="https://img.shields.io/badge/BE6500-0?style=flat-square&logoColor=8A2BE2&label=%E5%9E%8B%E5%8F%B7&labelColor=000000&color=84dce5"> 
 <img alt="Static Badge" src="https://img.shields.io/badge/BE9300-0?style=flat-square&logoColor=8A2BE2&label=%E5%9E%8B%E5%8F%B7&labelColor=000000&color=235ab8"> 
 <img alt="Static Badge" src="https://img.shields.io/badge/MT3600BE-0?style=flat-square&logoColor=8A2BE2&label=%E5%9E%8B%E5%8F%B7&labelColor=000000&color=5e0774"> 
-> 其他机型:[GL-BE3600 在这里](https://github.com/wukongdaily/be3600/)
+> [GL-MT3600BE wifi 7 路由器测评 在这里](https://www.bilibili.com/video/BV1GyqmBEEsq/)
 ## 💡 特色功能
 
 - 💻 支持`一键安装iStoreOS风格 新首页风格 支持按需显示UI模块`
