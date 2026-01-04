@@ -42,33 +42,50 @@
 
 ## 🚀 快速上手
 
-### 1. SSH连接到路由器,或者在路由器终端执行如下命令 (MT2500/3000/6000)
+### 1. SSH连接到路由器,或者在路由器终端执行如下命令 (MT2500/3000/6000) Wi-Fi 6
 
 ```bash
 sh -c "$(curl -fsSL https://cafe.cpolar.cn/wkdaily/gl/raw/branch/main/gl-inet.sh)"
 
 ```
 
-#### 新增 兼容原厂op24固件的脚本 (MT3000/6000)
+#### 新增 兼容原厂【op24固件】的脚本 (MT3000/6000) Wi-Fi 6
+> 如果是MT3000 原厂4.8.3-op24 固件 你可以先替换为阿里云软件源 再执行脚本 这样在国内访问会快很多<br>
+> 系统——软件包——配置OPKG 将最后的 /etc/opkg/distfeeds.conf 下面的文本框替换为如下 阿里云的软件源
+```bash
+src/gz core https://fw.gl-inet.cn/releases/v24.x/24.10.4/mediatek/filogic
+src/gz base https://mirrors.aliyun.com/openwrt/releases/24.10.4/packages/aarch64_cortex-a53/base
+src/gz luci https://mirrors.aliyun.com/openwrt/releases/24.10.4/packages/aarch64_cortex-a53/luci
+src/gz packages https://mirrors.aliyun.com/openwrt/releases/24.10.4/packages/aarch64_cortex-a53/packages
+src/gz routing https://mirrors.aliyun.com/openwrt/releases/24.10.4/packages/aarch64_cortex-a53/routing
+src/gz telephony https://mirrors.aliyun.com/openwrt/releases/24.10.4/packages/aarch64_cortex-a53/telephony
+```
+#### 然后再执行脚本
 ```bash
 sh -c "$(curl -fsSL https://cafe.cpolar.cn/wkdaily/gl/raw/branch/main/gl-inet-op24.sh)"
 
 ```
 
-#### 新增 BE6500脚本 (GL-BE6500) ❤️
+#### 新增 BE6500脚本 (GL-BE6500) ❤️ Wi-Fi 7
 ```bash
 sh -c "$(curl -fsSL https://cafe.cpolar.cn/wkdaily/gl/raw/branch/main/be6500.sh)"
 
 ```
-#### 新增 BE3600脚本 (GL-BE3600)
+#### 新增 BE3600脚本 (GL-BE3600) Wi-Fi 7
 ```bash
 sh -c "$(curl -fsSL https://cafe.cpolar.cn/wkdaily/gl/raw/branch/main/be3600.sh)"
 
 ```
 ---
-#### ❤️新增 MT-3600BE脚本 (GL-MT3600BE)
+#### ❤️新增 MT-3600BE脚本 (GL-MT3600BE) Wi-Fi 7
 ```bash
 sh -c "$(curl -fsSL https://cafe.cpolar.cn/wkdaily/gl/raw/branch/main/mt3600.sh)"
+
+```
+
+#### ❤️新增 MT-5000脚本 (GL-MT5000) 三个2.5G 有线
+```bash
+# 未完待续
 
 ```
 ## 常见问题 https://github.com/wukongdaily/gl-inet-onescript/discussions/53 如8080端口提示拒绝访问
@@ -237,15 +254,7 @@ read -p "请输入glibox局域网 IP: " ip && wget -O /tmp/gl.sh http://$ip:1505
 <img width="70%" height="70%" alt="image" src="https://github.com/user-attachments/assets/b13fada3-6d5c-4427-b20e-16e44ada5276" />
 
 
-### MT3000 原厂4.8.3-op24 固件软件源 替换为阿里云
-```bash
-src/gz core https://fw.gl-inet.cn/releases/v24.x/24.10.4/mediatek/filogic
-src/gz base https://mirrors.aliyun.com/openwrt/releases/24.10.4/packages/aarch64_cortex-a53/base
-src/gz luci https://mirrors.aliyun.com/openwrt/releases/24.10.4/packages/aarch64_cortex-a53/luci
-src/gz packages https://mirrors.aliyun.com/openwrt/releases/24.10.4/packages/aarch64_cortex-a53/packages
-src/gz routing https://mirrors.aliyun.com/openwrt/releases/24.10.4/packages/aarch64_cortex-a53/routing
-src/gz telephony https://mirrors.aliyun.com/openwrt/releases/24.10.4/packages/aarch64_cortex-a53/telephony
-```
+
 
 ### 鸣谢
 - [鸣谢GL论坛大佬——iBelieve](https://forum.gl-inet.cn/forum.php?mod=viewthread&tid=3129&extra=page%3D1) 
