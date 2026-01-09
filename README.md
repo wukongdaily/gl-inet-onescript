@@ -50,8 +50,8 @@ sh -c "$(curl -fsSL https://cafe.cpolar.cn/wkdaily/gl/raw/branch/main/gl-inet.sh
 ```
 
 #### 新增 兼容原厂【op24固件】的脚本 (MT3000/6000) Wi-Fi 6
-> 如果是MT3000 原厂4.8.3-op24 固件 你可以先替换为阿里云软件源 再执行脚本 这样在国内访问会快很多<br>
-> 系统——软件包——配置OPKG 将最后的 /etc/opkg/distfeeds.conf 下面的文本框替换为如下 阿里云的软件源
+> 如果是【MT3000 原厂4.8.3-op24 固件】 你可以先替换为阿里云软件源 再执行脚本 这样在国内访问会快很多<br>
+> 进入luci界面，系统——软件包——配置OPKG 将最后的 /etc/opkg/distfeeds.conf 下面的文本框替换为如下 阿里云的软件源
 ```bash
 src/gz core https://fw.gl-inet.cn/releases/v24.x/24.10.4/mediatek/filogic
 src/gz base https://mirrors.aliyun.com/openwrt/releases/24.10.4/packages/aarch64_cortex-a53/base
@@ -60,7 +60,7 @@ src/gz packages https://mirrors.aliyun.com/openwrt/releases/24.10.4/packages/aar
 src/gz routing https://mirrors.aliyun.com/openwrt/releases/24.10.4/packages/aarch64_cortex-a53/routing
 src/gz telephony https://mirrors.aliyun.com/openwrt/releases/24.10.4/packages/aarch64_cortex-a53/telephony
 ```
-#### 然后再执行脚本
+#### 然后再执行脚本 gl-inet-op24.sh 换源后这样速度就快很多
 ```bash
 sh -c "$(curl -fsSL https://cafe.cpolar.cn/wkdaily/gl/raw/branch/main/gl-inet-op24.sh)"
 
