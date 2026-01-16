@@ -85,8 +85,7 @@ sh -c "$(curl -fsSL https://cafe.cpolar.cn/wkdaily/gl/raw/branch/main/mt3600.sh)
 
 #### ❤️新增 MT-5000脚本 (GL-MT5000) 三个2.5G 有线
 ```bash
-# 未完待续
-
+sh -c "$(curl -fsSL https://cafe.cpolar.cn/wkdaily/gl/raw/branch/main/mt5000.sh)"
 ```
 ## 常见问题 https://github.com/wukongdaily/gl-inet-onescript/discussions/53 如8080端口提示拒绝访问
 ## 新增：❤️如何使用内网版本的脚本 👉 https://github.com/wukongdaily/gl-inet-onescript/discussions/44
