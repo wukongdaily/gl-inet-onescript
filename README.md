@@ -67,7 +67,7 @@ sh -c "$(curl -fsSL https://cafe.cpolar.cn/wkdaily/gl/raw/branch/main/gl-inet-op
 
 ```
 
-#### 新增 BE6500脚本 (GL-BE6500) ❤️ Wi-Fi 7
+#### 新增 BE6500脚本 (GL-BE6500) ❤️ Wi-Fi 7 (同BE9300通用)
 ```bash
 sh -c "$(curl -fsSL https://cafe.cpolar.cn/wkdaily/gl/raw/branch/main/be6500.sh)"
 
