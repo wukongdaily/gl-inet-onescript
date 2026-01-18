@@ -17,7 +17,8 @@
 <img alt="Static Badge" src="https://img.shields.io/badge/BE6500-0?style=flat-square&logoColor=8A2BE2&label=%E5%9E%8B%E5%8F%B7&labelColor=000000&color=84dce5"> 
 <img alt="Static Badge" src="https://img.shields.io/badge/BE9300-0?style=flat-square&logoColor=8A2BE2&label=%E5%9E%8B%E5%8F%B7&labelColor=000000&color=235ab8"> 
 <img alt="Static Badge" src="https://img.shields.io/badge/MT3600BE-0?style=flat-square&logoColor=8A2BE2&label=%E5%9E%8B%E5%8F%B7&labelColor=000000&color=5e0774"> 
-> [GL-MT3600BE wifi 7 路由器测评 在这里](https://www.bilibili.com/video/BV1GyqmBEEsq/)
+<img alt="Static Badge" src="https://img.shields.io/badge/MT5000-0?style=flat-square&logoColor=8A2BE2&label=%E5%9E%8B%E5%8F%B7&labelColor=000000&color=8d8ab9"> 
+
 ## 💡 特色功能
 
 - 💻 支持`一键安装iStoreOS风格 新首页风格 支持按需显示UI模块`
@@ -274,4 +275,6 @@ https://wkdaily.cpolar.cn/01
 <img width="2648" height="1666" alt="image" src="https://github.com/user-attachments/assets/e1728a7a-26fc-4bd4-8cb6-43ba20c4b651" />
 
 ![截图](https://github.com/user-attachments/assets/93cbe29b-965c-4ff5-9ae9-db23c0066bf7)
+
+![6500](https://github.com/user-attachments/assets/3cc74252-4641-4a39-b01a-6c5ebb13021c)
 
