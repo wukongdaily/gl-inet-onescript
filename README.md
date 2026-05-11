@@ -18,6 +18,7 @@
 <img alt="Static Badge" src="https://img.shields.io/badge/BE9300-0?style=flat-square&logoColor=8A2BE2&label=%E5%9E%8B%E5%8F%B7&labelColor=000000&color=235ab8"> 
 <img alt="Static Badge" src="https://img.shields.io/badge/MT3600BE-0?style=flat-square&logoColor=8A2BE2&label=%E5%9E%8B%E5%8F%B7&labelColor=000000&color=5e0774"> 
 <img alt="Static Badge" src="https://img.shields.io/badge/MT5000-0?style=flat-square&logoColor=8A2BE2&label=%E5%9E%8B%E5%8F%B7&labelColor=000000&color=8d8ab9"> 
+<img alt="Static Badge" src="https://img.shields.io/badge/Mudi7^E5800-0?style=flat-square&logoColor=8A2BE2&label=%E5%9E%8B%E5%8F%B7&labelColor=000000&color=316EE8"> 
 
 ## 💡 特色功能
 
@@ -93,6 +94,11 @@ sh -c "$(curl -fsSL https://cafe.cpolar.cn/wkdaily/gl/raw/branch/main/mt3600.sh)
 #### ❤️新增 MT-5000脚本 (GL-MT5000) 三个2.5G 有线
 ```bash
 sh -c "$(curl -fsSL https://cafe.cpolar.cn/wkdaily/gl/raw/branch/main/mt5000.sh)"
+```
+
+#### ❤️新增 Mudi 7 (GL-E5800) _ 5G NR Tri-band Wi-Fi 7 Travel Router (同mt3600脚本通用)
+```bash
+sh -c "$(curl -fsSL https://cafe.cpolar.cn/wkdaily/gl/raw/branch/main/mt3600.sh)"
 ```
 
 ## 新手ssh连接注意事项 （known_hosts重复的问题）
