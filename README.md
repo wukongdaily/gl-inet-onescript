@@ -176,6 +176,9 @@ read -p "请输入glibox局域网 IP: " ip && wget -O /tmp/gl.sh http://$ip:1505
 - [高级卸载插件作者VedioTalk](https://xz.vumstar.com/)
 - iStoreOS https://site.istoreos.com
 
+### ✨创意应用-开关快捷定制
+https://github.com/parentalclash/gl-inet-mt3000-openclash-switch
+
 
 
 ### 更换最新iStoreOS首页 <2025-12-17> 支持按需显示UI模块
