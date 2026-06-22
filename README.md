@@ -20,26 +20,7 @@
 <img alt="Static Badge" src="https://img.shields.io/badge/MT5000-0?style=flat-square&logoColor=8A2BE2&label=%E5%9E%8B%E5%8F%B7&labelColor=000000&color=8d8ab9"> 
 <img alt="Static Badge" src="https://img.shields.io/badge/Mudi7^E5800-0?style=flat-square&logoColor=8A2BE2&label=%E5%9E%8B%E5%8F%B7&labelColor=000000&color=316EE8"> 
 
-## 💡 特色功能
 
-- 💻 支持`一键安装iStoreOS风格 新首页风格 支持按需显示UI模块`
-- 💻 支持`一键安装紫色的Argon主题`
-- 💻 支持`一键安装文件管理器`
-- 🔑 支持`一键设置MT-3000风扇开始工作的温度`
-- 🌏 支持`一键部署Docker运行环境`
-- 🌏 支持`一键安装docker-compose`
-- ✅ 新增`高级卸载插件 by VedioTalk` 🆕
-- ✅ 新增`个性化辅助UI插件的安装` 🆕
-- 📕 支持`一键恢复原厂的OPKG软件源`
-- 🔑 支持`MT-3000 一键更换分区到U盘`
-- 💡 使用条件：GL-iNet 原厂固件（非测试版、预览版）
-- GL-inet MT-6000✅
-- GL-inet MT-3000 ✅
-- GL-inet MT-2500 ✅ 固件版本4.5.0（最好降级到此版本）
-- OrangePi Zero3(官方Openwrt镜像)
-- 🌟✨🌟[已经刷了iStoreOS固件的MT3000点击这里](https://github.com/wukongdaily/istoreos-mt3000-script)
-
-- ❤️ 新增  [内网版本glibox 用于局域网调用 本脚本 ](https://github.com/wukongdaily/gl-inet-onescript/releases/tag/20250805)
 
 
 <a href="https://wkdaily.cpolar.top/01" target="_blank">
@@ -59,8 +40,9 @@ sh -c "$(curl -fsSL https://cafe.cpolar.cn/wkdaily/gl/raw/branch/main/main.sh)"
 ```
 
 主脚本支持自动检测以下机型：
-- GL-iNet BE-6500 / BE-3600
-- GL-iNet MT-5000 / MT-3600
+- GL-iNet BE-6500 / BE-9300 / BE-3600
+- GL-iNet MT-5000 / MT-3600BE
+- GL-iNet Mudi 7 (GL-E5800)
 - GL-iNet MT-2500A / MT-3000 / MT-6000
 - OP24 固件专用脚本
 
