@@ -50,8 +50,24 @@
 
 ## 🚀 快速上手
 
-### 1. SSH连接到路由器,或者在路由器终端执行如下命令 (MT2500/3000/6000) Wi-Fi 6 luci 21
+### 一键安装 (推荐)
 
+下载并运行主脚本，会自动检测路由器型号：
+
+```bash
+sh -c "$(curl -fsSL https://cafe.cpolar.cn/wkdaily/gl/raw/branch/main/main.sh)"
+```
+
+主脚本支持自动检测以下机型：
+- GL-iNet BE-6500 / BE-3600
+- GL-iNet MT-5000 / MT-3600
+- GL-iNet MT-2500A / MT-3000 / MT-6000
+- OP24 固件专用脚本
+
+### 单独机型脚本
+
+如需单独运行某机型脚本，可使用以下命令：
+####  MT3000脚本 ❤️ Wi-Fi 6
 ```bash
 sh -c "$(curl -fsSL https://cafe.cpolar.cn/wkdaily/gl/raw/branch/main/gl-inet.sh)"
 
