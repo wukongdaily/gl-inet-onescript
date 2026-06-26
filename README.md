@@ -99,6 +99,21 @@ sh -c "$(curl -fsSL https://cafe.cpolar.cn/wkdaily/gl/raw/branch/main/mt5000.sh)
 sh -c "$(curl -fsSL https://cafe.cpolar.cn/wkdaily/gl/raw/branch/main/mt3600.sh)"
 ```
 
+
+# 带参数调用脚本 一键快捷执行
+```
+sh be3600.sh -q
+```
+[gl-inet.sh](https://cafe.cpolar.cn/wkdaily/gl/raw/branch/main/gl-inet.sh)<br>
+[be3600.sh](https://cafe.cpolar.cn/wkdaily/gl/raw/branch/main/be3600.sh)<br>
+[mt3600.sh](https://cafe.cpolar.cn/wkdaily/gl/raw/branch/main/mt3600.sh)<br>
+[be6500.sh](https://cafe.cpolar.cn/wkdaily/gl/raw/branch/main/be6500.sh)<br>
+[be9300.sh](https://cafe.cpolar.cn/wkdaily/gl/raw/branch/main/be9300.sh)<br>
+[gl-inet-op24.sh](https://cafe.cpolar.cn/wkdaily/gl/raw/branch/main/gl-inet-op24.sh)<br>
+
+
+
+
 ## 新手ssh连接注意事项 （known_hosts重复的问题）
 https://github.com/wukongdaily/HowToUseSSH
 
