@@ -19,6 +19,7 @@
 <img alt="Static Badge" src="https://img.shields.io/badge/MT3600BE-0?style=flat-square&logoColor=8A2BE2&label=%E5%9E%8B%E5%8F%B7&labelColor=000000&color=5e0774"> 
 <img alt="Static Badge" src="https://img.shields.io/badge/MT5000-0?style=flat-square&logoColor=8A2BE2&label=%E5%9E%8B%E5%8F%B7&labelColor=000000&color=8d8ab9"> 
 <img alt="Static Badge" src="https://img.shields.io/badge/Mudi7^E5800-0?style=flat-square&logoColor=8A2BE2&label=%E5%9E%8B%E5%8F%B7&labelColor=000000&color=316EE8"> 
+<img alt="Static Badge" src="https://img.shields.io/badge/Flint4%20BE14000-0?style=flat-square&logoColor=8A2BE2&label=%E5%9E%8B%E5%8F%B7&labelColor=000000&color=c0392b">
 
 
 
@@ -97,6 +98,20 @@ sh -c "$(curl -fsSL https://cafe.cpolar.cn/wkdaily/gl/raw/branch/main/mt5000.sh)
 sh -c "$(curl -fsSL https://cafe.cpolar.cn/wkdaily/gl/raw/branch/main/mt3600.sh)"
 ```
 
+#### ❤️新增 Flint 4 脚本 (GL-BE14000) Wi-Fi 7 三频 / 10G SFP+
+
+```bash
+sh -c "$(curl -fsSL https://cafe.cpolar.cn/wkdaily/gl/raw/branch/main/be14000.sh)"
+```
+
+
+> ⚠️ Flint 4 与其他机型有三点不同：
+> 1. **出厂不带 LuCI**，脚本会自动先安装 `luci-base`
+> 2. **LuCI 不在 8080 端口**。Flint 4 的 uhttpd 只监听 `127.0.0.1`，
+>    请通过 `http://192.168.8.1` 登录后台 → 系统 → 高级设置 进入。
+>    如需 8080 直连，用脚本菜单第 11 项开放（有安全影响）
+> 3. 脚本**不会修改防火墙**。Flint 4 通常作主路由使用，
+>    放开 WAN 入站等于把路由器暴露到公网
 
 # 带参数调用脚本 一键快捷执行
 ```
@@ -120,6 +135,9 @@ https://github.com/wukongdaily/HowToUseSSH
 ### 新增：❤️如何下载run格式安装包 👉 [#45](https://github.com/wkccd/CloudRunFilesBuilder/releases)
 ### 注意⚠️4.7.0以上版本。如何访问luci界面？
 http://192.168.8.1:8080
+
+> ⚠️ **Flint 4 (GL-BE14000) 不适用此条**。它的 uhttpd 只监听 `127.0.0.1`，
+> 8080 端口默认从局域网连不上（可用脚本菜单第 11 项开放），详见上文 Flint 4 章节。
 
 
 

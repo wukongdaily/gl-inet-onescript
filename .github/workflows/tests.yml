@@ -1,0 +1,34 @@
+name: tests
+
+on:
+  push:
+    branches: [master]
+  pull_request:
+
+jobs:
+  shell:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      # dash is a strict POSIX shell — it catches constructs bash silently
+      # accepts. busybox ash is what the routers actually run, so we check
+      # against that too rather than trusting dash alone.
+      - name: Install shells
+        run: |
+          command -v dash >/dev/null || sudo apt-get update
+          command -v dash >/dev/null || sudo apt-get install -y dash
+          command -v busybox >/dev/null || sudo apt-get install -y busybox-static
+
+      # Syntax + bashism gate. Note dash -n does NOT catch [[ ]] (it parses
+      # as a command name), which is why lint.sh pairs it with a grep.
+      - name: Lint
+        run: sh tests/lint.sh
+
+      - name: Unit tests
+        run: sh tests/test-be14000.sh
+
+      # The real target shell. This is the check that previously only ran
+      # by hand against a physical router.
+      - name: busybox ash syntax check
+        run: busybox ash -n be14000.sh

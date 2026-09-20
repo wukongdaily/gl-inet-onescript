@@ -253,11 +253,10 @@ show_reboot_tips() {
 set_glfan_temp() {
 
 	is_integer() {
-		if [[ $1 =~ ^[0-9]+$ ]]; then
-			return 0 # 是整数
-		else
-			return 1 # 不是整数
-		fi
+		case "$1" in
+		'' | *[!0-9]*) return 1 ;; # 不是整数
+		*) return 0 ;;             # 是整数
+		esac
 	}
 	echo "兼容带风扇机型的GL-iNet路由器"
 	echo "请输入风扇开始工作的温度(建议40-70之间的整数):"
@@ -447,7 +446,8 @@ do_install_docker_compose() {
 		red "警告 您还没有安装Docker"
 		exit 1
 	fi
-	if [[ "$gl_name" == *3000* ]]; then
+	case "$gl_name" in
+	*3000*)
 		red "警告 docker-compose 组件的大小将近60MB,请谨慎安装"
 		yellow "确定要继续安装吗(y|n)"
 		read -r answer
@@ -457,7 +457,8 @@ do_install_docker_compose() {
 			yellow "已退出docker-compose安装流程"
 			exit 1
 		fi
-	fi
+		;;
+	esac
 	local github_releases_url="https://github.com/docker/compose/releases/latest"
 	local docker_compose_url=$(get_docker_compose_url "$github_releases_url")
 	echo "最新版docker-compose 地址:$docker_compose_url"
@@ -565,10 +566,12 @@ while true; do
 	case $choice in
 
 	1)
-		if [[ "$gl_name" == *3000* ]]; then
+		case "$gl_name" in
+		*3000*)
 			# 设置风扇工作温度
 			setup_cpu_fans
-		fi
+			;;
+		esac
 		# 解决首页“已联网”的UI问题
 		recovery_opkg_settings
 		#先安装istore商店
