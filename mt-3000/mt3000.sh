@@ -200,14 +200,17 @@ custom_package_size() {
         echo "请输入想分配的软件包的大小(数字,单位:GB):"
         read size
         # 检查输入是否为数字
-        if [[ $size =~ ^[0-9]+$ ]]; then
+        case "$size" in
+        '' | *[!0-9]*)
+            red "错误: 请输入一个有效的数字。"
+            ;;
+        *)
             CUSTOM_OPKG_SIZE=$size
             yellow "已设置软件包大小为:$CUSTOM_OPKG_SIZE GB"
             green "接下来,您可以执行第一项啦"
             break # 跳出循环
-        else
-            red "错误: 请输入一个有效的数字。"
-        fi
+            ;;
+        esac
     done
 }
 
