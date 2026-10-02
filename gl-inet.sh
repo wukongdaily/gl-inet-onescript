@@ -72,7 +72,15 @@ do_istore() {
 	[ -s "/tmp/is-opkg" ] || exit 1
 
 	chmod 755 /tmp/is-opkg
-	/tmp/is-opkg update
+	/tmp/is-opkg update || return $?
+	# taskd runs every iStore task through `script`. Some GL.iNet images keep
+	# taskd but omit its script-utils dependency, which makes all tasks fail
+	# before is-opkg is executed.
+	/tmp/is-opkg opkg install --force-reinstall script-utils || return $?
+	command -v script >/dev/null 2>&1 || {
+		echo "script-utils installation failed: taskd cannot run iStore tasks."
+		return 1
+	}
 	# /tmp/is-opkg install taskd
 	/tmp/is-opkg opkg install --force-reinstall luci-lib-taskd luci-lib-xterm
 	/tmp/is-opkg opkg install --force-reinstall luci-app-store || exit $?
